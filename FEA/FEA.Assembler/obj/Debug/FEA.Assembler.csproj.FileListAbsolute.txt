@@ -2,3 +2,7 @@ C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\bin\Debug\FEA.Asse
 C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\bin\Debug\FEA.Assembler.pdb
 C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\obj\Debug\FEA.Assembler.dll
 C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\obj\Debug\FEA.Assembler.pdb
+D:\Documents\GitHub\FEA-Code\FEA\FEA.Assembler\bin\Debug\FEA.Assembler.dll
+D:\Documents\GitHub\FEA-Code\FEA\FEA.Assembler\bin\Debug\FEA.Assembler.pdb
+D:\Documents\GitHub\FEA-Code\FEA\FEA.Assembler\obj\Debug\FEA.Assembler.dll
+D:\Documents\GitHub\FEA-Code\FEA\FEA.Assembler\obj\Debug\FEA.Assembler.pdb

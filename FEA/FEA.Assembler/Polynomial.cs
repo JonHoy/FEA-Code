@@ -42,7 +42,7 @@ namespace FEA.Assembler
             {
                 for (int j = 0; j <= p2.order; j++)
                 {
-                    p3.coefficients[i + j] = p2.coefficients[j] * p1.coefficients[i];
+                    p3.coefficients[i + j] += p2.coefficients[j] * p1.coefficients[i];
                 }
             }
             return p3;
@@ -106,6 +106,7 @@ namespace FEA.Assembler
                     for (int k = 0; k <= p3d.zOrder; k++)
                     {
                         p3d.coefficients[i, j, k] = coefficients[idx];
+                        idx++;
                     }
                 }
             }
@@ -131,12 +132,14 @@ namespace FEA.Assembler
             for (int k = 0; k < x.Length; k++)
             {
                 Polys[k].coefficients[0] = 1;
+                double xk = x[k];
                 for (int i = 0; i < x.Length; i++)
                 {   
                     if (i != k) {
                         double xi = x[i];
-                        var mPoly = new Polynomial(new double[]{1 , -xi}); // construct new multiplier polynomial
-                        Polys[k] = Polys[k] * mPoly * (1.0/(x[k] - xi)) ; // multiply to the existing polynomial
+                        var mPoly = new Polynomial(new double[] {-xi , 1}); // construct new multiplier polynomial
+                        mPoly = mPoly * (1.0/(xk - xi));
+                        Polys[k] = Polys[k] * mPoly; // multiply to the existing polynomial
                     }
                 }
             }

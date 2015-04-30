@@ -47,7 +47,7 @@ namespace FEA.Assembler
                             {
                                 for (int k2 = 0; k2 <= p2.zOrder; k2++)
                                 {
-                                    p3.coefficients[i1 + i2, j1 + j2, k1 + k2] = p2.coefficients[i2, j2, k2] * p1.coefficients[i1, j1, k1];
+                                    p3.coefficients[i1 + i2, j1 + j2, k1 + k2] += p2.coefficients[i2, j2, k2] * p1.coefficients[i1, j1, k1];
                                 }
                             }                           
                         }

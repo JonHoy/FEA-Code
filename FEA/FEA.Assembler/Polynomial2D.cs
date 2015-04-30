@@ -40,7 +40,7 @@ namespace FEA.Assembler
                     {
                         for (int j2 = 0; j2 <= p2.yOrder; j2++)
                         {
-                            p3.coefficients[i1 + i2, j1 + j2] = p2.coefficients[i2, j2] * p1.coefficients[i1, j1];
+                            p3.coefficients[i1 + i2, j1 + j2] += p2.coefficients[i2, j2] * p1.coefficients[i1, j1];
                         }
                     }
                 }
