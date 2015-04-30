@@ -1,0 +1,5 @@
+C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\bin\Release\FEA.Assembler.dll
+C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\bin\Release\FEA.Assembler.pdb
+C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\obj\Release\FEA.Assembler.dll
+C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\obj\Release\FEA.Assembler.pdb
+C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\obj\Release\FEA.Assembler.csprojResolveAssemblyReference.cache

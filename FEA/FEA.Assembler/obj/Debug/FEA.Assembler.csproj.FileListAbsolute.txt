@@ -1,0 +1,4 @@
+C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\bin\Debug\FEA.Assembler.dll
+C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\bin\Debug\FEA.Assembler.pdb
+C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\obj\Debug\FEA.Assembler.dll
+C:\Users\Jonathan\Documents\Github\FEA Code\FEA\FEA.Assembler\obj\Debug\FEA.Assembler.pdb
