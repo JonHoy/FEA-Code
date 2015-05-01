@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace FEA
 {
-    public struct Element
+    public class Element
     {
-        public int id;
-        public Node[] Nodes;
-        public PolyMatrix ShapeFunction;
-    }
+	};
 
 
 }

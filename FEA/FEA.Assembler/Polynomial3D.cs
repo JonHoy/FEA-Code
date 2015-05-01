@@ -56,7 +56,7 @@ namespace FEA
             }
             return p3;
         }
-        public static Polynomial3D operator *(Polynomial3D p1, double Scalar){
+		public static Polynomial3D operator *(Polynomial3D p1, double Scalar){
             var p2 = new Polynomial3D(p1.xOrder, p1.yOrder, p1.zOrder);
             for (int i = 0; i <= p2.xOrder; i++)
             {
@@ -71,6 +71,9 @@ namespace FEA
             }
             return p2;
         }
+		public static Polynomial3D operator *(double Scalar, Polynomial3D p1) {
+			return p1 * Scalar;
+		}
         public double Evaluate(double x, double y, double z) {
             double val = 0;
             for (int i = 0; i <= xOrder; i++)
