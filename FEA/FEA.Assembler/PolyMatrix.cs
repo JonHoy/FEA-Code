@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FEA.Assembler
+namespace FEA
 {
     public class PolyMatrix {
         public Polynomial3D[,] Data;
@@ -67,6 +67,17 @@ namespace FEA.Assembler
                 }
             }
             return polyT;
+        }
+        public double[,] Integrate(Point A, Point B) {
+            var Ans = new double[Rows, Cols];
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Cols; j++)
+                {
+                    Ans[i, j] = Data[i, j].Integrate(A, B);
+                }
+            }
+            return Ans;
         }
         //public Polynomial3D Determinant();
         public static PolyMatrix operator *(double Scalar, PolyMatrix A) { 

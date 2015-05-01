@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FEA.Assembler
+namespace FEA
 {
-    class CBSFLow
+    class LinearSolver
     {
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FEA.Assembler
+namespace FEA
 {
     public class Polynomial3D
     {
@@ -112,6 +112,9 @@ namespace FEA.Assembler
                 }
             }
             return pAns;
+        }
+        public double Integrate(Point A, Point B) {
+            return Integrate(B.x, A.x, B.y, A.y, B.z, A.z);
         }
         public double Integrate(double x2, double x1, double y2, double y1, double z2, double z1)
         {

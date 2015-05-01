@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace FEA
 {
-    public struct Element
+    class LookupTable
     {
-        public int id;
-        public Node[] Nodes;
-        public PolyMatrix ShapeFunction;
+        
     }
-
-
 }

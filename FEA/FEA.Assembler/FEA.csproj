@@ -7,8 +7,8 @@
     <ProjectGuid>{A6181323-129A-491B-8F9A-AA02E91BA7AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FEA.Assembler</RootNamespace>
-    <AssemblyName>FEA.Assembler</AssemblyName>
+    <RootNamespace>FEA</RootNamespace>
+    <AssemblyName>FEA</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,10 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CBSFLow.cs" />
     <Compile Include="Element.cs" />
-    <Compile Include="Index.cs" />
     <Compile Include="Jacobian.cs" />
+    <Compile Include="LinearSolver.cs" />
+    <Compile Include="LookupTable.cs" />
     <Compile Include="PolyMatrix.cs" />
     <Compile Include="Mesher.cs" />
     <Compile Include="Node.cs" />

@@ -4,14 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FEA
+namespace FEA.Physics
 {
-    public struct Element
+    class Conduction
     {
-        public int id;
-        public Node[] Nodes;
-        public PolyMatrix ShapeFunction;
     }
-
-
 }

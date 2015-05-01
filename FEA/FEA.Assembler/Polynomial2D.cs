@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FEA.Assembler
+namespace FEA
 {
     public class Polynomial2D
     {
