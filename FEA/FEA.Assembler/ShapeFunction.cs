@@ -11,37 +11,38 @@ namespace FEA
     Hexahedron
     };
     enum CoordinateSystem {
-    Cartesian,
-    Natural
+    Cartesian, // xyz space
+    Natural // rst space 
     };
     public class ShapeFunction
     {
-        public static PolyMatrix Generate(Point LowerBound, Point Upperbound, int Order) {
-            double dX = Upperbound.x - LowerBound.x;
-            double dY = Upperbound.y - LowerBound.y;
-            double dZ = Upperbound.z - LowerBound.z;
-            int NodeCount = (int)Math.Pow(Order + 1, 3);
-            double[] XValues = new double[Order + 1];
-            double[] YValues = new double[Order + 1];
-            double[] ZValues = new double[Order + 1];
-
-            for (int idx = 0; idx <= Order; idx++)
-            {
-                double Fraction = (((double)idx) / (double)Order);
-                XValues[idx] = LowerBound.x + dX * Fraction;
-                YValues[idx] = LowerBound.y + dY * Fraction;
-                ZValues[idx] = LowerBound.z + dZ * Fraction;
-            }
+		#region Quadrilateral Family
+		public static PolyMatrix Generate (Point Bound, int Order) {
+			return Generate (Bound, Order, Order, Order);
+		}
+		public static PolyMatrix Generate(Point Bound, int xOrder, int yOrder, int zOrder) {           
+			double[] XValues = new double[xOrder + 1];
+            double[] YValues = new double[yOrder + 1];
+            double[] ZValues = new double[zOrder + 1];
+			for (int i = 0; i <= xOrder; i++) {
+				XValues[i] = Bound.x * ((double)i) / ((double)xOrder);
+			}
+			for (int i = 0; i <= yOrder; i++) {
+				YValues[i] = Bound.y * ((double)i) / ((double)yOrder);
+			}
+			for (int i = 0; i <= zOrder; i++) {
+				ZValues[i] = Bound.z * ((double)i) / ((double)zOrder);
+			}
             var XPolys = Polynomial.LagrangeInterpolation(XValues);
             var YPolys = Polynomial.LagrangeInterpolation(YValues);
             var ZPolys = Polynomial.LagrangeInterpolation(ZValues);
-            var ShapeFunction = new PolyMatrix(1, NodeCount);
+            var ShapeFunction = new PolyMatrix(1, XValues.Length * YValues.Length * ZValues.Length);
             int id = 0;
-            for (int i = 0; i <= Order; i++)
+            for (int i = 0; i <= xOrder; i++)
             {
-                for (int j = 0; j <= Order; j++)
+                for (int j = 0; j <= yOrder; j++)
                 {
-                    for (int k = 0; k <= Order; k++)
+                    for (int k = 0; k <= zOrder; k++)
                     {
                         ShapeFunction.Data[0, id] = XPolys[i].Convert_3D(0) * YPolys[j].Convert_3D(1) * ZPolys[k].Convert_3D(2);
                         id++;
@@ -51,5 +52,9 @@ namespace FEA
                 
             return ShapeFunction;
         }
+		#endregion
+		#region Tetrahedral Family
+
+		#endregion
     };
 }

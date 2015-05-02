@@ -11,6 +11,8 @@
     <AssemblyName>FEA</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,7 +54,8 @@
     <Compile Include="PolynomialND.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShapeFunction.cs" />
-    <Compile Include="Sparse.cs" />
+    <Compile Include="Geometry.cs" />
+    <Compile Include="NaturalCoordinate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

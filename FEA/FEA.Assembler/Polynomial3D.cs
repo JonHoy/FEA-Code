@@ -119,15 +119,18 @@ namespace FEA
         public double Integrate(Point A, Point B) {
             return Integrate(B.x, A.x, B.y, A.y, B.z, A.z);
         }
-        public double Integrate(double x2, double x1, double y2, double y1, double z2, double z1)
+		public Polynomial3D Integrate (double b, double a, int dim) {
+			var pInt = Integrate (dim);
+			return pInt.Evaluate (b, dim) - pInt.Evaluate (a, dim);
+		}
+		public Polynomial3D Integrate(double Val, int dim) {
+			var pInt = Integrate (dim);
+			return pInt.Evaluate (Val, dim);
+		}
+		public double Integrate(double x2, double x1, double y2, double y1, double z2, double z1)
         {
-            var pInt = Integrate(0);
-            var pEval = pInt.Evaluate(x2, 0) - pInt.Evaluate(x1, 0); // reduces to a 1 x m x n  array
-            var pIInt = pEval.Integrate(1);
-            var pEval2 = pIInt.Evaluate(y2, 1) - pIInt.Evaluate(y1, 1); // reduces to a 1 x 1 x n array
-            var pIIIint = pEval2.Integrate(2);
-            var pEval3 = pIIIint.Evaluate(z2, 2) - pIIIint.Evaluate(z1, 2); // reduce to a 1 x 1 x 1 array (Scalar)
-            return pEval3.coefficients[0, 0, 0];
+			var Poly = Integrate (x2, x1, 0).Integrate (y2, y1, 1).Integrate (z2, z1, 2);
+            return Poly.coefficients[0, 0, 0];
         }
         public Polynomial3D Integrate(int Dim) {
             int xOrderNew;

@@ -11,6 +11,8 @@
     <AssemblyName>Unit_Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FEA.Assembler\FEA.csproj">
-      <Project>{a6181323-129a-491b-8f9a-aa02e91ba7ac}</Project>
+      <Project>{A6181323-129A-491B-8F9A-AA02E91BA7AC}</Project>
       <Name>FEA</Name>
     </ProjectReference>
   </ItemGroup>

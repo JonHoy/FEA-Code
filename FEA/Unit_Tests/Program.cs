@@ -38,14 +38,14 @@ namespace Unit_Tests
             #endregion
             // Shape Function Definition Test
             #region ShapeFunction 
-            var A = new Point();
             var B = new Point();
-            int Order = 3;
+            int Order = 2;
             B.x = 1; B.y = 1; B.z = 1; // unit cube
-            var N = ShapeFunction.Generate(A, B, Order);
+            var N = ShapeFunction.Generate(B, Order);
             // Definition 1: Ni(xi,yi,zi) = 1
-            int NumPts = (int) Math.Pow(1 + Order,3);
-            var XPts = new double[NumPts];
+			var NodeCount = Math.Pow((double)(1 + Order),3.0);
+			var NumPts = (int) NodeCount;
+			var XPts = new double[NumPts];
             var YPts = new double[NumPts];
             var ZPts = new double[NumPts];
             int idx = 0;
@@ -55,9 +55,9 @@ namespace Unit_Tests
                 {
                     for (int k = 0; k <= Order; k++)
                     {
-                        XPts[idx] = A.x + (B.x - A.x) * ((double)i / (double)Order);
-                        YPts[idx] = A.y + (B.y - A.y) * ((double)j / (double)Order);
-                        ZPts[idx] = A.z + (B.z - A.z) * ((double)k / (double)Order);
+                        XPts[idx] = B.x * ((double)i / (double)Order);
+                        YPts[idx] = B.y * ((double)j / (double)Order);
+                        ZPts[idx] = B.z * ((double)k / (double)Order);
                         double Value = N.Data[0, idx].Evaluate(XPts[idx], YPts[idx], ZPts[idx]);
                         Value = Math.Round(Value, 4); // Account for Round off Error
                         Debug.Assert(Value == 1, "By Definition this must be one!");
@@ -67,7 +67,7 @@ namespace Unit_Tests
             }          
             // Definition 3: Ni(x,y,z) = 0 if (x,y,z) = Other Node Points 
             #endregion
-
+			Console.WriteLine ("Done !");
         }
     }
 }

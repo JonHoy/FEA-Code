@@ -36,7 +36,6 @@ namespace FEA
             return p2 + p1 * -1.0;
         }
         public static Polynomial operator *(Polynomial p2, Polynomial p1) {
-            int Order = Math.Max(p2.order, p1.order);
             Polynomial p3 = new Polynomial(p2.order + p1.order);
             for (int i = 0; i <= p1.order; i++)
             {
