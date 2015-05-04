@@ -119,7 +119,7 @@ namespace FEA
         public double Integrate(Point A, Point B) {
             return Integrate(B.x, A.x, B.y, A.y, B.z, A.z);
         }
-		public Polynomial3D Integrate (double b, double a, int dim) {
+        public Polynomial3D Integrate (double b, double a, int dim) {
 			var pInt = Integrate (dim);
 			return pInt.Evaluate (b, dim) - pInt.Evaluate (a, dim);
 		}
@@ -130,6 +130,11 @@ namespace FEA
 		public double Integrate(double x2, double x1, double y2, double y1, double z2, double z1)
         {
 			var Poly = Integrate (x2, x1, 0).Integrate (y2, y1, 1).Integrate (z2, z1, 2);
+            return Poly.coefficients[0, 0, 0];
+        }
+        public double Integrate(double x, double y, double z)
+        {
+            var Poly = Integrate(x, 0).Integrate(y, 1).Integrate(z, 2);
             return Poly.coefficients[0, 0, 0];
         }
         public Polynomial3D Integrate(int Dim) {

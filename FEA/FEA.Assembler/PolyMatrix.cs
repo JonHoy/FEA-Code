@@ -115,7 +115,7 @@ namespace FEA
 			var gradient = new PolyMatrix (Rows, Cols);
 			for (int i = 0; i < Rows; i++) {
 				for (int j = 0; j < Cols; j++) {
-					gradient.Data [i, j] = Data[i, j].Differentiate (Dim);
+					gradient.Data[i, j] = Data[i, j].Differentiate(Dim);
 				}
 			}
 			return gradient;

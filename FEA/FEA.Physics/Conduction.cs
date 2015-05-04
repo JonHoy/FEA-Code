@@ -24,7 +24,8 @@ namespace FEA.Physics
 			}
 			return B;
 		}
-		#region Volume Terms // For Volume Elements
+        // For Volume Elements
+        #region Volume Terms 
 		public static double[,] ComputeMassMatrix(PolyMatrix N, Point a, Point b) {
 			if (N.Rows > 1) 
 				throw new Exception ("N must be 1 row x n cols");
@@ -75,7 +76,8 @@ namespace FEA.Physics
 			return P1;
 		}
 		#endregion 
-		#region Surface Terms // For Surface Elements
+        // For Surface Elements
+        #region Surface Terms 
 		//public static double[] ComputeConvectionMatrix
 		//public static double[] ComputeHeatFluxMatrix
 		//public static double[] ComputeRadiantConvectionMatrix

@@ -67,7 +67,64 @@ namespace Unit_Tests
             }          
             // Definition 3: Ni(x,y,z) = 0 if (x,y,z) = Other Node Points 
             #endregion
-			Console.WriteLine ("Done !");
+            #region CUDA LINEAR Solver
+            Console.WriteLine("Cuda LinearSolver");
+            int[] I;
+            int[] J;
+            float[] val;
+            float[] res;
+            int NumRows = (int)10e6;
+            int nz = (NumRows-2)*3 + 4;
+            genTridiag(out I, out J, out val, out res, NumRows, nz);
+            var Solution = LinearSolver.GPU_Single_ConjugateGradient(J, I, val, res, new float[NumRows]);
+            #endregion
         }
+        static private void genTridiag(out int[] I, out int[] J, out float[] val, out float[] res, int N, int nz) {
+            I = new int[N + 1];
+            J = new int[nz];
+            val = new float[nz];
+            res = new float[N];
+            for (int i = 0; i < N; i++)
+            {
+                res[i] = 1;
+            }
+            var Rng = new Random();
+            float RAND_MAX = 32767;
+            I[0] = 0; J[0] = 0; J[1] = 1;
+            val[0] = (float)Rng.NextDouble()/RAND_MAX + 10.0f;
+            val[1] = (float)Rng.NextDouble()/RAND_MAX;
+            int start;
+
+            for (int i = 1; i < N; i++)
+            {
+                if (i > 1)
+                {
+                    I[i] = I[i-1]+3;
+                }
+                else
+                {
+                    I[1] = 2;
+                }
+
+                start = (i-1)*3 + 2;
+                J[start] = i - 1;
+                J[start+1] = i;
+
+                if (i < N-1)
+                {
+                    J[start+2] = i + 1;
+                }
+
+                val[start] = val[start-1];
+                val[start+1] = (float)Rng.NextDouble()/RAND_MAX + 10.0f;
+
+                if (i < N-1)
+                {
+                    val[start+2] = (float)Rng.NextDouble()/RAND_MAX;
+                }
+            }
+
+            I[N] = nz;
+        } 
     }
 }
