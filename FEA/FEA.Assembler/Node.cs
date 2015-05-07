@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace FEA
 {
-    public class Node
+	public struct Node
     {
         long id;
         Point Location;
     }
-    public struct Point { // copy some stuff from managed cuda
+	public struct Point { // copy some stuff from managed cuda
         public double x;
         public double y;
         public double z;

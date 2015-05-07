@@ -19,11 +19,7 @@ namespace FEA
 				Map [3, i] = Pts [i].z;
 			}
 		}
-//		private double IntegrateVolume(int alpha, int beta, int gamma, int delta) {
-//			int UpperFactor = Factorial(alpha) * Factorial(beta) * Factorial(gamma) * Factorial(delta);
-//			int LowerFactor = Factorial (alpha + beta + gamma + delta + 3);
-//			double Result =
-//		}
+
 		private static int Factorial(int Val) {
 			int Ans = 1;
 			for (int i = 1; i <= Val; i++) {

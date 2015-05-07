@@ -33,18 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CudaBlas, Version=7.0.25.0, Culture=neutral, PublicKeyToken=539d54d12e99fedb, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ManagedCuda\CudaBlas\bin\x64\Release\CudaBlas.dll</HintPath>
-    </Reference>
-    <Reference Include="CudaSparse, Version=7.0.25.0, Culture=neutral, PublicKeyToken=f65ee2ae6b331585, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ManagedCuda\CudaSparse\bin\x64\Release\CudaSparse.dll</HintPath>
-    </Reference>
-    <Reference Include="ManagedCuda, Version=7.0.25.0, Culture=neutral, PublicKeyToken=242d898828717aa0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ManagedCuda\ManagedCUDA\bin\Release\ManagedCuda.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Element.cs" />
     <Compile Include="Jacobian.cs" />
-    <Compile Include="LinearSolver.cs" />
     <Compile Include="LookupTable.cs" />
     <Compile Include="PolyMatrix.cs" />
     <Compile Include="Mesher.cs" />
@@ -69,6 +56,7 @@
     <Compile Include="ShapeFunction.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="NaturalCoordinate.cs" />
+    <Compile Include="Sparse.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

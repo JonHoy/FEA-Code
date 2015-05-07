@@ -1,9 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Assembler/Polynomial.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Assembler/Sparse.cs">
     <Files>
-      <File FileName="FEA.Assembler/NaturalCoordinate.cs" Line="32" Column="15" />
-      <File FileName="FEA.Assembler/Polynomial.cs" Line="38" Column="76" />
+      <File FileName="FEA.Assembler/Node.cs" Line="14" Column="1" />
+      <File FileName="FEA.Assembler/Mesher.cs" Line="13" Column="1" />
+      <File FileName="FEA.Assembler/Geometry.cs" Line="8" Column="3" />
+      <File FileName="FEA.Assembler/Element.cs" Line="14" Column="4" />
+      <File FileName="FEA.Assembler/NaturalCoordinate.cs" Line="24" Column="16" />
+      <File FileName="FEA.Assembler/Sparse.cs" Line="41" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
