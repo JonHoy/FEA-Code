@@ -164,43 +164,49 @@ namespace FEA
 			// For linear approximation InterpolationOrder = 2, Quadratic = 3, Cubic = 4, Quintic = 5, etc
 			// For reference refer to pp. 282 of Computational Fluid Dynamics 1st Edition by T.J. Chung 
 			// step 1 calculate the number of nodes in the element ->  
-			int NodeCount = 1;
-			int Adder = 0;
-			for (int i = 0; i < InterpolationOrder - 1; i++) {
-				NodeCount = NodeCount + Rank + Adder;
-				Adder = Adder + (Rank - 1);
-			}
-			double[,] CoordinateVals = new double[NodeCount, Rank + 1];
-
 			int[] Order = new int[Rank + 1];
-			int IterationLength = (int)Math.Pow (InterpolationOrder, Order.Length); // define the maximum number of permutations
 			for (int i = 0; i < Order.Length; i++) {
 				Order [i] = InterpolationOrder;
 			}
 			var Id = new Index (Order);
+			int IterationLength = (int)Math.Pow (InterpolationOrder, Order.Length); // define the maximum number of permutations
+			int NodeCount = 0;
+
+			for (int i = 0; i < IterationLength; i++) {
+				var Sub = Id.Ind2Sub (i);
+				int Tally = Sub.Sum (); // add up each subscript (if they add up to the Interpolation Order + 1 then record them)
+				if (Tally == InterpolationOrder) {
+					NodeCount++;
+				}
+			}
+			
+			double[,] CoordinateVals = new double[NodeCount, Rank + 1];
+
+
 			int idx = 0;
 			for (int i = 0; i < IterationLength; i++) {
 				var Sub = Id.Ind2Sub (i);
 				int Tally = Sub.Sum (); // add up each subscript (if they add up to the Interpolation Order + 1 then record them)
 				if (Tally == InterpolationOrder) {
-					for (int j = 0; j < CoordinateVals; j++) {
+					for (int j = 0; j < CoordinateVals.GetLength(1); j++) {
 						CoordinateVals [idx, j] = ((double)Sub [i]) / ((double)Tally);
 					}
 					idx++;
 				}
 			}//
 			var B = new PolyMatrix (NodeCount, 1);
+			var BOrder = new int[CoordinateVals.GetLength(1)];
 			for (int i = 0; i < NodeCount; i++) {
-				B.Data [i,0] = new PolynomialND (new int[] { 1 }, new double[] { 1 });
+				B.Data [i,0] = new PolynomialND (BOrder, new double[] { 1 });
 				var LocalPolys = new Polynomial[CoordinateVals.GetLength (1)];
 				for (int j = 0; j < CoordinateVals.GetLength(1); j++) {
-					if (CoordinateVals[i,j] = 0) {
+					if (CoordinateVals[i,j] == 0) {
 						LocalPolys [j] = new Polynomial (new double[] { 1 });
 						continue;
 					}
 					LocalPolys [j] = new Polynomial (new double[] { 1 });
 					int d = (int) (((double)InterpolationOrder) * CoordinateVals[i,j]);
-					for (int s = 0; s < d; s++) {
+					for (int s = 1; s <= d; s++) {
 						double a = ((double)InterpolationOrder) / ((double)s);// ax + b -> {b, a}
 						double b = (double)(1 - s) / (((double)s));
 						LocalPolys [j] = LocalPolys [j] * new Polynomial (new double[] { b, a });
@@ -209,6 +215,7 @@ namespace FEA
 				}
 
 			}
+			return B;
 		}
 
 	}

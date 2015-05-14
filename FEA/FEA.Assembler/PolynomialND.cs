@@ -35,6 +35,9 @@ namespace FEA
 			}
 			if (arraySize != Coefficients.Length)
 				throw new Exception ("Coefficients Array must be the same size as the cumulative product of Order");
+			this.Order = Order;
+			this.Coefficients = Coefficients;
+			this.Rank = Order.Length;
 		}
 
 		private void PolynomialBase(int[] _Order, double[] _Coefficients) {
@@ -138,9 +141,9 @@ namespace FEA
 			int[] Sub;
 			var Id = new Index (Order);
 			for (int i = 0; i < Coefficients.Length; i++) {
-				AnsLocal = 1;
+				AnsLocal = Coefficients[i];
 				Sub = Id.Ind2Sub (i);
-				for (int j = 0; i < Value.Length; j++) {
+				for (int j = 0; j < Value.Length; j++) {
 					AnsLocal = AnsLocal * Math.Pow(Value[j],Sub[j]);
 				}
 				Ans = Ans + AnsLocal;

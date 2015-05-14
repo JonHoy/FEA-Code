@@ -60,7 +60,7 @@ namespace Unit_Tests
                         XPts[idx] = B.x * ((double)i / (double)Order);
                         YPts[idx] = B.y * ((double)j / (double)Order);
                         ZPts[idx] = B.z * ((double)k / (double)Order);
-                        double Value = N.Data[0, idx].Evaluate(XPts[idx], YPts[idx], ZPts[idx]);
+						double Value = N.Data[0, idx].Evaluate(new double[]{XPts[idx], YPts[idx], ZPts[idx]});
                         Value = Math.Round(Value, 4); // Account for Round off Error
                         Debug.Assert(Value == 1, "By Definition this must be one!");
                         idx++;
