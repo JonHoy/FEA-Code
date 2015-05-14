@@ -7,21 +7,17 @@ using System.Threading.Tasks;
 namespace FEA
 {
     public class PolyMatrix {
-        public Polynomial3D[,] Data;
+        public PolynomialND[,] Data;
         public int Rows;
         public int Cols;
-        public PolyMatrix(int Rows, int Cols) {
-            this.Cols = Cols;
-            this.Rows = Rows;
-            Data = new Polynomial3D[Rows, Cols];
-            for (int i = 0; i < Data.GetLength(0); i++)
-            {
-                for (int j = 0; j < Data.GetLength(1); j++)
-                {
-                    Data[i,j] = new Polynomial3D(0, 0, 0);
-                }  
-            }
+		public PolyMatrix(PolynomialND[,] Data) {
+			Rows = Data.GetLength (0);
+			Cols = Data.GetLength (1);
+			this.Data = Data;
         }
+		public PolyMatrix(int Rows, int Cols) {
+			Data = new PolynomialND[Rows, Cols];
+		}
         public static PolyMatrix operator +(PolyMatrix A, PolyMatrix B) { 
             if (A.Rows != B.Rows)
                 throw new Exception("A and B must be equal in size");

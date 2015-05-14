@@ -1,17 +1,25 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Assembler/Sparse.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Assembler/NaturalCoordinate.cs">
     <Files>
-      <File FileName="FEA.Assembler/Node.cs" Line="14" Column="1" />
-      <File FileName="FEA.Assembler/Mesher.cs" Line="13" Column="1" />
-      <File FileName="FEA.Assembler/Geometry.cs" Line="8" Column="3" />
-      <File FileName="FEA.Assembler/Element.cs" Line="14" Column="4" />
-      <File FileName="FEA.Assembler/NaturalCoordinate.cs" Line="24" Column="16" />
-      <File FileName="FEA.Assembler/Sparse.cs" Line="41" Column="7" />
+      <File FileName="FEA.Assembler/NaturalCoordinate.cs" Line="206" Column="55" />
+      <File FileName="FEA.Assembler/Index.cs" Line="9" Column="28" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/Index.cs" line="17" column="1" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/PolyMatrix.cs" line="26" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="FEA.Assembler/NaturalCoordinate.cs" line="35" offsetX="478" offsetY="612" expression="IterationRange" liveUpdate="False" />
+    <Watch file="FEA.Assembler/NaturalCoordinate.cs" line="35" offsetX="478" offsetY="612" expression="IterationRange" liveUpdate="False" />
+    <Watch file="FEA.Assembler/Index.cs" line="23" offsetX="430" offsetY="396" expression="cumprod" liveUpdate="False" />
+    <Watch file="FEA.Assembler/Index.cs" line="23" offsetX="430" offsetY="396" expression="cumprod" liveUpdate="False" />
+    <Watch file="FEA.Assembler/Index.cs" line="16" offsetX="542" offsetY="270" expression="cumprod" liveUpdate="False" />
+    <Watch file="FEA.Assembler/Index.cs" line="17" offsetX="590" offsetY="288" expression="cumprod" liveUpdate="False" />
+    <Watch file="FEA.Assembler/Index.cs" line="17" offsetX="590" offsetY="288" expression="cumprod" liveUpdate="False" />
+    <Watch file="Unit_Tests/Program.cs" line="137" offsetX="366" offsetY="504" expression="Sub" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

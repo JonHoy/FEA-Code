@@ -51,12 +51,14 @@
     <Compile Include="Polynomial.cs" />
     <Compile Include="Polynomial2D.cs" />
     <Compile Include="Polynomial3D.cs" />
-    <Compile Include="PolynomialND.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShapeFunction.cs" />
     <Compile Include="Geometry.cs" />
     <Compile Include="NaturalCoordinate.cs" />
     <Compile Include="Sparse.cs" />
+    <Compile Include="FiniteVolume.cs" />
+    <Compile Include="Index.cs" />
+    <Compile Include="PolynomialND.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

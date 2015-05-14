@@ -12,7 +12,9 @@ namespace Unit_Tests
     {
         static void Main(string[] args)
         {
-            // Polynomial Definitions
+            // Indexing
+			PrintIndices ();
+			// Polynomial Definitions
             #region Polynomial
             // multiplication test
             var p1 = new Polynomial(new double[] { 1, -1 });
@@ -67,17 +69,18 @@ namespace Unit_Tests
             }          
             // Definition 3: Ni(x,y,z) = 0 if (x,y,z) = Other Node Points 
             #endregion
-            #region CUDA LINEAR Solver
-            Console.WriteLine("Cuda LinearSolver");
-            int[] I;
-            int[] J;
-            float[] val;
-            float[] res;
-            int NumRows = (int)10e6;
-            int nz = (NumRows-2)*3 + 4;
-            genTridiag(out I, out J, out val, out res, NumRows, nz);
-            var Solution = LinearSolver.GPU_Single_ConjugateGradient(J, I, val, res, new float[NumRows]);
-            #endregion
+			#region Natural Coordinate
+			var A = new double[4,4];
+			int id = 0;
+			for (int i = 0; i < A.GetLength(0); i++) {
+				for (int j = 0; j < A.GetLength(1); j++) {
+					A[i, j] = id;
+					id++;
+				}
+			}
+			var Ans = NaturalCoordinate.Determinant(A);
+			Console.WriteLine("Determininant = {0}",Ans);
+			#endregion
         }
         static private void genTridiag(out int[] I, out int[] J, out float[] val, out float[] res, int N, int nz) {
             I = new int[N + 1];
@@ -126,5 +129,15 @@ namespace Unit_Tests
 
             I[N] = nz;
         } 
+		static private void PrintIndices() {
+			var X = new Index (new int[] { 5, 10, 15 });
+			int Value = 5 * 10 * 15;
+			int[] Sub; int idx;
+			for (int i = 0; i < Value; i++) {
+				Sub = X.Ind2Sub (i);
+				idx = X.Sub2Ind (Sub);
+				System.Diagnostics.Debug.Assert (i == idx);
+			}
+		}
     }
 }

@@ -87,7 +87,15 @@ namespace FEA
             }
             return ans;
         }
-        public Polynomial3D Convert_3D(int Dim) {
+		public PolynomialND Convert_ND(int Dim, int Rank = 3) {
+			var Order = new int[Rank];
+			for (int i = 0; i < Rank; i++)
+				Order [i] = 1;
+			Order [Dim] = coefficients.Length;
+			var Ans = new PolynomialND (Order, coefficients);
+			return Ans;
+		}
+		public Polynomial3D Convert_3D(int Dim) {
             Polynomial3D p3d;
             if (Dim == 0)
                 p3d = new Polynomial3D(order, 0, 0);

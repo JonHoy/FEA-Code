@@ -44,7 +44,7 @@ namespace FEA
                 {
                     for (int k = 0; k <= zOrder; k++)
                     {
-                        ShapeFunction.Data[0, id] = XPolys[i].Convert_3D(0) * YPolys[j].Convert_3D(1) * ZPolys[k].Convert_3D(2);
+						ShapeFunction.Data[0, id] = XPolys[i].Convert_ND(0) * YPolys[j].Convert_ND(1) * ZPolys[k].Convert_ND(2);
                         id++;
                     }
                 }
