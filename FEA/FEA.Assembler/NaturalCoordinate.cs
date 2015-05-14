@@ -166,10 +166,10 @@ namespace FEA
 			// step 1 calculate the number of nodes in the element ->  
 			int[] Order = new int[Rank + 1];
 			for (int i = 0; i < Order.Length; i++) {
-				Order [i] = InterpolationOrder;
+				Order [i] = InterpolationOrder + 1;
 			}
 			var Id = new Index (Order);
-			int IterationLength = (int)Math.Pow (InterpolationOrder, Order.Length); // define the maximum number of permutations
+			int IterationLength = (int)Math.Pow (InterpolationOrder + 1, Order.Length); // define the maximum number of permutations
 			int NodeCount = 0;
 
 			for (int i = 0; i < IterationLength; i++) {
@@ -189,13 +189,16 @@ namespace FEA
 				int Tally = Sub.Sum (); // add up each subscript (if they add up to the Interpolation Order + 1 then record them)
 				if (Tally == InterpolationOrder) {
 					for (int j = 0; j < CoordinateVals.GetLength(1); j++) {
-						CoordinateVals [idx, j] = ((double)Sub [i]) / ((double)Tally);
+						CoordinateVals [idx, j] = ((double)Sub [j]) / ((double)Tally);
 					}
 					idx++;
 				}
 			}//
 			var B = new PolyMatrix (NodeCount, 1);
 			var BOrder = new int[CoordinateVals.GetLength(1)];
+			for (int i = 0; i < BOrder.Length; i++) {
+				BOrder [i] = 1;
+			}
 			for (int i = 0; i < NodeCount; i++) {
 				B.Data [i,0] = new PolynomialND (BOrder, new double[] { 1 });
 				var LocalPolys = new Polynomial[CoordinateVals.GetLength (1)];

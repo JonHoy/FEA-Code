@@ -53,8 +53,5 @@ namespace FEA
             return ShapeFunction;
         }
 		#endregion
-		#region Tetrahedral Family
-
-		#endregion
     };
 }
