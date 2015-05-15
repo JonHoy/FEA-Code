@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FEA;
 using System.Diagnostics;
+using MathNet.Numerics.Data.Matlab;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace Unit_Tests
 {
@@ -78,6 +80,9 @@ namespace Unit_Tests
 			}
 			var Ans = NaturalCoordinate.Determinant (A);
 			Console.WriteLine ("Determininant = {0}", Ans);
+            #endregion 
+			#region Sparse
+			TestSparseGeneration();
 			#endregion
 		}
 		static private void PrintIndices() {
@@ -91,10 +96,49 @@ namespace Unit_Tests
 			}
 		}
 
+		static private void PrintNaturalCoordinates(PolyMatrix N) {
+			for (int iNode = 0; iNode < N.Data.Length; iNode++) {
+				var Id = new Index (N.Data [iNode,0].Order);
+				string ScreenOutput = "N" + iNode.ToString () + " = ";
+				for (int jCoeff = 0; jCoeff < N.Data[iNode,0].Coefficients.Length; jCoeff++) {
+					double a = N.Data [iNode,0].Coefficients [jCoeff];
+					if (a != 0.0) {
+						var Sub = Id.Ind2Sub(jCoeff);
+						ScreenOutput = ScreenOutput + a.ToString("F2") ;
+						for (int iSub = 0; iSub < Sub.Length; iSub++) {
+							if (Sub [iSub] > 1) {
+								ScreenOutput = ScreenOutput + "L" + iSub.ToString () + "^" + Sub [iSub] + "*";
+							}
+							else if (Sub[iSub] == 1) {
+									ScreenOutput = ScreenOutput + "L" + iSub.ToString () + "*";
+							}
+						}
+						ScreenOutput = ScreenOutput.Remove (ScreenOutput.Length - 1);
+						ScreenOutput = ScreenOutput + " + "; 
+					}
+				}
+				Console.WriteLine(ScreenOutput.Remove(ScreenOutput.Length - 3));
+			}
+		}
+
 		static private void TestNaturalCoordinates() {
 			var N = NaturalCoordinate.ConstructInterpolationFunction (1, 1);
 			var N2 = NaturalCoordinate.ConstructInterpolationFunction (2, 2);
-			var N3 = NaturalCoordinate.ConstructInterpolationFunction (3, 3);
+			var N3 = NaturalCoordinate.ConstructInterpolationFunction (3, 2);
+			Console.WriteLine ("1D Order Linear Interpolation");
+			PrintNaturalCoordinates (N);
+			Console.WriteLine ("2D Order Quadratic Interpolation");
+			PrintNaturalCoordinates (N2);
+			Console.WriteLine ("3D Order Cubic Interpolation");
+			PrintNaturalCoordinates (N3);
+		}
+
+		static private void TestSparseGeneration() {
+			string UniformPath = "UniformSpacing.mat";
+			var UniformMat = MatlabReader.Read<int> (UniformPath,"Tri");
+			var NodeCount = MatlabReader.Read<double> (UniformPath,"NodeCount");
+			var Count = NodeCount.ToArray ();
+			var myArray = new Sparse (UniformMat.ToArray (), (int)Count[0,0]);
 		}
     }
 }
