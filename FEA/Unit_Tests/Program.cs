@@ -17,6 +17,14 @@ namespace Unit_Tests
 			// Indexing
 			PrintIndices ();
 			TestNaturalCoordinates ();
+
+			int aout; int bout;
+			int a = 511;
+			int b = 234400;
+
+			ulong c = Sparse.PackInts (a, b);
+			Sparse.UnpackInts (out aout, out bout, c);
+
 			// Polynomial Definitions
 			#region Polynomial
 			// multiplication test
@@ -135,10 +143,16 @@ namespace Unit_Tests
 
 		static private void TestSparseGeneration() {
 			string UniformPath = "UniformSpacing.mat";
-			var UniformMat = MatlabReader.Read<int> (UniformPath,"Tri");
+			var UniformMat = MatlabReader.Read<double> (UniformPath,"Tri");
 			var NodeCount = MatlabReader.Read<double> (UniformPath,"NodeCount");
 			var Count = NodeCount.ToArray ();
-			var myArray = new Sparse (UniformMat.ToArray (), (int)Count[0,0]);
+			var Delaunay = new int[UniformMat.RowCount, UniformMat.ColumnCount];
+			for (int i = 0; i < Delaunay.GetLength(0); i++) {
+				for (int j = 0; j < Delaunay.GetLength(1); j++) {
+					Delaunay [i, j] = (int)UniformMat [i, j] - 1;
+				}
+			}
+			var myArray = new Sparse (Delaunay, (int)Count[0,0]);
 		}
     }
 }
