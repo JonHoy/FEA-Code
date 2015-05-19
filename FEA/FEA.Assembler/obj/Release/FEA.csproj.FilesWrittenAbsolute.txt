@@ -1,0 +1,5 @@
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/obj/Release/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/bin/Release/FEA.dll.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/bin/Release/FEA.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/obj/Release/FEA.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/obj/Release/FEA.dll.mdb

@@ -1,0 +1,7 @@
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/bin/Debug/FEA.Physics.dll.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/bin/Debug/FEA.Physics.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/obj/Debug/FEA.Physics.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/obj/Debug/FEA.Physics.dll.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/bin/Debug/FEA.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/bin/Debug/FEA.dll.mdb

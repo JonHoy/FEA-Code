@@ -1,0 +1,15 @@
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/obj/Debug/Unit_Tests.exe
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.dll
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.dll.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/MathNet.Numerics.Data.Matlab.dll
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/MathNet.Numerics.Data.Matlab.dll.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/MathNet.Numerics.dll
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/MathNet.Numerics.dll.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/UniformSpacing.mat
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/RandomSpacing.mat
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/UniformSpacing2.mat
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/Unit_Tests.exe.config
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/Unit_Tests.exe.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/Unit_Tests.exe
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/obj/Debug/Unit_Tests.exe.mdb
