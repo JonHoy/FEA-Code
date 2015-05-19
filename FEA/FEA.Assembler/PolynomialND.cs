@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FEA
+namespace FEA.Assembler
 {
 	public class PolynomialND
 	{
@@ -192,11 +192,11 @@ namespace FEA
 			var ans = new PolynomialND (OrderNew);
 			var Id_Old = new Index(Order);
 			var Id = new Index (ans.Order);
-			for (int i = 0; i < ans.Coefficients.Length; i++) {
-				var subAns = Id.Ind2Sub (i);
-				subAns [Dim]--;
-				int idx = Id_Old.Sub2Ind (subAns);
-				ans.Coefficients [i] = Coefficients [idx] *(1.0d /  (double)subAns [Dim]);
+			for (int i = 0; i < Coefficients.Length; i++) {
+				var subAns = Id_Old.Ind2Sub (i);
+				subAns [Dim]++;
+				int idx = Id.Sub2Ind (subAns);
+				ans.Coefficients [idx] = Coefficients [i] *(1.0d /  (double)subAns [Dim]);
 			}
 			return ans;
 		}

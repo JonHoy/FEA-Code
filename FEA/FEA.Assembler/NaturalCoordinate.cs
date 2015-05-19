@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace FEA
+namespace FEA.Assembler
 {
 	public class NaturalCoordinate
 	{

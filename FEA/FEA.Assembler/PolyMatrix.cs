@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FEA
+namespace FEA.Assembler
 {
     public class PolyMatrix {
         public PolynomialND[,] Data;
@@ -16,6 +16,8 @@ namespace FEA
 			this.Data = Data;
         }
 		public PolyMatrix(int Rows, int Cols) {
+			this.Rows = Rows;
+			this.Cols = Cols;
 			Data = new PolynomialND[Rows, Cols];
 		}
         public static PolyMatrix operator +(PolyMatrix A, PolyMatrix B) { 
@@ -86,7 +88,7 @@ namespace FEA
 			return C;
 		}
 		public PolyMatrix Transpose() {
-            var polyT = new PolyMatrix(Cols, Rows);
+			var polyT = new PolyMatrix(Cols, Rows);
             for (int i = 0; i < polyT.Rows; i++)
             {
                 for (int j = 0; j < polyT.Cols; j++)
@@ -107,6 +109,15 @@ namespace FEA
             }
             return Ans;
         }
+		public PolyMatrix Integrate(int Dim) {
+			var Integral = new PolyMatrix(Data.GetLength (0), Data.GetLength (1));
+			for (int i = 0; i < Rows; i++) {
+				for (int j = 0; j < Cols; j++) {
+					Integral.Data[i, j] = Data[i, j].Integrate(Dim);
+				}
+			}
+			return Integral;
+		}
 		public PolyMatrix Differentiate(int Dim) {
 			var gradient = new PolyMatrix (Rows, Cols);
 			for (int i = 0; i < Rows; i++) {

@@ -1,19 +1,15 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Assembler/Sparse.cs">
+﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Solver/shared.h">
     <Files>
-      <File FileName="Unit_Tests/Program.cs" Line="155" Column="1" />
-      <File FileName="../mathnet-numerics/src/Data/Matlab/Parser.cs" Line="1" Column="1" />
-      <File FileName="../mathnet-numerics/src/Data/Matlab/MatlabReader.cs" Line="1" Column="1" />
-      <File FileName="../mathnet-numerics/src/Data/Matlab/DataType.cs" Line="1" Column="1" />
-      <File FileName="FEA.Assembler/Sparse.cs" Line="15" Column="40" />
-      <File FileName="FEA.Assembler/ShapeFunction.cs" Line="1" Column="1" />
+      <File FileName="FEA.Solver/shared.cpp" Line="10" Column="2" />
+      <File FileName="FEA.Solver/shared.h" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/PolyMatrix.cs" line="26" column="1" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="155" column="1" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/Sparse.cs" line="63" column="5" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

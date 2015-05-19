@@ -1,6 +1,6 @@
 using System;
 
-namespace FEA
+namespace FEA.Assembler
 {
 	public class FiniteVolume
 	{

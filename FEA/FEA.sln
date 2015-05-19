@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FEA", "FEA.Assembler\FEA.csproj", "{A6181323-129A-491B-8F9A-AA02E91BA7AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FEA.Assembler", "FEA.Assembler\FEA.Assembler.csproj", "{A6181323-129A-491B-8F9A-AA02E91BA7AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit_Tests", "Unit_Tests\Unit_Tests.csproj", "{95247483-2786-4CB4-9A93-DFD98353236D}"
 EndProject
@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matlab", "..\mathnet-numeri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics", "..\mathnet-numerics\src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
 EndProject
+Project("{2857B73E-F847-4B02-9238-064979017E93}") = "FEA.Solver", "FEA.Solver\FEA.Solver.cproj", "{42484221-3A4E-4EE6-B017-B7544CC8B612}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,12 @@ Global
 		Release-Signed|Any CPU = Release-Signed|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42484221-3A4E-4EE6-B017-B7544CC8B612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42484221-3A4E-4EE6-B017-B7544CC8B612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42484221-3A4E-4EE6-B017-B7544CC8B612}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42484221-3A4E-4EE6-B017-B7544CC8B612}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42484221-3A4E-4EE6-B017-B7544CC8B612}.Release-Signed|Any CPU.ActiveCfg = Debug|Any CPU
+		{42484221-3A4E-4EE6-B017-B7544CC8B612}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
 		{4474FAEF-FE32-4652-968A-32B59AD29549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4474FAEF-FE32-4652-968A-32B59AD29549}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4474FAEF-FE32-4652-968A-32B59AD29549}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,9 +56,6 @@ Global
 		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
 		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Unit_Tests\Unit_Tests.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

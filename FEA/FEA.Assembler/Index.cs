@@ -1,6 +1,6 @@
 using System;
 
-namespace FEA
+namespace FEA.Assembler
 {
 	public class Index // this is a zero based row major index
 	{

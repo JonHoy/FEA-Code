@@ -11,8 +11,6 @@
     <AssemblyName>Unit_Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -52,12 +50,14 @@
     <None Include="UniformSpacing.mat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="RandomSpacing.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="UniformSpacing2.mat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FEA.Assembler\FEA.csproj">
-      <Project>{A6181323-129A-491B-8F9A-AA02E91BA7AC}</Project>
-      <Name>FEA</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\mathnet-numerics\src\Data\Matlab\Matlab.csproj">
       <Project>{550FB330-C86F-4C9D-9B4C-6D830CEB7520}</Project>
       <Name>Matlab</Name>
@@ -65,6 +65,10 @@
     <ProjectReference Include="..\..\mathnet-numerics\src\Numerics\Numerics.csproj">
       <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
       <Name>Numerics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FEA.Assembler\FEA.Assembler.csproj">
+      <Project>{A6181323-129A-491B-8F9A-AA02E91BA7AC}</Project>
+      <Name>FEA.Assembler</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
