@@ -1,11 +1,13 @@
 
 // hard coded versions of a determinant
 
-template <typename T>
-__device__ T Determinant4(T A[4][4]);
+#include "Array.cuh"
 
 template <typename T>
-__device__ T Determinant3(T A[3][3]);
+__device__ T Determinant4(Array<T,2> A);
+
+template <typename T>
+__device__ T Determinant3(Array<T,2> A);
 
 template <typename T> // A[Rows][Cols]
-__device__ T Determinant2(T A[2][2]); 
+__device__ T Determinant2(Array<T,2> A); 

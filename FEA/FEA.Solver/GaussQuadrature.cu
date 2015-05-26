@@ -1,4 +1,6 @@
 
+#include "Array.cuh"
+
 template <typename T, int Dims>
 __device__ T Integrate(int* Exponents, T* Coefficients, int NumCoeffs) {
 
@@ -20,4 +22,7 @@ Locations[4] = -Locations[1];
 Locations[2] = -0.2386191860;
 Locations[3] = -Locations[2];
 
+// Dims
+// int* exponents = [1 1 1	2 4 2	0 0 4]
+// A = a0 * x^1 * y^1 * z^1 + a1 * x^2 * y^4 * z^2 + a2 * x^0 * y^0 * z^0 
 }

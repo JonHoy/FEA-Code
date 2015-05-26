@@ -12,11 +12,11 @@
 
 #include "Determinant.h"
 
-template <typename T> // A[Rows][Cols]
-__device__ T Determinant2(T A[2][2]) {
+template <typename T> // A(Rows,Cols)
+__device__ T Determinant2(Array<T,2> A) {
 	
-	T a = A[0][0]; T b = A[0][1];
-	T c = A[1][0]; T d = A[1][1];
+	T a = A(0,0); T b = A(0,1);
+	T c = A(1,0); T d = A(1,1);
 	
 	T ans = a*d - b*c;
 	
@@ -24,11 +24,11 @@ __device__ T Determinant2(T A[2][2]) {
 }
 
 template <typename T>
-__device__ T Determinant3(T A[3][3]) { // expansion from wolfram alpha
+__device__ T Determinant3(Array<T,2> A) { // expansion from wolfram alpha
 	
-	T a = A[0][0]; T b = A[0][1]; T c = A[0][2];
-	T d = A[1][0]; T e = A[1][1]; T f = A[1][2];
-	T g = A[2][0]; T h = A[2][1]; T i = A[2][2];
+	T a = A(0,0); T b = A(0,1); T c = A(0,2);
+	T d = A(1,0); T e = A(1,1); T f = A(1,2);
+	T g = A(2,0); T h = A(2,1); T i = A(2,2);
 	
 	T ans = a*e*i - a*f*h - b*d*i + b*f*g + c*d*h - c*e*g;
 	
@@ -36,12 +36,12 @@ __device__ T Determinant3(T A[3][3]) { // expansion from wolfram alpha
 }
 
 template <typename T>
-__device__ T Determinant4(T A[4][4]) { // expansion from wolfram alpha
+__device__ T Determinant4(Array<T,2> A) { // expansion from wolfram alpha
 
-	T a = A[0][0]; T b = A[0][1]; T c = A[0][2]; T d = A[0][3];
-	T e = A[1][0]; T f = A[1][1]; T g = A[1][2]; T h = A[1][3];
-	T i = A[2][0]; T j = A[2][1]; T k = A[2][2]; T l = A[2][3];
-	T m = A[3][0]; T n = A[3][1]; T o = A[3][2]; T p = A[3][3];
+	T a = A(0,0); T b = A(0,1); T c = A(0,2); T d = A(0,3);
+	T e = A(1,0); T f = A(1,1); T g = A(1,2); T h = A(1,3);
+	T i = A(2,0); T j = A(2,1); T k = A(2,2); T l = A(2,3);
+	T m = A(3,0); T n = A(3,1); T o = A(3,2); T p = A(3,3);
 	
 	T ans = 	
 	a*f*k*p - a*f*l*o - a*g*j*p + a*g*l*n + a*h*j*o - a*h*k*n - b*e*k*p + b*e*l*o +
@@ -49,6 +49,26 @@ __device__ T Determinant4(T A[4][4]) { // expansion from wolfram alpha
 	c*h*i*n - c*h*j*m - d*e*j*o + d*e*k*n + d*f*i*o - d*f*k*m - d*g*i*n + d*g*j*m;
 	
 	return ans;
+}
+
+extern "C" __global__ void Determinant_3_64(double *APtr) {
+	Array<double, 2> A(APtr, 3, 3);
+	double ans = Determinant3<double>(A);
+}
+
+extern "C" __global__ void Determinant_4_64(double *APtr) {
+	Array<double, 2> A(APtr, 4, 4);
+	double ans = Determinant4<double>(A);
+}
+
+extern "C" __global__ void Determinant_3_32(float *APtr) {
+	Array<float, 2> A(APtr, 3, 3);
+	float ans = Determinant3<float>(A);
+}
+
+extern "C" __global__ void Determinant_4_32(float *APtr) {
+	Array<float, 2> A(APtr, 4, 4);
+	float ans = Determinant4<float>(A);
 }
 
 
