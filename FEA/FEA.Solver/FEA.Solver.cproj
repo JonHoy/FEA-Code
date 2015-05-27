@@ -31,7 +31,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="shared.h" />
-    <None Include="IndicesPack.cu" />
     <None Include="README.txt" />
   </ItemGroup>
 </Project>

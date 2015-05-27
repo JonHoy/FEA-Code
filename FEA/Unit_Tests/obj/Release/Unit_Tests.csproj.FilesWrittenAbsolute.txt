@@ -8,9 +8,5 @@
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/obj/Release/Unit_Tests.exe
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/obj/Release/Unit_Tests.exe.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Release/MathNet.Numerics.Data.Matlab.dll
-/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Release/MathNet.Numerics.Data.Matlab.dll.mdb
-/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Release/MathNet.Numerics.Data.Matlab.xml
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Release/MathNet.Numerics.dll
-/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Release/MathNet.Numerics.dll.mdb
-/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Release/MathNet.Numerics.xml
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Release/FEA.dll
