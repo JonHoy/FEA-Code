@@ -1,0 +1,64 @@
+
+template <typename T, int SizeX, int SizeY = 1, int SizeZ = 1>
+class Polynomial {
+public:
+	Polynomial<T,SizeX,SizeY,SizeZ>::Polynomial(T* Coeffs, int Order) {
+	
+	}
+	void Polynomial<T,SizeX,SizeY,SizeZ>::Differentiate(int Dim) {
+	if (Dim == 0) 
+	{
+	for (int i = 0; i < SizeX; i++) {
+		for (int j = 0; j < SizeY; j++) {
+			for (int k = 0; k < SizeZ - 1; k++) {
+				(*this)(i,j,k) = (*this)(i,j,k + 1) * (k + 1);
+			}
+			(*this)(i,j, SizeZ - 1) = 0;			
+		}
+	}		
+	}
+	else if (Dim == 1) 
+	{
+	for (int i = 0; i < SizeX; i++) {
+		for (int k = 0; k < SizeZ; k++) {
+			for (int j = 0; j < SizeY - 1; j++) {
+				(*this)(i,j,k) = (*this)(i, j + 1, k) * (j + 1);
+			}
+			(*this)(i,SizeY - 1, k) = 0;			
+		}
+	}
+	}
+	else //(Dim == 2) 
+	{
+	
+	}
+	}
+	T Polynomial<T,SizeX,SizeY,SizeZ>::Evaluate(T ValX, T ValY = 1, T ValZ = 1) {
+	T sum = 0;
+	for (int i = 0; i < SizeX; i++) {
+		for (int j = 0; j < SizeY; j++) {
+			for (int k = 0; k < SizeZ; k++)				
+				T a = (*this)(i,j,k);
+				sum += a*Pow(ValX,i)*Pow(ValY,j)*Pow(ValZ,k);	
+		}
+	}
+	}
+	T& Polynomial<T,SizeX,SizeY,SizeZ>::operator(int i) {
+		return Coeffs[i];
+	}
+	T& Polynomial<T,SizeX,SizeY,SizeZ>::operator(int i, int j) {
+		return Coeffs[i * SizeY + j];
+	}
+	T& Polynomial<T,SizeX,SizeY,SizeZ>::operator(int i, int j, int k) {
+		return Coeffs[i * SizeZ * SizeY + j * SizeZ + k)
+	}
+private:
+	T Coeffs[SizeX * SizeY * SizeZ];
+	T Polynomial<T,SizeX,SizeY,SizeZ>::Pow(T a, int b) {
+		T ans = 1;
+		for (int i = 0; i < b; i++)
+			ans = ans * a
+		return ans;		
+	}
+};
+
