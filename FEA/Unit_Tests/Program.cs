@@ -22,7 +22,8 @@ namespace Unit_Tests
 			TestPolynomial ();
 			TestShapeFunction ();
 			TestPolyMatrix ();
-			TestSparseGeneration("UniformSpacing2.mat");
+			TestIsoparametric ();
+			TestSparseGeneration("UniformSpacing.mat");
 		}
 		static private void TestIndices() {
 			var X = new Index (new int[] { 5, 10, 15 });
@@ -174,5 +175,43 @@ namespace Unit_Tests
 				}
 			}
 		}
+
+		static private void TestIsoparametric() {
+			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 2, 2 }));
+			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 3, 3 }));
+			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 4, 4 }));
+			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 2, 2, 2}));
+			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 3, 3, 3}));
+			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 4, 4, 4}));
+
+		}
+
+		static private void PrintArray(double[,] A) {
+			Console.WriteLine ("A = ");
+			for (int i = 0; i < A.GetLength(0); i++) {
+				string Val = "[ ";
+				for (int j = 0; j < A.GetLength(1); j++) {
+					string ValString = A [i, j].ToString ();
+					int Len = 5;
+					if (ValString.Length > Len)
+						ValString = ValString.Substring (0, Len);
+					if (ValString.Length < Len)
+						ValString = ValString.PadRight (Len);
+					Val = Val + ValString + " ";
+				}
+				Val = Val + "]";
+				Console.WriteLine (Val);	
+			}
+		}
+		static private void CheckCols(double [,] A) {
+			for (int i = 0; i < A.GetLength(0); i++) {
+				double sum = 0;
+				for (int j = 0; j < A.GetLength(1); j++) {
+					sum = sum + A [i, j];
+				}
+				Debug.Assert (sum == 1);
+			}
+		}
+
     }
 }

@@ -2,6 +2,7 @@
 // hard coded versions of a determinant
 
 #include "Array.cuh"
+#include "Polynomial.cuh" // TODO remove this
 
 template <typename T>
 __device__ T Determinant4(Array<T,2> A);

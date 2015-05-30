@@ -1,5 +1,6 @@
 
 #include "Array.cuh"
+#include "Polynomial.h"
 
 template <typename T, int Dims>
 __device__ T Integrate(int* Exponents, T* Coefficients, int NumCoeffs) {

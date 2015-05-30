@@ -1,15 +1,18 @@
 
-// cuda version of ND-polynomial
+// cuda version of 3D-polynomial
+//
 
-#include "Array.cuh"
-
-template <typename T, int Rank = 1>
-class Polynomial : public Array {
+template <typename T, int SizeX, int SizeY = 1, int SizeZ = 1>
+class Polynomial {
 public:
 	__device__ Polynomial(T* Coeffs, int Order);
-	__device__ Integrate(int Dim = 0);
-	__device__ Differentiate(int Dim = 0);
+	__device__ void Differentiate(int Dim = 0);
+	__device__ T Evaluate(T ValX, T ValY = 1, T ValZ = 1);
+	__device__ T& operator(int i);
+	__device__ T& operator(int i, int j);
+	__device__ T& operator(int i, int j, int k);
 private:
-	
+	T Coeffs[SizeX * SizeY * SizeZ];
+	__device__ T Pow(T a, int b);
 };
 

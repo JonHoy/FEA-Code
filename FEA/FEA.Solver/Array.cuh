@@ -5,8 +5,6 @@
 #include "device_functions.h"
 #include "device_launch_parameters.h"
 
-#define UINT unsigned int
-
 template <int Rank> // wrapper for array indices
 class Index
 {
@@ -27,17 +25,17 @@ public:
 		Range[1] = I1;
 		Range[2] = I2;
 	}
-	__device__ Index(UINT* _Range) {
+	__device__ Index(int* _Range) {
 		for (int i = 0; i < Rank; i++)
 		{
-			Range[i] = (UINT)_Range[i];
+			Range[i] = (int)_Range[i];
 		}
 	}
-	__device__ UINT& operator[] (UINT Dim) {
+	__device__ int& operator[] (int Dim) {
 		return Range[Dim];
 	}
 private:
-	UINT Range[Rank];
+	int Range[Rank];
 };
 
 
@@ -68,53 +66,59 @@ public:
 		Extent = Ex;
 	}
 	__device__ T operator() (Index<Rank> Idx) {
-		UINT[Rank] CumProd;
+		int CumProd[Rank];
 		CumProd[Rank - 1] = 1;
-		for (int i = Rank - 2; i = 0; i--) {
-			CumProd[i] = CumProd[i + 1] * (UINT) Extent[i + 1];
+		for (int i = Rank - 2; i == 0; i--) {
+			CumProd[i] = CumProd[i + 1] * (int) Extent[i + 1];
 		}
-		UINT id = 0;
+		int id = 0;
 		for (int i = 0; i < Rank; i++) {
-			id = id + (UINT) Idx[i] * CumProd[i];
+			id = id + (int) Idx[i] * CumProd[i];
 		}
 		return _Ptr[id];			
 	}
 	
 	__device__ T operator() (int i, int j) {
-//		static_assert(Rank == 2,"Rank must be 2");
-		int Cols = (int)Extent[1];
-		return _Ptr[i * Cols + j];	
+		int id = Sub2Ind(i,j);
+		return _Ptr[id];
 	}
 	
 	__device__ T operator() (int i) {
-//		static_assert(Rank == 1,"Rank must be 1");
 		return _Ptr[i];
 	}
 	
 	__device__ T operator() (int i, int j, int k) {
-//		static_assert(Rank == 3,"Rank must be 3");
-		int Cols = (int)Extent[1];
-		int Planes = (int)Extent[2];
-		int id = Cols * Planes * i + Planes * j + k;
+		id = Sub2Ind(i,j,k);
+		return _Ptr[id];
 	}
 	
 	__device__ T operator[] (int id) {
 		return _Ptr[id];
 	}
 	
-	__device__ Index<Rank> Ind2Sub(UINT id) { // convert linear index to array subscripts
-		UINT[Rank] Sub;
-		UINT[Rank] CumProd;
+	__device__ Index<Rank> Ind2Sub(int id) { // convert linear index to array subscripts
+		int Sub[Rank];
+		int CumProd[Rank];
 		CumProd[Rank - 1] = 1;
-		for (int i = Rank - 2; i = 0; i--) {
-			CumProd[i] = CumProd[i + 1] * (UINT) Extent[i + 1];
+		for (int i = Rank - 2; i == 0; i--) {
+			CumProd[i] = CumProd[i + 1] * (int) Extent[i + 1];
 		}
-		for (int = 0; i < Rank; i++) {
+		for (int i = 0; i < Rank; i++) {
 			Sub[i] = id / CumProd[i];
-			idx = idx % CumProd[i];
+			id = id % CumProd[i];
 		}
 		Index<Rank> Subs(Sub);
 		return Subs;
+	}
+	
+	__device__ int Sub2Ind(int i, int j) {
+		int id = i * Extent[1] + j; 
+		return id;
+	}
+	
+	__device__ int Sub2Ind(int i, int j, int k) {
+		int id = i * Extent[2] * Extent[1] + j * Extent[2] + k;
+		return id;
 	}
 	
 private:

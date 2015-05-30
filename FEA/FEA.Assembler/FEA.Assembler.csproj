@@ -39,10 +39,15 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="MathNet.Numerics.Data.Matlab">
+      <HintPath>..\Externals\MathNet.Numerics.Data.Matlab.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\Externals\MathNet.Numerics.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Element.cs" />
-    <Compile Include="Jacobian.cs" />
     <Compile Include="LookupTable.cs" />
     <Compile Include="PolyMatrix.cs" />
     <Compile Include="Mesher.cs" />
@@ -58,6 +63,7 @@
     <Compile Include="FiniteVolume.cs" />
     <Compile Include="Index.cs" />
     <Compile Include="PolynomialND.cs" />
+    <Compile Include="Isoparametric.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

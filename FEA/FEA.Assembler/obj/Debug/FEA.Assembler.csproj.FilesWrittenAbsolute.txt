@@ -3,3 +3,5 @@
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/obj/Debug/FEA.dll.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/bin/Debug/FEA.dll.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/bin/Debug/FEA.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/bin/Debug/MathNet.Numerics.Data.Matlab.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/bin/Debug/MathNet.Numerics.dll

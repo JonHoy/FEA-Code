@@ -1,16 +1,11 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Unit_Tests/Program.cs">
-    <Files>
-      <File FileName="FEA.Solver/shared.cpp" Line="1" Column="1" />
-      <File FileName="FEA.Solver/shared.h" Line="1" Column="1" />
-      <File FileName="Unit_Tests/Program.cs" Line="62" Column="3" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/PolyMatrix.cs" line="26" column="1" />
       <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/Sparse.cs" line="63" column="5" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="190" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
