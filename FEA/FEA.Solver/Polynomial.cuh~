@@ -18,8 +18,27 @@ public:
 		}
 		return sum;
 	}
-	T Differentiate(const int Dim, T ValX, T ValY = 1, T ValZ = 1) {
-	
+	T Differentiate(const int Dim, T ValX, T ValY = 1, T ValZ = 1) { // find the partial derivative at the specified point 
+		T sum = 0;
+		int id = 0;
+		for (int i = 0; i < SizeX; i++) {
+			for (int j = 0; j < SizeY; j++) {
+				for (int k = 0; k < SizeZ; k++)				
+					T a = Coeffs[id];
+					if (Dim == 2) {
+					    sum += k * a * Pow(ValZ,k-1) * Pow(ValX,i) * Pow(ValY, j);
+					}
+					else if (Dim == 1) {
+					    sum += j * a * Pow(ValZ,k) * Pow(ValX,i) * Pow(ValY, j-1);
+					}
+					else // (Dim == 0 ) 	
+					{
+					    sum += i * a * Pow(ValZ,k) * Pow(ValX,i-1) * Pow(ValY, j);
+					}
+					id++;
+			}
+		}
+		return sum;
 	}
 	T& operator()(int i) {
 		return Coeffs[i];

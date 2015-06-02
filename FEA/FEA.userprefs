@@ -1,6 +1,11 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Unit_Tests/Program.cs">
+    <Files>
+      <File FileName="Unit_Tests/Program.cs" Line="196" Column="22" />
+      <File FileName="FEA.Assembler/Isoparametric.cs" Line="93" Column="20" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/PolyMatrix.cs" line="26" column="1" />

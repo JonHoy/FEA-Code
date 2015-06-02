@@ -7,8 +7,6 @@
 
 // Call order should be IndicesPack -> Thrust Sort -> Thrust Unique -> IndicesUnpack
 
-#include "CoefficientMatrix.cuh"
-
 extern "C" __global__ void IndicesPack(unsigned int NodesPerElement, unsigned int NumElements, unsigned int* MeshNodes, unsigned long* MatrixEntries) {
 	unsigned int x = threadIdx.x + blockIdx.x * blockDim.x;
 	unsigned int y = threadIdx.y + blockIdx.y * blockDim.y;

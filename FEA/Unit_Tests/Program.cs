@@ -23,6 +23,7 @@ namespace Unit_Tests
 			TestShapeFunction ();
 			TestPolyMatrix ();
 			TestIsoparametric ();
+			TestTrim ();
 			TestSparseGeneration("UniformSpacing.mat");
 		}
 		static private void TestIndices() {
@@ -177,13 +178,13 @@ namespace Unit_Tests
 		}
 
 		static private void TestIsoparametric() {
-			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 2, 2 }));
-			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 3, 3 }));
-			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 4, 4 }));
-			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 2, 2, 2}));
-			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 3, 3, 3}));
-			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 4, 4, 4}));
-
+//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 2, 2 }));
+//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 3, 3 }));
+//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 4, 4 }));
+//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 2, 2, 2}));
+//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 3, 3, 3}));
+//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 4, 4, 4}));
+//			Isoparametric.WriteToCppFiles ();
 		}
 
 		static private void PrintArray(double[,] A) {
@@ -192,7 +193,7 @@ namespace Unit_Tests
 				string Val = "[ ";
 				for (int j = 0; j < A.GetLength(1); j++) {
 					string ValString = A [i, j].ToString ();
-					int Len = 5;
+					int Len = 25;
 					if (ValString.Length > Len)
 						ValString = ValString.Substring (0, Len);
 					if (ValString.Length < Len)
@@ -211,6 +212,12 @@ namespace Unit_Tests
 				}
 				Debug.Assert (sum == 1);
 			}
+		}
+
+		static private void TestTrim() {
+			var myExp = new SymbolicExpression ("(((ax + b)))");
+			var myExp2 = new SymbolicExpression ("(ax + b)");
+			Debug.Assert (myExp == myExp2);
 		}
 
     }

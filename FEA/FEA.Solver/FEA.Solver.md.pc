@@ -1,5 +1,5 @@
 Name: FEA.Solver
 Description: 
 Version: 0.1
-Libs: -L"/home/jonathan/Desktop/FEA-Code/FEA/FEA.Solver/bin/Release" -lFEA
+Libs: -L"/home/jonathan/Desktop/FEA-Code/FEA/FEA.Solver/bin/Debug" -lFEASolver
 Cflags: -I"/home/jonathan/Desktop/FEA-Code/FEA/FEA.Solver"

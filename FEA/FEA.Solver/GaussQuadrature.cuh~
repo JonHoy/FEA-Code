@@ -1,10 +1,7 @@
 
-#include "Array.cuh"
-#include "Polynomial.h"
-
 template <typename T>
 struct Quadrature {
-__device__ Polynomial() {
+__device__ Quadrature() {
 
 Weights[0] = 0.1713244928;
 Weights[5] = Weights[0];

@@ -3,3 +3,13 @@
 // Wolfram Alpha input: inverse {{a, b}, {c, d}} 
 // Wolfram Alpha input: inverse {{a, b, c}, {d, e, f}, {g, h, i}}
 // Wolfram Alpha input: inverse {{a, b, c, d}, {e, f, g, h}, {i, j, k, l}, {m, n, o, p}} 
+
+template <typename T>
+__device__ Inverse2(T A[2][2]) {
+
+}
+
+template <typename T>
+__device__ Inverse3(T A[2][2]) {
+
+}

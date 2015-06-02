@@ -50,33 +50,7 @@ __device__ T Determinant4(T A[4][4]) { // expansion from wolfram alpha
 	return ans;
 }
 
-template <typename T, int SizeX, int SizeY>
-__device__ void CopyToStaticArray(T& Src, T& Dest) {
-for (int i = 0; i < SizeX; i++) 
-}
 
-extern "C" __global__ void Determinant_3_64(double *APtr) {
-	//Array<double, 2> A(APtr, 3, 3);
-	double A[3][3];
-	double ans = Determinant3<double>(A);
-}
-
-extern "C" __global__ void Determinant_4_64(double *APtr) {
-	//Array<double, 2> A(APtr, 4, 4);
-	double A[4][4];
-	double ans = Determinant4<double>(A);
-}
-
-extern "C" __global__ void Determinant_3_32(float *APtr) {
-	float A[3][3];
-	float ans = Determinant3<float>(A);
-}
-
-extern "C" __global__ void Determinant_4_32(float *APtr) {
-	//Array<float, 2> A(APtr, 4, 4);
-	float A[4][4];
-	float ans = Determinant4<float>(A);
-}
 
 
  
