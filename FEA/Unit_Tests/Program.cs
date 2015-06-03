@@ -217,7 +217,7 @@ namespace Unit_Tests
 		static private void TestTrim() {
 			var myExp = new SymbolicExpression ("(((ax + b)))");
 			var myExp2 = new SymbolicExpression ("(ax + b)");
-			Debug.Assert (myExp == myExp2);
+			Debug.Assert (myExp.Expression == myExp2.Expression);
 		}
 
     }

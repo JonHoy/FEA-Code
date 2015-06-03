@@ -41,6 +41,9 @@ Global
 		{A6181323-129A-491B-8F9A-AA02E91BA7AC}.Release-Signed|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6181323-129A-491B-8F9A-AA02E91BA7AC}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Unit_Tests\Unit_Tests.csproj
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

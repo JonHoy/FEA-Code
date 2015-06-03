@@ -1,16 +1,15 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Unit_Tests/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Assembler/SymbolicMatrix.cs">
     <Files>
-      <File FileName="Unit_Tests/Program.cs" Line="196" Column="22" />
-      <File FileName="FEA.Assembler/Isoparametric.cs" Line="93" Column="20" />
+      <File FileName="Unit_Tests/Program.cs" Line="222" Column="3" />
+      <File FileName="FEA.Assembler/Isoparametric.cs" Line="79" Column="24" />
+      <File FileName="FEA.Assembler/SymbolicMatrix.cs" Line="34" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/PolyMatrix.cs" line="26" column="1" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/Sparse.cs" line="63" column="5" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="190" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

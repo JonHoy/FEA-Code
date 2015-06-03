@@ -54,21 +54,10 @@ namespace FEA.Assembler
 				}
 				return newExp;
 			}
-			return new SymbolicExpression(C);
 		}
 		public static SymbolicExpression operator ^ (SymbolicExpression A, SymbolicExpression B) {
 			var C = "(" + A.Expression + ") ^ (" + B.Expression + ")";
 			return new SymbolicExpression (C);
-		}
-
-		public static bool operator == (SymbolicExpression A, SymbolicExpression B)
-		{
-			return (A.Expression == B.Expression);
-		}
-
-		public static bool operator != (SymbolicExpression A, SymbolicExpression B)
-		{
-			return (A.Expression != B.Expression);
 		}
 
 		public SymbolicExpression Reciprocal() {
@@ -92,7 +81,7 @@ namespace FEA.Assembler
 				if (Expression [iL].ToString() == ")")
 					LeftCount--;
 			}
-			for (int iR = (Expression.Length - 1); iR == 0; iR--) {
+			for (int iR = (Expression.Length - 1); iR >= 0; iR--) {
 				if (Expression [iR].ToString () == ")")
 					RightCount++;  // increase nest level
 				if (iR != 0 && Expression [iR] == Expression [iR - 1]) {
@@ -105,12 +94,12 @@ namespace FEA.Assembler
 			int Len = RightPos - LeftPos;
 			// make sure the left parentheses and right parentheses are on the same nest count
 			if (Len > 0 && LeftCount > 0 && LeftCount == RightCount) {
-				Expression = Expression.Substring (LeftPos, Len); 
+				Expression = Expression.Substring (LeftPos, Len + 1); 
 				TrimParentheses (); // try trimming again
 			}
 		}
 
-		string Expression;
+		public string Expression { get; private set; }
 	}
 }
 
