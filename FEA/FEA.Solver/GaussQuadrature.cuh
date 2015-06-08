@@ -1,24 +1,43 @@
 
-template <typename T>
+template <typename T, int Order>
 struct Quadrature {
 __device__ Quadrature() {
 
-Weights[0] = 0.1713244928;
-Weights[5] = Weights[0];
-Weights[1] = 0.3607615730;
-Weights[4] = Weights[1];
-Weights[2] = 0.4679139346;
-Weights[3] = Weights[2];
-
-Locations[0] = -0.9324695142;
-Locations[5] = -Locations[0];
-Locations[1] = -0.6612093865;
-Locations[4] = -Locations[1];
-Locations[2] = -0.2386191860;
-Locations[3] = -Locations[2];
 }
-// 6 point gaussian quadrature
-T Weights[6];
-T Locations[6];
+// n point gaussian quadrature
+// http://en.wikipedia.org/wiki/Gaussian_quadrature
+
+T Weights[Order];
+T Locations[Order];
 
 };
+
+template <typename T, 1> 
+struct Quadrature<T,1> {
+	__device__ Quadrature() {
+		Weights[0] = 2;
+		Locations[0] = 0;
+	}
+}
+
+template <typename T, 2> 
+struct Quadrature<T,2> {
+	__device__ Quadrature() {
+		Weights[0] = 1;
+		Weights[1] = 1;
+		Locations[0] = -0.5773502691896257;
+		Locations[1] = 0.5773502691896257;
+	}
+}
+
+template <typename T, 3> 
+struct Quadrature<T,3> {
+	__device__ Quadrature() {
+		Weights[0] = 0.5555555555555556;
+		Weights[1] = 0.8888888888888888;
+		Weights[2] = 0.5555555555555556;
+		Locations[0] = -0.7745966692414834;
+		Locations[1] = 0;
+		Locations[2] = 0.7745966692414834;
+	}
+}

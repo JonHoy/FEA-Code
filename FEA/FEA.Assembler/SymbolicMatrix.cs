@@ -15,9 +15,49 @@ namespace FEA.Assembler
 			Multiplier = new SymbolicExpression("1");
 		}
 
+		public SymbolicMatrix() {}
+
+		public static SymbolicMatrix operator + (SymbolicMatrix A, SymbolicMatrix B) {
+			if (A.Data.GetLength (0) != B.Data.GetLength (0))
+				throw new Exception ("Number of Rows must be equal");
+			if (A.Data.GetLength (1) != B.Data.GetLength (2))
+				throw new Exception ("Number of Rows must be equal");
+			var C = new SymbolicMatrix (A.Data.GetLength (0), A.Data.GetLength (1));
+			for (int i = 0; i < C.Data.GetLength(0); i++) {
+				for (int j = 0; j < C.Data.GetLength(1); j++) {
+					C.Data [i, j] = A.Data [i, j] + B.Data [i, j];
+				}
+			}
+			return C;
+		}
+
+		public static SymbolicMatrix operator - (SymbolicMatrix A, SymbolicMatrix B) {
+			if (A.Data.GetLength (0) != B.Data.GetLength (0))
+				throw new Exception ("Number of Rows must be equal");
+			if (A.Data.GetLength (1) != B.Data.GetLength (2))
+				throw new Exception ("Number of Rows must be equal");
+			var C = new SymbolicMatrix (A.Data.GetLength (0), A.Data.GetLength (1));
+			for (int i = 0; i < C.Data.GetLength(0); i++) {
+				for (int j = 0; j < C.Data.GetLength(1); j++) {
+					C.Data [i, j] = A.Data [i, j] - B.Data [i, j];
+				}
+			}
+			return C;
+		}
+
+//		public SymbolicExpression Determinant(){
+//			
+//		}
+//		public SymbolicExpression Inverse() {
+//		
+//		}
+
+
+
 		SymbolicExpression[,] Data; // 
 		SymbolicExpression Multiplier;
 	}
+		
 
 	public class SymbolicExpression {
 		public SymbolicExpression(string Expression) {

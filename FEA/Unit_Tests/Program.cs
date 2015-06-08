@@ -24,6 +24,7 @@ namespace Unit_Tests
 			TestPolyMatrix ();
 			TestIsoparametric ();
 			TestTrim ();
+			TestGeneration ();
 			TestSparseGeneration("UniformSpacing.mat");
 		}
 		static private void TestIndices() {
@@ -218,6 +219,9 @@ namespace Unit_Tests
 			var myExp = new SymbolicExpression ("(((ax + b)))");
 			var myExp2 = new SymbolicExpression ("(ax + b)");
 			Debug.Assert (myExp.Expression == myExp2.Expression);
+		}
+		static private void TestGeneration() {
+			var myMat = new SymbolicMatrix (16, 16);
 		}
 
     }
