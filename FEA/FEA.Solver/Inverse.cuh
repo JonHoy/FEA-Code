@@ -34,7 +34,7 @@ __device__ void Inverse3(T A[3][3]) {
 
 template <typename T, int SizeX, int SizeY>
 __device__ void CopyToStaticArray(T* Src, T* Dest[SizeX][SizeY]) {
-	id = 0;
+	int id = 0;
 	for (int i = 0; i < SizeX; i++) {
 		for (int j = 0; j < SizeY; j++) {
 			Dest[i][j] = Src[id];

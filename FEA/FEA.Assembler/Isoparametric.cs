@@ -36,6 +36,11 @@ namespace FEA.Assembler
 					}
 				}
 			}
+			return C;
+		}
+
+		public static double[,] GetCoefficientMatrixInv(int[] Order) {
+			var C = GetCoefficientMatrix (Order);
 			// once this Coefficient matrix is found we must invert it for it to be useful
 			Matrix<double> Cmat = DenseMatrix.OfArray (C);
 			Cmat = Cmat.Inverse ();
@@ -50,18 +55,6 @@ namespace FEA.Assembler
 			File.Add ("template<typename T, int Size, int Dims>");
 			File.Add ("struct CoefficientMatrix{");
 			File.Add ("__device__ CoefficientMatrix() {}");
-			File.Add ("T C[Size][Size];");
-			File.Add ("__device__ void GetAlpha(T A[Size], const T U[Size]) {");
-			File.Add ("\t#pragma unroll");
-			File.Add ("\tfor (int i = 0; i < Size; i++) {");
-			File.Add ("\t\tT Sum = 0;");
-			File.Add ("\t\t#pragma unroll");
-			File.Add ("\t\tfor (int j = 0; j < Size; j++) {");
-			File.Add ("\t\t\tSum = Sum + C[i][j] * U[j];"); 
-			File.Add ("\t\t}");
-			File.Add ("\t\tA[i] = Sum;");
-			File.Add ("\t}");
-			File.Add ("}");
 			File.Add ("};");
 			AddToFile (File, Mat2, N);
 			AddToFile (File, Mat3, N);
@@ -71,25 +64,33 @@ namespace FEA.Assembler
 		static private void AddToFile(List<string> File, int[] Mat, int N) {
 			for (int i = 0; i < N; i++) {
 				Increment (Mat);
-				var C2 = GetCoefficientMatrix (Mat);
+				var C2 = GetCoefficientMatrix(Mat);
+				var C2Inv = GetCoefficientMatrixInv(Mat);
 				var L2 = Product (Mat);
 				File.Add ("template<typename T>");
 				File.Add ("struct CoefficientMatrix<T," + L2.ToString() + "," + Mat.Length.ToString() + "> {");
 				File.Add ("__device__ CoefficientMatrix() {");
-				File.Add ("C = {");
-				for (int j = 0; j < L2; j++) {
-					string Line = "{";
-					for (int k = 0; k < L2; k++) {
-						Line = Line + C2[j, k].ToString("E12");
-						if (k < L2 - 1)
-							Line = Line + ",";
+				for (int ix = 0; ix < L2; ix++) {
+					for (int iy = 0; iy < L2; iy++) {
+						var LineString = "C[" + ix.ToString () + "][" + iy.ToString () + "] = " + C2 [ix, iy].ToString ("E") + ";";
+						LineString = LineString + " CInv[" + ix.ToString () + "][" + iy.ToString () + "] = " + C2Inv[ix, iy].ToString ("E") + ";";
+						File.Add (LineString); 
 					}
-					Line = Line + "}";
-					if (j < L2 - 1)
-						Line = Line + ",";
-					File.Add (Line);
 				}
 				File.Add ("}");
+				var Size = L2.ToString ();
+				File.Add ("T C[" + Size + "][" + Size + "];");
+				File.Add ("T CInv[" + Size + "][" + Size + "];");
+				File.Add ("__device__ void GetAlpha(T A[" + Size + "], const T U[" + Size + "]) {");
+				File.Add ("\t#pragma unroll");
+				File.Add ("\tfor (int i = 0; i < " + Size + "; i++) {");
+				File.Add ("\t\tT Sum = 0;");
+				File.Add ("\t\t#pragma unroll");
+				File.Add ("\t\tfor (int j = 0; j < " + Size + "; j++) {");
+				File.Add ("\t\t\tSum = Sum + CInv[i][j] * U[j];"); 
+				File.Add ("\t\t}");
+				File.Add ("\t\tA[i] = Sum;");
+				File.Add ("\t}");
 				File.Add ("}");
 				File.Add ("};");
 			}

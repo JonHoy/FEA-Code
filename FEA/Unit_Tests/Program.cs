@@ -185,7 +185,7 @@ namespace Unit_Tests
 //			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 2, 2, 2}));
 //			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 3, 3, 3}));
 //			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 4, 4, 4}));
-//			Isoparametric.WriteToCppFiles ();
+			Isoparametric.WriteToCppFiles ();
 		}
 
 		static private void PrintArray(double[,] A) {

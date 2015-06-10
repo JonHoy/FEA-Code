@@ -3,7 +3,7 @@ template <typename T, int Order>
 struct Quadrature {
 __device__ Quadrature() {
 
-}
+};
 // n point gaussian quadrature
 // http://en.wikipedia.org/wiki/Gaussian_quadrature
 
@@ -12,15 +12,17 @@ T Locations[Order];
 
 };
 
-template <typename T, 1> 
+template <typename T> 
 struct Quadrature<T,1> {
 	__device__ Quadrature() {
 		Weights[0] = 2;
 		Locations[0] = 0;
 	}
-}
+	T Weights[1];
+	T Locations[1];
+};
 
-template <typename T, 2> 
+template <typename T> 
 struct Quadrature<T,2> {
 	__device__ Quadrature() {
 		Weights[0] = 1;
@@ -28,9 +30,11 @@ struct Quadrature<T,2> {
 		Locations[0] = -0.5773502691896257;
 		Locations[1] = 0.5773502691896257;
 	}
-}
+	T Weights[2];
+	T Locations[2];
+};
 
-template <typename T, 3> 
+template <typename T> 
 struct Quadrature<T,3> {
 	__device__ Quadrature() {
 		Weights[0] = 0.5555555555555556;
@@ -40,4 +44,6 @@ struct Quadrature<T,3> {
 		Locations[1] = 0;
 		Locations[2] = 0.7745966692414834;
 	}
-}
+	T Weights[3];
+	T Locations[3];
+};

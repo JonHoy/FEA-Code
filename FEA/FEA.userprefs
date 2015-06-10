@@ -1,10 +1,8 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Assembler/SymbolicMatrix.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Assembler/Isoparametric.cs">
     <Files>
-      <File FileName="Unit_Tests/Program.cs" Line="224" Column="38" />
-      <File FileName="FEA.Assembler/Isoparametric.cs" Line="1" Column="1" />
-      <File FileName="FEA.Assembler/SymbolicMatrix.cs" Line="49" Column="5" />
+      <File FileName="FEA.Assembler/Isoparametric.cs" Line="67" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
