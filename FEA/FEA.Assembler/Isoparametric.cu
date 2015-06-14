@@ -76,6 +76,7 @@ for (int i = 0; i < QuadOrder; i++)
 			
 			T LocalDet = Determinant3(Jacobian);
 			Determinant[iD + counter * ElementCount] = LocalDet;
+			Inverse3(Jacobian); // now invert the jacobian
 			counter++;
 		}
 	}

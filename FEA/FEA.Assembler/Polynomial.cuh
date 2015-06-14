@@ -1,6 +1,8 @@
 
 // class for 3D polynomial
 
+//TODO Implement Horners method for multi-variate polynomials
+
 template <typename T, int SizeX, int SizeY = 1, int SizeZ = 1>
 struct Polynomial {
 	__device__ Polynomial() {

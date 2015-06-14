@@ -11,10 +11,11 @@ struct Polynomial {
 		int id = 0;
 		for (int i = 0; i < SizeX; i++) {
 			for (int j = 0; j < SizeY; j++) {
-				for (int k = 0; k < SizeZ; k++)				
+				for (int k = 0; k < SizeZ; k++)	{			
 					T a = Coeffs[id];
 					sum += a*Pow(ValX,i)*Pow(ValY,j)*Pow(ValZ,k);	
 					id++; 
+				}
 			}
 		}
 		return sum;

@@ -72,14 +72,18 @@ namespace FEA.Assembler
 				File.Add ("__device__ CoefficientMatrix() {");
 				for (int ix = 0; ix < L2; ix++) {
 					for (int iy = 0; iy < L2; iy++) {
-						var LineString = "C[" + ix.ToString () + "][" + iy.ToString () + "] = " + C2 [ix, iy].ToString ("E") + ";";
+						var LineString = "C[" + ix.ToString () + "].Coeffs[" + iy.ToString () + "] = " + C2 [ix, iy].ToString ("E") + ";";
 						LineString = LineString + " CInv[" + ix.ToString () + "][" + iy.ToString () + "] = " + C2Inv[ix, iy].ToString ("E") + ";";
 						File.Add (LineString); 
 					}
 				}
 				File.Add ("}");
 				var Size = L2.ToString ();
-				File.Add ("T C[" + Size + "][" + Size + "];");
+				if (Mat.Length == 3)
+					File.Add ("Polynomial<T" + ',' + Mat [0].ToString () + "," + Mat [1].ToString () + "," + Mat [2].ToString () + "> C[" + Size + "];");  
+				else 
+					File.Add ("Polynomial<T" + ',' + Mat[0].ToString() + "," + Mat[1].ToString() + "> C[" + Size + "];");  
+
 				File.Add ("T CInv[" + Size + "][" + Size + "];");
 				File.Add ("__device__ void GetAlpha(T A[" + Size + "], const T U[" + Size + "]) {");
 				File.Add ("\t#pragma unroll");
