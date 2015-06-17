@@ -1,14 +1,17 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Assembler/Isoparametric.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/IGESEntityTypes.cs">
     <Files>
-      <File FileName="FEA.Assembler/Isoparametric.cs" Line="67" Column="33" />
+      <File FileName="FEA.Mesher/IGSReader.cs" Line="72" Column="7" />
+      <File FileName="FEA.Mesher/IGESEntityTypes.cs" Line="20" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Assembler/PolyMatrix.cs" line="26" column="1" />
       <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="224" column="1" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/IGSReader.cs" line="49" column="1" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/IGSReader.cs" line="56" column="4" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

@@ -1,0 +1,5 @@
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/FEA.Mesher.dll.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/FEA.Mesher.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/obj/Debug/FEA.Mesher.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/obj/Debug/FEA.Mesher.dll.mdb

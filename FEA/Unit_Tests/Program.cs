@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FEA.Assembler;
+using FEA.Mesher;
 using System.Diagnostics;
 using MathNet.Numerics.Data.Matlab;
 using MathNet.Numerics.LinearAlgebra;
@@ -14,7 +15,11 @@ namespace Unit_Tests
     {
         static void Main(string[] args)
 		{
-			// Indexing
+			TestMesher ();
+			TestAssembler ();
+		}
+
+		static private void TestAssembler() {
 			TestIndices ();
 			TestNaturalCoordinates ();
 			TestPackUnpack ();
@@ -27,6 +32,15 @@ namespace Unit_Tests
 			TestGeneration ();
 			TestSparseGeneration("UniformSpacing.mat");
 		}
+
+		static private void TestMesher() {
+			var Id = new IGSReader("impeller turbo charger 127.IGS");
+
+		}
+
+
+		static private void TestPhysics() {}
+
 		static private void TestIndices() {
 			var X = new Index (new int[] { 5, 10, 15 });
 			int Value = 5 * 10 * 15;
