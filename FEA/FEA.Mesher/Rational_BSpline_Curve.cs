@@ -7,7 +7,8 @@ namespace FEA.Mesher
 	{
 		public Rational_BSpline_Curve (double[] Parameters)
 		{
-			
+			K = (int) Parameters [1];
+			M = (int)Parameters [2];
 		}
 		int K; // Upper index of sum.
 		int M; // Degree of basis functions
