@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FEA.Assembler;
-using FEA.Mesher;
+using FEA.Mesher.IGES;
 using System.Diagnostics;
 using MathNet.Numerics.Data.Matlab;
 using MathNet.Numerics.LinearAlgebra;
@@ -34,8 +34,8 @@ namespace Unit_Tests
 		}
 
 		static private void TestMesher() {
-			var Id = new IGSReader("impeller turbo charger 127.IGS");
-
+			var Id = new IGSReader("Cable support hook.igs");
+            var Id2 = new IGSReader("impeller turbo charger 127.IGS");
 		}
 
 

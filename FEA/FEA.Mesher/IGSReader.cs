@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace FEA.Mesher
+namespace FEA.Mesher.IGES
 {
 	public class IGSReader
 	{
@@ -35,7 +35,6 @@ namespace FEA.Mesher
 				if (! CurrentLine.Contains (ParmEntry)) {
 					ParameterEntries [ParmCounter] = ParameterEntries [ParmCounter].Replace (" ", String.Empty);
 					ParameterEntries [ParmCounter] = ParameterEntries [ParmCounter].Replace ((ParmCounter + 1).ToString() + "P", String.Empty);
-					Console.WriteLine (ParameterEntries [ParmCounter]);
 					ParmCounter = ParmCounter + 2;
 					if (ParmCounter < ParameterEntries.Length) 	
 						ParameterEntries [ParmCounter] = "";
@@ -49,9 +48,14 @@ namespace FEA.Mesher
 			ParmCounter = 0;
 			int NumEntries = ParameterEntries.Length / 2 + 1;
 			ParameterData = new double[NumEntries][];
-			for (int iParm = 0; iParm < ParameterEntries.Length; iParm += 2) {
+            var Curves = new List<IGES.Rational_BSpline_Curve>();
+            for (int iParm = 0; iParm < ParameterEntries.Length; iParm += 2) {
 				ParameterData [ParmCounter] = ArrayParser (ParameterEntries [iParm]);
-				ParmCounter++;
+                var Entity = (IGESEntityTypes) (int) (ParameterData[ParmCounter][0]);
+                if (Entity == IGESEntityTypes.Rational_BSpline_Curve) {
+                    Curves.Add(new IGES.Rational_BSpline_Curve(ParameterData[ParmCounter]));
+                }
+                ParmCounter++;
 			}
 			Console.Beep ();
 		}
@@ -59,6 +63,7 @@ namespace FEA.Mesher
 
 		private double[] ArrayParser(string ArrayString) {
 			ArrayString = ArrayString.Remove (ArrayString.Length - 1);
+            ArrayString = ArrayString.Replace("D", "E"); // convert D notation to E
 			var Array = new List<double>();
 			while (true) {
 				if (ArrayString.Length == 0)
@@ -71,7 +76,9 @@ namespace FEA.Mesher
 					try {
 						Array.Add (double.Parse (ArrayString.Substring (0, ArrayString.Length - 1)));
 					} catch (Exception ex) {
-						Array.Add (double.Parse (ArrayString));
+                        try {
+                            Array.Add (double.Parse (ArrayString));
+                        } catch (Exception ex2) {};
 					}
 					break;
 				}

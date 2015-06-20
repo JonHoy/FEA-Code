@@ -2,9 +2,15 @@
 
 // Reference: The Initial Graphics Exchange Specification (IGES) Version 6.0
 
-namespace FEA.Mesher
+namespace FEA.Mesher.IGES
 {
-	public enum IGESEntityTypes
+//    public class IGESEntity {
+//        public IGESEntity(double[] Vals) {
+//            iD = (int)Vals[0];
+//        }
+//        int iD;
+//    }
+    public enum IGESEntityTypes
 	{
 		Circular_Arc = 100,
 		Composite_Curve = 102,
@@ -37,7 +43,8 @@ namespace FEA.Mesher
 		Right_Circular_Conical_Surface = 194,
 		Spherical_Surface = 196,
 		Toroidal_Surface = 198,
-		Vertex = 502,
+        Associativity_Instance_Entity = 402,
+        Vertex = 502,
 		Edge = 504,
 		Loop = 508,
 		Face = 510,
