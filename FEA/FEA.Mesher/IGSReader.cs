@@ -49,15 +49,19 @@ namespace FEA.Mesher.IGES
 			int NumEntries = ParameterEntries.Length / 2 + 1;
 			ParameterData = new double[NumEntries][];
             var Curves = new List<IGES.Rational_BSpline_Curve>();
+            var Surfaces = new List<IGES.Rational_BSpline_Surface>();
             for (int iParm = 0; iParm < ParameterEntries.Length; iParm += 2) {
 				ParameterData [ParmCounter] = ArrayParser (ParameterEntries [iParm]);
                 var Entity = (IGESEntityTypes) (int) (ParameterData[ParmCounter][0]);
                 if (Entity == IGESEntityTypes.Rational_BSpline_Curve) {
                     Curves.Add(new IGES.Rational_BSpline_Curve(ParameterData[ParmCounter]));
                 }
+                else if (Entity == IGESEntityTypes.Rational_BSpline_Surface)
+                {
+                    Surfaces.Add(new Rational_BSpline_Surface(ParameterData[ParmCounter]));
+                }
                 ParmCounter++;
 			}
-			Console.Beep ();
 		}
 		private double[][] ParameterData;
 

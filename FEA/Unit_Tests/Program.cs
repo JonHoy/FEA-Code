@@ -25,7 +25,8 @@ namespace Unit_Tests
 			TestPackUnpack ();
 			TestDeterminant ();
 			TestPolynomial ();
-			TestShapeFunction ();
+            TestPiecewise();
+            TestShapeFunction ();
 			TestPolyMatrix ();
 			TestIsoparametric ();
 			TestTrim ();
@@ -146,6 +147,39 @@ namespace Unit_Tests
 			} 
 		}
 
+        static private void TestPiecewise() {
+            var x = new double[]{ -2.0, 0, 2 };
+            var p1 = new Polynomial(new double[]{ -4 });
+            var p2 = new Polynomial(new double[]{ 4 });
+            var myPoly = new Piecewise(x, new Polynomial[]{ p1, p2 });
+            Debug.Assert(myPoly.Evaluate(-2) == -4);
+            Debug.Assert(myPoly.Evaluate(-1) == -4);
+            Debug.Assert(myPoly.Evaluate(0) == -4);
+            Debug.Assert(myPoly.Evaluate(1) == 4);
+            Debug.Assert(myPoly.Evaluate(2) == 4);
+            myPoly = myPoly * 2;
+            Debug.Assert(myPoly.Evaluate(-2) == -8);
+            Debug.Assert(myPoly.Evaluate(-1) == -8);
+            Debug.Assert(myPoly.Evaluate(0) == -8);
+            Debug.Assert(myPoly.Evaluate(1) == 8);
+            Debug.Assert(myPoly.Evaluate(2) == 8);
+            myPoly = myPoly * myPoly;
+            Debug.Assert(myPoly.Evaluate(-2) == 64);
+            Debug.Assert(myPoly.Evaluate(-1) == 64);
+            Debug.Assert(myPoly.Evaluate(0) == 64);
+            Debug.Assert(myPoly.Evaluate(1) == 64);
+            Debug.Assert(myPoly.Evaluate(2) == 64);
+
+            var myPoly2 = new Piecewise(-4, 2, p1);
+            var myPoly3 = new Piecewise(-2, 4, p2);
+            var myPoly4 = myPoly2 + myPoly3;
+            Debug.Assert(myPoly4.Evaluate(-100) == 0);
+            Debug.Assert(myPoly4.Evaluate(100) == 0);
+            Debug.Assert(myPoly4.Evaluate(0) == 0);
+            Debug.Assert(myPoly4.Evaluate(-3) == -4);
+            Debug.Assert(myPoly4.Evaluate(3) == 4);
+        }
+
 		static private void TestShapeFunction() {
 			var B = new Point ();
 			int Order = 2;
@@ -193,12 +227,6 @@ namespace Unit_Tests
 		}
 
 		static private void TestIsoparametric() {
-//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 2, 2 }));
-//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 3, 3 }));
-//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 4, 4 }));
-//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 2, 2, 2}));
-//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 3, 3, 3}));
-//			PrintArray(Isoparametric.GetCoefficientMatrix (new int[]{ 4, 4, 4}));
 			Isoparametric.WriteToCppFiles ();
 		}
 
