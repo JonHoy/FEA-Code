@@ -60,6 +60,7 @@ namespace FEA.Mesher.IGES
         double YNORM;
         double ZNORM;
         BSpline_Basis_Function B;
+        TransformationMatrix R;
 	    
         public double3[] Evaluate(int Numpoints) {
             var Pts = new double3[Numpoints];
@@ -86,8 +87,6 @@ namespace FEA.Mesher.IGES
                 Rk[i] = W[i] * Nk[i] / hNsum;
                 Checksum += Rk[i];
             }
-            if (Checksum != 1.0)
-                Console.WriteLine(Checksum);
             var Ans = new double3(0);
             for (int i = 0; i < W.Length; i++)
             {

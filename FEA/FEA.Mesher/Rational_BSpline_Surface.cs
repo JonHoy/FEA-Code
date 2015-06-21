@@ -1,4 +1,5 @@
 ﻿using System;
+using ManagedCuda.VectorTypes;
 
 namespace FEA.Mesher.IGES
 {
@@ -68,6 +69,51 @@ namespace FEA.Mesher.IGES
         double V1; // Ending value for second parametric direction
         BSpline_Basis_Function Bi; // B Spline Functions for first direction
         BSpline_Basis_Function Bj; // B Spline Functions for second direction
+        TransformationMatrix R; // Matrix that rotates and translates the surface to the correct position
+
+
+        public double3[,] Evaluate(int NumpointsU, int NumpointsV) {
+            var Pts = new double3[NumpointsU, NumpointsV];
+            var u = U0;
+            var du = (U1 - U0) / (NumpointsU - 1);
+            var dv = (V1 - V0) / (NumpointsV - 1);
+            for (int i = 0; i < NumpointsU; i++) {
+                var v = U1;
+                for (int j = 0; j < NumpointsV; j++)
+                {
+                    Pts[i, j] = EvalHelper(u, v);
+                    v += dv;
+                }
+                u += du;
+            }
+            return Pts;
+        }
+        private double3 EvalHelper(double u, double v) {
+//            double hNsum = 0;
+//            double[] Nk = new double[W.Length];
+//            for (int i = 0; i < Nk.Length; i++)
+//            {
+//                Nk[i] = B.Polys[i].Evaluate(Val);
+//                hNsum += W[i] * Nk[i];
+//            }
+//            double[] Rk = new double[W.Length];
+//            double Checksum = 0;
+//            for (int i = 0; i < W.Length; i++)
+//            {
+//                Rk[i] = W[i] * Nk[i] / hNsum;
+//                Checksum += Rk[i];
+//            }
+//            var Ans = new double3(0);
+//            for (int i = 0; i < W.Length; i++)
+//            {
+//                Ans.x += X[i] * Rk[i];
+//                Ans.y += Y[i] * Rk[i];
+//                Ans.z += Z[i] * Rk[i];
+//            }
+//            return Ans;
+        }
+
+
     }
 }
 
