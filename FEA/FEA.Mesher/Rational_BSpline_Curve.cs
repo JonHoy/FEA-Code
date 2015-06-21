@@ -72,15 +72,30 @@ namespace FEA.Mesher.IGES
             return Pts;
         }
         private double3 EvalHelper(double Val) {
-            double3 Sum = new double3(0);
-            for (int i = 0; i < X.Length; i++)
+            double hNsum = 0;
+            double[] Nk = new double[W.Length];
+            for (int i = 0; i < Nk.Length; i++)
             {
-                double tVal = B.Polys[i].Evaluate(Val);
-                Sum.x += tVal * X[i];
-                Sum.y += tVal * Y[i];
-                Sum.z += tVal * Z[i];
+                Nk[i] = B.Polys[i].Evaluate(Val);
+                hNsum += W[i] * Nk[i];
             }
-            return Sum;
+            double[] Rk = new double[W.Length];
+            double Checksum = 0;
+            for (int i = 0; i < W.Length; i++)
+            {
+                Rk[i] = W[i] * Nk[i] / hNsum;
+                Checksum += Rk[i];
+            }
+            if (Checksum != 1.0)
+                Console.WriteLine(Checksum);
+            var Ans = new double3(0);
+            for (int i = 0; i < W.Length; i++)
+            {
+                Ans.x += X[i] * Rk[i];
+                Ans.y += Y[i] * Rk[i];
+                Ans.z += Z[i] * Rk[i];
+            }
+            return Ans;
         }
 
     };

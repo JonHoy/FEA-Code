@@ -44,6 +44,8 @@ namespace FEA.Mesher.IGES
             U1 = Parameters[13 + A + B + 4 * C];
             V0 = Parameters[14 + A + B + 4 * C];
             V1 = Parameters[15 + A + B + 4 * C];
+            Bi = new BSpline_Basis_Function(S, K1);
+            Bj = new BSpline_Basis_Function(T, K2);
         }
         int K1; // Upper index of first sum. See Appendix B
         int K2; // Upper index of second sum. See Appendix B
@@ -64,6 +66,8 @@ namespace FEA.Mesher.IGES
         double U1; // Ending value for first parametric direction
         double V0; // Starting value for second parametric direction
         double V1; // Ending value for second parametric direction
+        BSpline_Basis_Function Bi; // B Spline Functions for first direction
+        BSpline_Basis_Function Bj; // B Spline Functions for second direction
     }
 }
 
