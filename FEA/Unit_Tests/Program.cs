@@ -8,6 +8,7 @@ using FEA.Mesher.IGES;
 using System.Diagnostics;
 using MathNet.Numerics.Data.Matlab;
 using MathNet.Numerics.LinearAlgebra;
+using ManagedCuda.VectorTypes;
 
 namespace Unit_Tests
 {
@@ -36,8 +37,11 @@ namespace Unit_Tests
 
 		static private void TestMesher() {
 			var Id = new IGSReader("Cable support hook.igs");
+            TestNURBS(Id);
             var Id2 = new IGSReader("impeller turbo charger 127.IGS");
+            TestNURBS(Id2);
 		}
+
 
 
 		static private void TestPhysics() {}
@@ -178,6 +182,19 @@ namespace Unit_Tests
             Debug.Assert(myPoly4.Evaluate(0) == 0);
             Debug.Assert(myPoly4.Evaluate(-3) == -4);
             Debug.Assert(myPoly4.Evaluate(3) == 4);
+        }
+
+        static private void TestNURBS(IGSReader File) {
+            foreach (var Curve in File.Curves)
+            {
+                var Vals = Curve.Evaluate(100);
+                Debug.Assert(Vals.Length == 100);
+            }
+            foreach (var Surface in File.Surfaces)
+            {
+                //TODO var Vals = Surface.Evaluate(100,100);
+            }
+                
         }
 
 		static private void TestShapeFunction() {

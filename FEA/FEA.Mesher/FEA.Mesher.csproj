@@ -39,6 +39,8 @@
     <Compile Include="IGESEntityTypes.cs" />
     <Compile Include="Rational_BSpline_Curve.cs" />
     <Compile Include="Rational_BSpline_Surface.cs" />
+    <Compile Include="BSpline_Basis_Function.cs" />
+    <Compile Include="TransformationMatrix.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -51,4 +53,10 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\FEA.Assembler\FEA.Assembler.csproj">
+      <Project>{A6181323-129A-491B-8F9A-AA02E91BA7AC}</Project>
+      <Name>FEA.Assembler</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

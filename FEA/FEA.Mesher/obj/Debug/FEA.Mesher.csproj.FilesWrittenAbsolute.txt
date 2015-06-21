@@ -4,3 +4,7 @@
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/obj/Debug/FEA.Mesher.dll
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/obj/Debug/FEA.Mesher.dll.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/ManagedCuda.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/FEA.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/FEA.dll.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/MathNet.Numerics.dll
+/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/MathNet.Numerics.dll.mdb

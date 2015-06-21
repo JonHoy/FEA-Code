@@ -19,8 +19,8 @@ namespace FEA.Assembler
             xOrder = Xorder;
             coefficients = new double[xOrder + 1, yOrder + 1];
         }
-        protected int xOrder;
-        protected int yOrder;
+        public int xOrder { get; private set; } 
+        public int yOrder { get; private set; } 
         public double[,] coefficients { get; private set; }     
         public static Polynomial2D operator +(Polynomial2D p2, Polynomial2D p1) {
             var coefficients = addArrays(p2.coefficients, p1.coefficients);

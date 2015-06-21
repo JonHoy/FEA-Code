@@ -9,8 +9,8 @@ namespace FEA.Assembler
         // The value of the piecewise polynomial is zero between [-inf , start] and [end, inf]
         public Piecewise(double Start, double End, Polynomial P)
         {
-            if (!(End > Start))
-                throw new Exception("End must be greater than Start");
+            if (!(End >= Start))
+                throw new Exception("End must be greater than or equal to Start");
             x = new double[]{ Start, End };
             Polynomials = new Polynomial[1];
             Polynomials[0] = P;
@@ -126,9 +126,7 @@ namespace FEA.Assembler
             }
             return Ans;
         }
-        public void Simplify() {
-            // this function removes Polynomials on the edges of the domain which equal zero
-        }
+
         double[] x; // monotomically unique increasing vector
         Polynomial[] Polynomials;
     }

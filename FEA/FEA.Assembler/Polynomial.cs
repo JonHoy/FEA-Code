@@ -95,7 +95,26 @@ namespace FEA.Assembler
 			var Ans = new PolynomialND (Order, coefficients);
 			return Ans;
 		}
-		public Polynomial3D Convert_3D(int Dim) {
+        public Polynomial2D Convert_2D(int Dim) {
+            Polynomial2D p2d;
+            if (Dim == 0)
+                p2d = new Polynomial2D(order, 0);
+            else if (Dim == 1)
+                p2d = new Polynomial2D(0, order);
+            else
+                throw new Exception("Dim must be 0, 1, or 2");
+            int idx = 0;
+            for (int i = 0; i <= p2d.xOrder; i++)
+            {
+                for (int j = 0; j <= p2d.yOrder; j++)
+                {
+                    p2d.coefficients[i, j] = coefficients[idx];
+                    idx++;
+                }
+            }
+            return p2d;
+        }
+        public Polynomial3D Convert_3D(int Dim) {
             Polynomial3D p3d;
             if (Dim == 0)
                 p3d = new Polynomial3D(order, 0, 0);

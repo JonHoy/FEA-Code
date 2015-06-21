@@ -17,3 +17,4 @@
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.Mesher.dll.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.Physics.dll
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.Physics.dll.mdb
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/ManagedCuda.dll

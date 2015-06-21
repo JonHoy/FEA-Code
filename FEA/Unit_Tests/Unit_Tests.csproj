@@ -46,6 +46,9 @@
     <Reference Include="MathNet.Numerics">
       <HintPath>..\Externals\MathNet.Numerics.dll</HintPath>
     </Reference>
+    <Reference Include="ManagedCuda">
+      <HintPath>..\Externals\ManagedCuda.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />

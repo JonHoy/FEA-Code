@@ -48,8 +48,8 @@ namespace FEA.Mesher.IGES
 			ParmCounter = 0;
 			int NumEntries = ParameterEntries.Length / 2 + 1;
 			ParameterData = new double[NumEntries][];
-            var Curves = new List<IGES.Rational_BSpline_Curve>();
-            var Surfaces = new List<IGES.Rational_BSpline_Surface>();
+            Curves = new List<IGES.Rational_BSpline_Curve>();
+            Surfaces = new List<IGES.Rational_BSpline_Surface>();
             for (int iParm = 0; iParm < ParameterEntries.Length; iParm += 2) {
 				ParameterData [ParmCounter] = ArrayParser (ParameterEntries [iParm]);
                 var Entity = (IGESEntityTypes) (int) (ParameterData[ParmCounter][0]);
@@ -63,7 +63,11 @@ namespace FEA.Mesher.IGES
                 ParmCounter++;
 			}
 		}
-		private double[][] ParameterData;
+		
+        public List<Rational_BSpline_Curve> Curves;
+        public List<Rational_BSpline_Surface> Surfaces;
+
+        private double[][] ParameterData;
 
 		private double[] ArrayParser(string ArrayString) {
 			ArrayString = ArrayString.Remove (ArrayString.Length - 1);

@@ -1,4 +1,5 @@
 ﻿using System;
+using ManagedCuda.VectorTypes;
 
 namespace FEA.Mesher.IGES
 {
@@ -19,14 +20,26 @@ namespace FEA.Mesher.IGES
             Array.Copy(Parameters, 7, T, 0, T.Length);
             W = new double[K + 1];
             Array.Copy(Parameters, 8 + A, W, 0, W.Length);
-            PTS = new double[(K + 1) * 3];
+            var PTS = new double[(K + 1) * 3];
             Array.Copy(Parameters, 8 + A + K, PTS, 0, PTS.Length);
+            X = new double[K + 1];
+            Y = new double[K + 1];
+            Z = new double[K + 1];
+            int id = 0;
+            for (int i = 0; i < PTS.Length; i += 3)
+            {
+                X[id] = PTS[i];
+                Y[id] = PTS[i + 1];
+                Z[id] = PTS[i + 2];
+                id++;
+            }
             V0 = Parameters[12 + A + 4 * K];
             V1 = Parameters[13 + A + 4 * K];
             XNORM = Parameters[14 + A + 4 * K];
             YNORM = Parameters[15 + A + 4 * K];
             ZNORM = Parameters[16 + A + 4 * K];
             // using the Cox-de Boor formula to calculate the basis functions
+            B = new BSpline_Basis_Function(T, K);
 		}
 
 		int K; // Upper index of sum.
@@ -37,15 +50,39 @@ namespace FEA.Mesher.IGES
 		int PROP4; // 0 = nonperiodic, 1 = periodic
 		double[] T; // knot sequence
 		double[] W; // Weights
-		double[] PTS; // control points
+		double[] X; // X control points
+        double[] Y; // Y 
+        double[] Z; // Z
         double V0; // starting parameter value
         double V1; // ending parameter value 
         // unit normal (if curve is planar)
         double XNORM;
         double YNORM;
         double ZNORM;
-		
-        //[,] B; // basis functions
-	};
+        BSpline_Basis_Function B;
+	    
+        public double3[] Evaluate(int Numpoints) {
+            var Pts = new double3[Numpoints];
+            var t = V0;
+            var dt = (V1 - V0) / (Numpoints - 1);
+            for (int iPt = 0; iPt < Numpoints; iPt++) {
+                Pts[iPt] = EvalHelper(t);
+                t += dt;
+            }
+            return Pts;
+        }
+        private double3 EvalHelper(double Val) {
+            double3 Sum = new double3(0);
+            for (int i = 0; i < X.Length; i++)
+            {
+                double tVal = B.Polys[i].Evaluate(Val);
+                Sum.x += tVal * X[i];
+                Sum.y += tVal * Y[i];
+                Sum.z += tVal * Z[i];
+            }
+            return Sum;
+        }
+
+    };
 }
 
