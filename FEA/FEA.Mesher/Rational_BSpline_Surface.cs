@@ -5,7 +5,11 @@ namespace FEA.Mesher.IGES
 {
     // Reference IGES SPEC v6.0 1998-01-05 pdf pp 166
 
-    //In the Far Future: (Could NURBS be used to computationally describe waves of turbulence?) ie Isosurface as a function of time 
+    //In the Far Future: (Could NURBS be used to computationally describe waves of turbulence?) ie Isosurface as a function of time
+    //In the Near Future: (Could NURBS be used to Section off sub domains of the part to utilize parallelism?)
+    // Break a part into subparts and mesh them on the gpu
+    // Use the 3D Point in Polygon on Wireframed NURBS?
+    // Use coarse enough level of wireframe to fit in gpu cache and iteratively refine the region until some tolerance is reached
     public class Rational_BSpline_Surface
     {
         public Rational_BSpline_Surface(double[] Parameters)

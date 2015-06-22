@@ -1,16 +1,18 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Unit_Tests/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/Rational_BSpline_Surface.cs">
     <Files>
-      <File FileName="FEA.Mesher/IGSReader.cs" Line="1" Column="1" />
-      <File FileName="Unit_Tests/Program.cs" Line="198" Column="10" />
-      <File FileName="FEA.Mesher/Rational_BSpline_Surface.cs" Line="1" Column="1" />
-      <File FileName="FEA.Mesher/Rational_BSpline_Curve.cs" Line="1" Column="1" />
+      <File FileName="FEA.Mesher/IGSReader.cs" Line="24" Column="32" />
+      <File FileName="Unit_Tests/Program.cs" Line="192" Column="1" />
+      <File FileName="FEA.Mesher/BSpline_Basis_Function.cs" Line="14" Column="49" />
+      <File FileName="FEA.Assembler/Piecewise.cs" Line="17" Column="10" />
+      <File FileName="FEA.Mesher/Rational_BSpline_Curve.cs" Line="42" Column="54" />
+      <File FileName="FEA.Mesher/Rational_BSpline_Surface.cs" Line="23" Column="40" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="195" column="29" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="192" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

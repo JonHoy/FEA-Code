@@ -3,7 +3,7 @@
 // The end goal is to have the process as follows
 
 // Step 1: Load the geometry data object representing a CAD model onto the GPU
-	// - Look into STL files
+	// - STL, IGES, or STEP Files
 // Step 2: Create a Base Finite Element Mesh of the Geometry on the GPU
 	// - Research unstructured grid generation on the gpu
 // Step 3: Pre-Compute the resulting sparse index entiries on the GPU
