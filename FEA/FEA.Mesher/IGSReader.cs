@@ -17,6 +17,18 @@ namespace FEA.Mesher.IGES
 					break;
 				}
 			}
+            int DirectoryStartPt = -1;
+            for (int i = 0; i < StartPt; i++)
+            {
+                var CurrentLine = Lines[i];
+                string KeyPhrase = CurrentLine.Substring(72);
+                if (String.Equals(KeyPhrase,"D      1")) {
+                    DirectoryStartPt = i;
+                    break;
+                }
+            }
+            var DirectoryStrings = new string[StartPt - DirectoryStartPt];
+
 			if (StartPt == -1) {
 				throw new Exception ("Invalid IGES File");
 			}
@@ -69,6 +81,10 @@ namespace FEA.Mesher.IGES
 			}
 		}
 		
+        private void DirectoryReader(string[] Directory) {
+            
+        }
+
         public List<Rational_BSpline_Curve> Curves;
         public List<Rational_BSpline_Surface> Surfaces;
         public List<TransformationMatrix> TransformationMatrices;
