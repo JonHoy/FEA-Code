@@ -39,7 +39,7 @@ namespace FEA.Mesher.IGES
             YNORM = Parameters[15 + A + 4 * K];
             ZNORM = Parameters[16 + A + 4 * K];
             // using the Cox-de Boor formula to calculate the basis functions
-            B = new BSpline_Basis_Function(T, K);
+            B = new BSpline_Basis_Function(T, M + 1);
 		}
 
 		int K; // Upper index of sum.

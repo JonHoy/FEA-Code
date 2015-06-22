@@ -6,4 +6,3 @@
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/bin/Debug/FEA.dll
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/bin/Debug/FEA.dll.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/bin/Debug/MathNet.Numerics.dll
-/home/jonathan/Desktop/FEA-Code/FEA/FEA.Physics/bin/Debug/MathNet.Numerics.dll.mdb

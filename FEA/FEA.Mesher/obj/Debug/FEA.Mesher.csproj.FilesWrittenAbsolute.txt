@@ -7,4 +7,3 @@
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/FEA.dll
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/FEA.dll.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/MathNet.Numerics.dll
-/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/bin/Debug/MathNet.Numerics.dll.mdb

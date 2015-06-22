@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FEA.Assembler;
 using FEA.Mesher.IGES;
+using FEA.Mesher;
 using System.Diagnostics;
 using MathNet.Numerics.Data.Matlab;
 using MathNet.Numerics.LinearAlgebra;
@@ -36,7 +37,8 @@ namespace Unit_Tests
 		}
 
 		static private void TestMesher() {
-			var Id = new IGSReader("Cable support hook.igs");
+            TestBasisFunction();
+            var Id = new IGSReader("Cable support hook.igs");
             TestNURBS(Id);
             var Id2 = new IGSReader("impeller turbo charger 127.IGS");
             TestNURBS(Id2);
@@ -192,9 +194,48 @@ namespace Unit_Tests
             }
             foreach (var Surface in File.Surfaces)
             {
-                //TODO var Vals = Surface.Evaluate(100,100);
+                var Vals = Surface.Evaluate(100,100);
             }
                 
+        }
+
+        static private void TestBasisFunction() {
+            // Unit Test Case Taken from Example 3.3 pp 58 An Introduction to NURBS by Rogers
+
+            // Calculate the five third order basis functions for the following knot vector
+            // [X] = [0 0 0 1 1 3 3 3]
+            var KnotVector1 = new double[]{ 0, 0, 0, 1, 1, 3, 3, 3 };
+            var N = new BSpline_Basis_Function(KnotVector1, 3);
+            var TestVals = new double[]{ 0, 0.5, 1, 2, 2.9 };
+            for (int i = 0; i < TestVals.Length; i++)
+            {
+                if (TestVals[i] >= 0 && TestVals[i] < 1)
+                {
+                    Debug.Assert(N.Polys[0].Evaluate(TestVals[i]) == Math.Pow(1.0 - TestVals[i], 2));
+                    Debug.Assert(N.Polys[1].Evaluate(TestVals[i]) == 2.0*TestVals[i]*(1.0 - TestVals[i]));
+                    Debug.Assert(N.Polys[2].Evaluate(TestVals[i]) == TestVals[i] * TestVals[i]);
+                    Debug.Assert(N.Polys[3].Evaluate(TestVals[i]) == 0);
+                    Debug.Assert(N.Polys[4].Evaluate(TestVals[i]) == 0);
+
+                }
+                else if (TestVals[i] >= 1 && TestVals[i] < 3)
+                {
+                    Debug.Assert(N.Polys[0].Evaluate(TestVals[i]) == 0);
+                    Debug.Assert(N.Polys[1].Evaluate(TestVals[i]) == 0);
+                    Debug.Assert(N.Polys[2].Evaluate(TestVals[i]) == (Math.Pow(3.0 - TestVals[i],2)/4.0));
+                    Debug.Assert(N.Polys[3].Evaluate(TestVals[i]) == ((3 - TestVals[i]) * (TestVals[i] - 1.0) / 2.0));
+                    Debug.Assert(N.Polys[4].Evaluate(TestVals[i]) == (Math.Pow(TestVals[i] - 1.0,2)/4.0));
+                    }
+            }
+            // we must also do checksums to see that they add up to 1
+            for (int i = 0; i < TestVals.Length; i++)
+            {
+                double CheckSum = 0;
+                for (int j = 0; j < 5; j++) {
+                    CheckSum += N.Polys[j].Evaluate(TestVals[i]);
+                }
+                Debug.Assert(CheckSum == 1.0);
+            }
         }
 
 		static private void TestShapeFunction() {

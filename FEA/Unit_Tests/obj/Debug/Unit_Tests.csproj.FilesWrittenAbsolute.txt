@@ -11,10 +11,10 @@
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/obj/Debug/Unit_Tests.exe.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/MathNet.Numerics.Data.Matlab.dll
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/MathNet.Numerics.dll
+/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/ManagedCuda.dll
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.dll
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.dll.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.Mesher.dll
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.Mesher.dll.mdb
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.Physics.dll
 /home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/FEA.Physics.dll.mdb
-/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/bin/Debug/ManagedCuda.dll

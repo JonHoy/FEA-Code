@@ -45,8 +45,8 @@ namespace FEA.Mesher.IGES
             U1 = Parameters[13 + A + B + 4 * C];
             V0 = Parameters[14 + A + B + 4 * C];
             V1 = Parameters[15 + A + B + 4 * C];
-            Bi = new BSpline_Basis_Function(S, K1);
-            Bj = new BSpline_Basis_Function(T, K2);
+            Bi = new BSpline_Basis_Function(S, M1 + 1);
+            Bj = new BSpline_Basis_Function(T, M2 + 1);
         }
         int K1; // Upper index of first sum. See Appendix B
         int K2; // Upper index of second sum. See Appendix B
@@ -78,7 +78,7 @@ namespace FEA.Mesher.IGES
             var du = (U1 - U0) / (NumpointsU - 1);
             var dv = (V1 - V0) / (NumpointsV - 1);
             for (int i = 0; i < NumpointsU; i++) {
-                var v = U1;
+                var v = V0;
                 for (int j = 0; j < NumpointsV; j++)
                 {
                     Pts[i, j] = EvalHelper(u, v);
@@ -89,28 +89,38 @@ namespace FEA.Mesher.IGES
             return Pts;
         }
         private double3 EvalHelper(double u, double v) {
-//            double hNsum = 0;
-//            double[] Nk = new double[W.Length];
-//            for (int i = 0; i < Nk.Length; i++)
-//            {
-//                Nk[i] = B.Polys[i].Evaluate(Val);
-//                hNsum += W[i] * Nk[i];
-//            }
-//            double[] Rk = new double[W.Length];
-//            double Checksum = 0;
-//            for (int i = 0; i < W.Length; i++)
-//            {
-//                Rk[i] = W[i] * Nk[i] / hNsum;
-//                Checksum += Rk[i];
-//            }
-//            var Ans = new double3(0);
-//            for (int i = 0; i < W.Length; i++)
-//            {
-//                Ans.x += X[i] * Rk[i];
-//                Ans.y += Y[i] * Rk[i];
-//                Ans.z += Z[i] * Rk[i];
-//            }
-//            return Ans;
+            double hNMsum = 0;
+            double3 Ans = new double3(0);
+            int id = 0;
+            var Nk = new double[K1 + 1];
+            var Ml = new double[K2 + 1];
+            for (int i = 0; i < Nk.Length; i++)
+            {
+                Nk[i] = Bi.Polys[i].Evaluate(u);
+            }
+            for (int i = 0; i < Ml.Length; i++)
+            {
+                Ml[i] = Bj.Polys[i].Evaluate(v);
+            }
+            for (int i = 0; i < Nk.Length; i++)
+            {
+                for (int j = 0; j < Ml.Length; j++) {
+                    hNMsum += W[id] * Nk[i] * Ml[j];
+                    id++;
+                }
+            }
+            id = 0;
+            for (int i = 0; i < Nk.Length; i++)
+            {
+                for (int j = 0; j < Ml.Length; j++) {
+                    double Sij = W[id] * Nk[i] * Ml[j] / hNMsum; 
+                    Ans.x += X[id] * Sij;
+                    Ans.y += Y[id] * Sij;
+                    Ans.z += Z[id] * Sij;
+                    id++;
+                }
+            }
+            return Ans;
         }
 
 

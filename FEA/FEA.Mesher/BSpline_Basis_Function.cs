@@ -35,6 +35,8 @@ namespace FEA.Mesher
                 }
                 Length--;
             }
+
+            Array.Resize(ref Polys, Polys.Length - K + 1);
         }
         public Piecewise[] Polys;
     }
