@@ -1,5 +1,7 @@
 ﻿using System;
 using ManagedCuda.VectorTypes;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace FEA.Mesher.IGES
 {
@@ -10,10 +12,24 @@ namespace FEA.Mesher.IGES
     // Break a part into subparts and mesh them on the gpu
     // Use the 3D Point in Polygon on Wireframed NURBS?
     // Use coarse enough level of wireframe to fit in gpu cache and iteratively refine the region until some tolerance is reached
+    // Create a NURB object using C++ templates and static arrays -> using meta programming and nvcc instatiate the template at runtime
+    // Why NURBS are attractive for CFD/ Turbulence Research and GPU Computing:
+    // -> Very Accurate Surface modeling (Boundary Layer)
+    // -> Not constrained to triangular meshing
+    // -> Can map nicely to hexahderal isoparametric elements (This allows for adaptive mesh refinement procedures
+    // -> Low Memory Footprint (Can exploit caching)
+    // -> High Amount of FLOPS / Byte (Able to exploit GPU efficiency) 
+    // Drawbacks
+    // -> Computing surface intersection of a ray can be computationally expensive (RESEARCH THIS)
+    // -> Unlike a normal flat plane there might be multiple intersection points for the ray on the surface
+    // -> Edges might not join together like they should (Surface Gaps in the CAD model, The Planes might intersect each other outside the edges)
+    // -> Since C
     public class Rational_BSpline_Surface
     {
-        public Rational_BSpline_Surface(double[] Parameters)
+        public Rational_BSpline_Surface(double[] Parameters, TransformationMatrix _R = null, int _ParameterId = -1)
         {
+            R = _R;
+            ParameterId = _ParameterId;
             K1 = (int)Parameters[1];
             K2 = (int)Parameters[2];
             M1 = (int)Parameters[3];
@@ -74,7 +90,7 @@ namespace FEA.Mesher.IGES
         BSpline_Basis_Function Bi; // B Spline Functions for first direction
         BSpline_Basis_Function Bj; // B Spline Functions for second direction
         TransformationMatrix R; // Matrix that rotates and translates the surface to the correct position
-
+        int ParameterId;
 
         public double3[,] Evaluate(int NumpointsU, int NumpointsV) {
             var Pts = new double3[NumpointsU, NumpointsV];
@@ -92,7 +108,8 @@ namespace FEA.Mesher.IGES
             }
             return Pts;
         }
-        private double3 EvalHelper(double u, double v) {
+
+        private double3 EvalHelper(double u, double v) { // Finds the Surface at value at the specified u and v values
             double hNMsum = 0;
             double3 Ans = new double3(0);
             int id = 0;
@@ -128,6 +145,93 @@ namespace FEA.Mesher.IGES
         }
 
 
+        private double3 IntersectionHelper(double3 d, double3 P, double2 InitialGuess) {
+            // reference
+            if (InitialGuess.x == double.NaN) //( X field = u value, Y field = v value 
+                return new double3(double.NaN);
+            var nhat0 = new double3();
+            if ((Math.Abs(d.x) > Math.Abs(d.y)) && (Math.Abs(d.x) > Math.Abs(d.z)))
+            {
+                nhat0.x = d.y;
+                nhat0.y = -1.0 * d.x;
+                nhat0.z = 0;
+            }
+            else
+            {
+                nhat0.x = 0;
+                nhat0.y = d.z;
+                nhat0.z = -1.0 * d.y;
+            }
+            var nhat1 = nhat0.Cross(d);
+            double d0 = -1.0 * nhat0.Dot(P);
+            double d1 = -1.0 * nhat1.Dot(P);
+
+            // find the partial derivatives of S with respect to u and v
+
+            double du = (U1 - U0) * 0.00001;
+            double dv = (U1 - U0) * 0.00001;
+            var Jacobian = Matrix<double>.Build.Dense(2, 2);           
+            double Tolerance = 1.0e-6;
+            int MaxIterations = 10;
+            var Fuv = Matrix<double>.Build.Dense(2, 1);
+            var uv = Matrix<double>.Build.Dense(2, 1);
+            uv[0,0] = InitialGuess.x;
+            uv[1,0] = InitialGuess.y;
+            int iterationCount = 0;
+            double ErrorEstimate = 1;
+            while (iterationCount < MaxIterations && Tolerance < ErrorEstimate)
+            {
+                double u = uv[0,0];
+                double v = uv[1,0];
+                double3 Su = (EvalHelper(u + du, v) - EvalHelper(u - du, v)) / (2 * du);     
+                double3 Sv = (EvalHelper(u, v + dv) - EvalHelper(u, v + dv)) / (2 * dv);
+                Jacobian[0, 0] = nhat0.Dot(Su);
+                Jacobian[0, 1] = nhat0.Dot(Sv);
+                Jacobian[1, 0] = nhat1.Dot(Su);
+                Jacobian[1, 1] = nhat1.Dot(Sv);
+                double3 S = EvalHelper(u, v);
+                Fuv[0,0] = nhat0.Dot(S) + d0;
+                Fuv[1,0] = nhat1.Dot(S) + d1;
+                var uvnew = uv - Jacobian.Inverse() * Fuv;
+                ErrorEstimate = (uvnew - uv).L1Norm();
+                    
+                iterationCount++;
+                uv = uvnew;
+            }
+            if (iterationCount >= MaxIterations || Tolerance < ErrorEstimate)
+                return new double3(double.NaN);
+            else
+                return EvalHelper(uv[0,0], uv[1,0]);
+        }
+          
+
+
+
+        // Ray = P + td (Where P is the origin and d is the direction of the ray)
+        public double3[] Intersection(double3 d, double3 P) {
+            var ControlNet = Evaluate(2* (K1 + 1), 2 * (K2 + 1));
+            Quadrilateral Quad;
+            var IntesectionPts = new List<double3>();
+            int Rows = ControlNet.GetLength(0) - 1;
+            int Cols = ControlNet.GetLength(1) - 1;
+            for (int i = 0; i < Rows; i++)
+            {
+                for (int j = 0; j < Cols; j++) {
+                    Quad = new Quadrilateral(ControlNet[i, j], ControlNet[i, j + 1], ControlNet[i + 1, j + 1], ControlNet[i + 1, j]);
+                    var LocalIntersection = Quad.Intersection(P, d);
+                    if (LocalIntersection.x != double.NaN)
+                    {
+                        var InitialGuess = new double2();
+                        InitialGuess.x = (U1 - U0) * ((i + 0.5 )/ (double) Rows) + U0;
+                        InitialGuess.y = (V1 - V0) * ((j + 0.5) / (double) Cols) + V0;
+                        var Point = IntersectionHelper(d, P, InitialGuess);
+                        if (Point.x != double.NaN)
+                            IntesectionPts.Add(Point);
+                    }
+                }
+            }
+            return IntesectionPts.ToArray();
+        }
     }
 }
 

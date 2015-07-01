@@ -8,8 +8,6 @@
     <RootNamespace>FEA.Mesher</RootNamespace>
     <AssemblyName>FEA.Mesher</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,6 +32,12 @@
     <Reference Include="ManagedCuda">
       <HintPath>..\Externals\ManagedCuda.dll</HintPath>
     </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\Externals\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics.Data.Matlab">
+      <HintPath>..\Externals\MathNet.Numerics.Data.Matlab.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -43,6 +47,21 @@
     <Compile Include="Rational_BSpline_Surface.cs" />
     <Compile Include="BSpline_Basis_Function.cs" />
     <Compile Include="TransformationMatrix.cs" />
+    <Compile Include="IGSPoint.cs" />
+    <Compile Include="Circular_Arc.cs" />
+    <Compile Include="Composite_Curve.cs" />
+    <Compile Include="Conic_Arc.cs" />
+    <Compile Include="TwoD_Linear_Path.cs" />
+    <Compile Include="ThreeD_Linear_Path.cs" />
+    <Compile Include="Plane.cs" />
+    <Compile Include="Line.cs" />
+    <Compile Include="Parametric_Spline_Curve.cs" />
+    <Compile Include="Parametric_Spline_Surface.cs" />
+    <Compile Include="BoundingBox.cs" />
+    <Compile Include="Loop.cs" />
+    <Compile Include="Triangle.cs" />
+    <Compile Include="Quadrilateral.cs" />
+    <Compile Include="STLReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

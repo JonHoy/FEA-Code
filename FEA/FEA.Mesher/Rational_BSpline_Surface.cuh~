@@ -1,0 +1,15 @@
+#include "cuda.h"
+
+extern "C" __global__ void EntryPoint(double* Ptr) {
+	Rational_BSpline_Surface<double,2,2,2,2> NURB(Ptr);
+}
+
+template <typename T, int K1, int K2, int M1, int M2>
+class Rational_BSpline_Surface 
+{
+public:
+	__device__ Rational_BSpline_Surface(T* Ptr) {
+	}
+private:
+	const int N1 = 1 + K1 - M1;
+};

@@ -18,6 +18,11 @@ namespace FEA.Mesher.IGES
 				}
 			}
             int DirectoryStartPt = -1;
+
+            if (StartPt == -1) {
+                throw new Exception ("Invalid IGES File");
+            }
+
             for (int i = 0; i < StartPt; i++)
             {
                 var CurrentLine = Lines[i];
@@ -26,12 +31,11 @@ namespace FEA.Mesher.IGES
                     DirectoryStartPt = i;
                     break;
                 }
-            }
-            var DirectoryStrings = new string[StartPt - DirectoryStartPt];
+            }    
 
-			if (StartPt == -1) {
-				throw new Exception ("Invalid IGES File");
-			}
+            if (DirectoryStartPt == -1) {
+                throw new Exception ("Invalid IGES File");
+            }
 			int EndPt = Lines.Length - 2;
 			var LastLine = Lines[EndPt];
 			LastLine = LastLine.Substring (0, 73);
@@ -57,39 +61,60 @@ namespace FEA.Mesher.IGES
 				CountStart = CurrentLine.LastIndexOf (" ");
 				ParameterEntries [ParmCounter] += CurrentLine.Substring (0, CountStart);
 			}
+
+            var DirectoryEntries = new string[StartPt - DirectoryStartPt + 1];
+            for (int i = DirectoryStartPt; i < StartPt; i+= 2)
+            {
+                DirectoryEntries[i - DirectoryStartPt] = Lines[i];
+                DirectoryEntries[i - DirectoryStartPt] += Lines[i + 1];
+            }
+
 			ParmCounter = 0;
 			int NumEntries = ParameterEntries.Length / 2 + 1;
-			ParameterData = new double[NumEntries][];
+			ParameterData = new double[NumEntries * 2][];
+            DirectoryData = new int[NumEntries * 2][];
             Curves = new List<Rational_BSpline_Curve>();
             Surfaces = new List<Rational_BSpline_Surface>();
-            TransformationMatrices = new List<TransformationMatrix>();
+
+            for (int iParm = 0; iParm < ParameterEntries.Length; iParm += 2)
+            {
+                ParameterData[iParm] = ArrayParser (ParameterEntries [iParm]);
+                DirectoryData[iParm] = DirectoryStringParser(DirectoryEntries[iParm]);
+            }
             for (int iParm = 0; iParm < ParameterEntries.Length; iParm += 2) {
-				ParameterData [ParmCounter] = ArrayParser (ParameterEntries [iParm]);
-                var Entity = (IGESEntityTypes) (int) (ParameterData[ParmCounter][0]);
-                if (Entity == IGESEntityTypes.Rational_BSpline_Curve) {
-                    Curves.Add(new IGES.Rational_BSpline_Curve(ParameterData[ParmCounter]));
+                var Entity = (IGESEntityTypes) (int) (ParameterData[iParm][0]);
+                Console.WriteLine(Entity);
+                if (Entity == IGESEntityTypes.Rational_BSpline_Curve || Entity == IGESEntityTypes.Rational_BSpline_Surface) {
+                    int TransformationMatrixPointer = DirectoryData[iParm][6];
+                    int FormNumber = DirectoryData[iParm][14];
+                    TransformationMatrix T = null;
+                    if (TransformationMatrixPointer > 0)
+                    {
+                        T = new TransformationMatrix(ParameterData[TransformationMatrixPointer]);
+                    }
+                    if (Entity == IGESEntityTypes.Rational_BSpline_Curve)
+                    {
+                        Curves.Add(new IGES.Rational_BSpline_Curve(ParameterData[iParm],T, iParm));
+                    }
+                    else if (Entity == IGESEntityTypes.Rational_BSpline_Surface)
+                    {
+                        Surfaces.Add(new IGES.Rational_BSpline_Surface(ParameterData[iParm],T, iParm));
+                    }
+
                 }
-                else if (Entity == IGESEntityTypes.Rational_BSpline_Surface)
-                {
-                    Surfaces.Add(new Rational_BSpline_Surface(ParameterData[ParmCounter]));
-                }
-                else if (Entity == IGESEntityTypes.Transformation_Matrix)
-                {
-                    TransformationMatrices.Add(new TransformationMatrix(ParameterData[ParmCounter]));
-                }
-                ParmCounter++;
+
 			}
 		}
-		
-        private void DirectoryReader(string[] Directory) {
-            
-        }
+
+
+        public string Filename;
+
 
         public List<Rational_BSpline_Curve> Curves;
         public List<Rational_BSpline_Surface> Surfaces;
-        public List<TransformationMatrix> TransformationMatrices;
 
         private double[][] ParameterData;
+        private int[][] DirectoryData;
 
 		private double[] ArrayParser(string ArrayString) {
 			ArrayString = ArrayString.Remove (ArrayString.Length - 1);
@@ -116,6 +141,31 @@ namespace FEA.Mesher.IGES
 			}
 			return Array.ToArray ();
 		}
+        private int[] DirectoryStringParser(string DirectoryString) {
+            var ans = new int[20];
+            for (int i = 0; i < ans.Length; i++)
+            {
+                string substring = DirectoryString.Substring(i * 8, 8);
+                substring = substring.Replace(" ", String.Empty);
+                int.TryParse(substring, out ans[i]);
+            }
+            return ans;
+        }
 	}
+
+    enum UnitSystem {
+        Inches = 1,
+        Millimeters = 2,
+        //
+        Feet = 4,
+        Miles = 5,
+        Meters = 6,
+        Kilometers = 7,
+        Mils = 8,
+        Microns = 9,
+        Centimeters = 10,
+        Microinches = 11
+    }
+
 }
 

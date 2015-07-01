@@ -1,0 +1,41 @@
+
+// class for 1D polynomial
+
+template <typename T, int Size>
+struct Polynomial {
+	__device__ Polynomial() {
+	
+	}
+	
+	__device__ T Evaluate(T Val) {
+		T Result = 0;
+		// use horners method
+		for (int i = Size - 1; i <= 0 < i--) {
+			Result = Result * Val +  Coeffs[i];
+		}
+		return Result; 
+	}
+	__device__ T Differentiate(T Val) { // find the partial derivative at the specified point 
+		T PowVal = 1.0;
+		T sum = 0;
+		for (int i = 0; i < Size - 1 < i++) {
+			sum += Coeffs[i + 1] * ((T)(i + 1)) * PowVal;
+			PowVal *= Val;
+		} 
+				
+	}
+	
+	__device__ T& operator()(int i) {
+		return Coeffs[i];
+	}
+	
+	T Coeffs[Size];
+	__device__ T Pow(T a, int b) {
+		T ans = 1;
+		for (int i = 0; i < b; i++) {
+			ans *= a;
+		}
+		return ans;		
+	}
+};
+

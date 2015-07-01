@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using FEA.Assembler;
 using FEA.Mesher.IGES;
 using FEA.Mesher;
@@ -38,14 +39,13 @@ namespace Unit_Tests
 
 		static private void TestMesher() {
             TestBasisFunction();
-            var Id = new IGSReader("Cable support hook.igs");
-            TestNURBS(Id);
-            var Id2 = new IGSReader("impeller turbo charger 127.IGS");
-            TestNURBS(Id2);
+            //var Id = new IGSReader("Cable support hook.igs");
+            //TestNURBS(Id);
+            //var Id2 = new IGSReader("impeller turbo charger 127.IGS");
+            //TestNURBS(Id2);
+            TestSTLReader();
 		}
-
-
-
+            
 		static private void TestPhysics() {}
 
 		static private void TestIndices() {
@@ -192,11 +192,40 @@ namespace Unit_Tests
                 var Vals = Curve.Evaluate(100);
                 Debug.Assert(Vals.Length == 100);
             }
+            int Nurbid = 0;
             foreach (var Surface in File.Surfaces)
             {
-                var Vals = Surface.Evaluate(100,100);
+                int id = 0;
+
+                int Rows = 10;
+                var Vals = Surface.Evaluate(Rows,Rows);
+                var Raw = new double[Rows * Rows * 3];
+                for (int i = 0; i < Rows; i++)
+                {
+                    for (int j = 0; j < Rows; j++) {
+                        Raw[3 * id] = Vals[i, j].x;
+                        Raw[3 * id + 1] = Vals[i, j].y;
+                        Raw[3 * id + 2] = Vals[i, j].z;
+                        id++;
+                    }
+                }
+                var RawBytes = new byte[Raw.Length * sizeof(double) / sizeof(byte)];
+                Buffer.BlockCopy(Raw, 0, RawBytes, 0, RawBytes.Length);
+                using (BinaryWriter writer = new BinaryWriter(System.IO.File.Open("NURB" + Nurbid + ".dat", FileMode.Create)))
+                {
+                    writer.Write(RawBytes);
+                }
+                Nurbid++;
             }
-                
+
+
+
+        }
+
+        static private void TestSTLReader() {
+            var r1 = new STLReader("T07_Propeler.stl");
+            var r2 = new STLReader("Cable support hook.stl");
+            var r3 = new STLReader("Sk20.stl");
         }
 
         static private void TestBasisFunction() {
@@ -211,20 +240,20 @@ namespace Unit_Tests
             {
                 if (TestVals[i] >= 0 && TestVals[i] < 1)
                 {
-                    Debug.Assert(N.Polys[0].Evaluate(TestVals[i]) == Math.Pow(1.0 - TestVals[i], 2));
-                    Debug.Assert(N.Polys[1].Evaluate(TestVals[i]) == 2.0*TestVals[i]*(1.0 - TestVals[i]));
-                    Debug.Assert(N.Polys[2].Evaluate(TestVals[i]) == TestVals[i] * TestVals[i]);
-                    Debug.Assert(N.Polys[3].Evaluate(TestVals[i]) == 0);
-                    Debug.Assert(N.Polys[4].Evaluate(TestVals[i]) == 0);
+                    Approx_Assert(N.Polys[0].Evaluate(TestVals[i]) , Math.Pow(1.0 - TestVals[i], 2));
+                    Approx_Assert(N.Polys[1].Evaluate(TestVals[i]) , 2.0*TestVals[i]*(1.0 - TestVals[i]));
+                    Approx_Assert(N.Polys[2].Evaluate(TestVals[i]) , TestVals[i] * TestVals[i]);
+                    Approx_Assert(N.Polys[3].Evaluate(TestVals[i]) , 0);
+                    Approx_Assert(N.Polys[4].Evaluate(TestVals[i]) , 0);
 
                 }
                 else if (TestVals[i] >= 1 && TestVals[i] < 3)
                 {
-                    Debug.Assert(N.Polys[0].Evaluate(TestVals[i]) == 0);
-                    Debug.Assert(N.Polys[1].Evaluate(TestVals[i]) == 0);
-                    Debug.Assert(N.Polys[2].Evaluate(TestVals[i]) == (Math.Pow(3.0 - TestVals[i],2)/4.0));
-                    Debug.Assert(N.Polys[3].Evaluate(TestVals[i]) == ((3 - TestVals[i]) * (TestVals[i] - 1.0) / 2.0));
-                    Debug.Assert(N.Polys[4].Evaluate(TestVals[i]) == (Math.Pow(TestVals[i] - 1.0,2)/4.0));
+                    Approx_Assert(N.Polys[0].Evaluate(TestVals[i]) , 0);
+                    Approx_Assert(N.Polys[1].Evaluate(TestVals[i]) , 0);
+                    Approx_Assert(N.Polys[2].Evaluate(TestVals[i]) , (Math.Pow(3.0 - TestVals[i],2)/4.0));
+                    Approx_Assert(N.Polys[3].Evaluate(TestVals[i]) , ((3 - TestVals[i]) * (TestVals[i] - 1.0) / 2.0));
+                    Approx_Assert(N.Polys[4].Evaluate(TestVals[i]) , (Math.Pow(TestVals[i] - 1.0,2)/4.0));
                     }
             }
             // we must also do checksums to see that they add up to 1
@@ -234,8 +263,14 @@ namespace Unit_Tests
                 for (int j = 0; j < 5; j++) {
                     CheckSum += N.Polys[j].Evaluate(TestVals[i]);
                 }
-                Debug.Assert(CheckSum == 1.0);
+                Approx_Assert(CheckSum , 1.0);
             }
+        }
+
+        static private void Approx_Assert(double Cond1, double Cond2, double ErrorTolerance = 1.0e-7) {
+            if (Math.Abs( Cond1 - Cond2) > ErrorTolerance)
+                throw new Exception("Failed Test");
+
         }
 
 		static private void TestShapeFunction() {

@@ -1,21 +1,35 @@
 
 // class for 3D polynomial
 
-//TODO Implement Horners method for multi-variate polynomials
-
 template <typename T, int SizeX, int SizeY = 1, int SizeZ = 1>
 struct Polynomial {
 	__device__ Polynomial() {
 	
 	}
+	
 	__device__ T Evaluate(T ValX, T ValY = 1, T ValZ = 1) {
 		T sum = 0;
+		T XPow[SizeX]; // static array that holds [x^0 , x^1, x^2, ... x^n]
+		T YPow[SizeY];
+		T ZPow[SizeZ];
+		XPow[0] = 1.0;
+		YPow[0] = 1.0;
+		ZPow[0] = 1.0;
+		for (int i = 1; i < SizeX; i++) {
+		    XPow[i] = XPow[i - 1] * ValX;
+		}
+		for (int i = 1; i < SizeY; i++) {
+			YPow[i] = YPow[i - 1] * ValY;
+		}
+		for (int i = 1; i < SizeZ; i++) {
+			ZPow[i] = ZPow[i - 1] * ValZ;
+		}
 		int id = 0;
 		for (int i = 0; i < SizeX; i++) {
 			for (int j = 0; j < SizeY; j++) {
 				for (int k = 0; k < SizeZ; k++)	{			
 					T a = Coeffs[id];
-					sum += a*Pow(ValX,i)*Pow(ValY,j)*Pow(ValZ,k);	
+					sum += a*XPow[i]*YPow[j]*ZPow[k];	
 					id++; 
 				}
 			}
@@ -45,6 +59,7 @@ struct Polynomial {
 		}
 		return sum;
 	}
+	
 	__device__ T& operator()(int i) {
 		return Coeffs[i];
 	}

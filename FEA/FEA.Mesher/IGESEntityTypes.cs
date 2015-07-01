@@ -4,12 +4,11 @@
 
 namespace FEA.Mesher.IGES
 {
-//    public class IGESEntity {
-//        public IGESEntity(double[] Vals) {
-//            iD = (int)Vals[0];
-//        }
-//        int iD;
-//    }
+    public abstract class IGESEntity{
+        public int ParameterId;
+        public IGESEntityTypes TypeId;
+    }
+
     public enum IGESEntityTypes
 	{
 		Circular_Arc = 100,
@@ -43,13 +42,37 @@ namespace FEA.Mesher.IGES
 		Right_Circular_Conical_Surface = 194,
 		Spherical_Surface = 196,
 		Toroidal_Surface = 198,
+        Color_Definition_Entity = 314,
         Associativity_Instance_Entity = 402,
+        Property_Entity = 406,
         Vertex = 502,
 		Edge = 504,
 		Loop = 508,
 		Face = 510,
 		Shell = 514,
 	}
+
+    public enum Rational_BSpline_Surface_Type {
+        Unspecified = 0,
+        Plane = 1,
+        Right_Circular_Cylinder = 2,
+        Cone = 3,
+        Sphere = 4,
+        Torus = 5,
+        Surface_of_Revolution = 6,
+        Tabulated_Cylinder = 7,
+        Ruled_Surface = 8,
+        General_Quadric_Surface = 9
+    }
+
+    public enum Rational_BSpline_Curve_Type {
+        Unspecified = 0,
+        Line = 1,
+        Circular_Arc = 2,
+        Elliptical_Arc = 3,
+        Parabolic_Arc = 4,
+        Hyperbolic_Arc = 5
+    }
 
 }
 

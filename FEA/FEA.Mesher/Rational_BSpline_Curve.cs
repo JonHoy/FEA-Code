@@ -6,9 +6,11 @@ namespace FEA.Mesher.IGES
     // Reference IGES SPEC v6.0 1998-01-05 pdf pp 161
     public class Rational_BSpline_Curve
 	{
-		public Rational_BSpline_Curve(double[] Parameters)
+        public Rational_BSpline_Curve(double[] Parameters, TransformationMatrix _R = null, int _ParameterId = -1)
 		{
-			K = (int)Parameters[1];
+            R = _R;
+            ParameterId = _ParameterId;
+            K = (int)Parameters[1];
 			M = (int)Parameters[2];
 			PROP1 = (int)Parameters[3];
 			PROP2 = (int)Parameters[4];
@@ -61,7 +63,8 @@ namespace FEA.Mesher.IGES
         double ZNORM;
         BSpline_Basis_Function B;
         TransformationMatrix R;
-	    
+        int ParameterId;
+
         public double3[] Evaluate(int Numpoints) {
             var Pts = new double3[Numpoints];
             var t = V0;
