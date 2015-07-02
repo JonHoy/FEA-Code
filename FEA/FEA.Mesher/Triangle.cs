@@ -3,6 +3,7 @@ using ManagedCuda.VectorTypes;
 
 namespace FEA.Mesher
 {
+    //[StructLayout(LayoutKind.Sequential)]
     public class Triangle
     {
         public Triangle(double3 PointA, double3 PointB, double3 PointC)
@@ -18,6 +19,7 @@ namespace FEA.Mesher
             B = new double3(PointB.x, PointB.y, 0);
             C = new double3(PointC.x, PointC.y, 0);
         }
+
 
         public double3 A;
         public double3 B;

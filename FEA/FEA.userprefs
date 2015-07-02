@@ -1,11 +1,13 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/TwoD_Linear_Path.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/Triangle.cs">
     <Files>
-      <File FileName="Unit_Tests/Program.cs" Line="231" Column="50" />
-      <File FileName="FEA.Mesher/STLReader.cs" Line="16" Column="12" />
+      <File FileName="Unit_Tests/Program.cs" Line="361" Column="9" />
+      <File FileName="FEA.Mesher/STLReader.cs" Line="83" Column="13" />
       <File FileName="FEA.Mesher/ThreeD_Linear_Path.cs" Line="1" Column="1" />
       <File FileName="FEA.Mesher/TwoD_Linear_Path.cs" Line="1" Column="1" />
+      <File FileName="FEA.Mesher/Triangle.cs" Line="14" Column="10" />
+      <File FileName="FEA.Mesher/Plane.cs" Line="16" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
