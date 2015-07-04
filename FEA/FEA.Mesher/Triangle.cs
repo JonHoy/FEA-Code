@@ -160,6 +160,24 @@ namespace FEA.Mesher
                 NanCount++;
         }
 
+        public double Area(){
+            // herons formula
+            var a = (A - B).Length;
+            var b = (B - C).Length;
+            var c = (C - A).Length;
+            var s = (a + b + c)/ 2;
+            var Area = Math.Sqrt(s * (s - a) * (s - b) * (s - c));
+            return Area;
+        }
+
+        public double Perimeter() {
+            var L1 = A - B;
+            var L2 = B - C;
+            var L3 = C - A;
+            var Perimeter = L1.Length + L2.Length + L2.Length;
+            return Perimeter;
+        }
+
     }
 
 }

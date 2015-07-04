@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FEA.Physics", "FEA.Physics\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FEA.Mesher", "FEA.Mesher\FEA.Mesher.csproj", "{6AD07651-FC9D-4CE1-999B-FC7A3FDCB9E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FEA.Geometry", "FEA.Geometry\FEA.Geometry.csproj", "{090658E4-52BE-4921-8044-5924B3D17176}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,12 +16,6 @@ Global
 		Release-Signed|Any CPU = Release-Signed|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{090658E4-52BE-4921-8044-5924B3D17176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{090658E4-52BE-4921-8044-5924B3D17176}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{090658E4-52BE-4921-8044-5924B3D17176}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{090658E4-52BE-4921-8044-5924B3D17176}.Release|Any CPU.Build.0 = Release|Any CPU
-		{090658E4-52BE-4921-8044-5924B3D17176}.Release-Signed|Any CPU.ActiveCfg = Debug|Any CPU
-		{090658E4-52BE-4921-8044-5924B3D17176}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
 		{4474FAEF-FE32-4652-968A-32B59AD29549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4474FAEF-FE32-4652-968A-32B59AD29549}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4474FAEF-FE32-4652-968A-32B59AD29549}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,6 +42,7 @@ Global
 		{A6181323-129A-491B-8F9A-AA02E91BA7AC}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Unit_Tests\Unit_Tests.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.inheritsSet = VisualStudio
@@ -57,7 +50,6 @@ Global
 		$1.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $2
 		$2.IndentSwitchBody = True
-		$2.IndentBlocksInsideExpressions = True
 		$2.AnonymousMethodBraceStyle = NextLine
 		$2.PropertyBraceStyle = NextLine
 		$2.PropertyGetBraceStyle = NextLine
@@ -75,8 +67,6 @@ Global
 		$2.BeforeMethodDeclarationParentheses = False
 		$2.BeforeMethodCallParentheses = False
 		$2.BeforeConstructorDeclarationParentheses = False
-		$2.NewLineBeforeConstructorInitializerColon = NewLine
-		$2.NewLineAfterConstructorInitializerColon = SameLine
 		$2.BeforeDelegateDeclarationParentheses = False
 		$2.NewParentheses = False
 		$2.SpacesBeforeBrackets = False

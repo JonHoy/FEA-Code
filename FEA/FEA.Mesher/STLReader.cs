@@ -80,11 +80,11 @@ namespace FEA.Mesher
                 }
             }
         }
-        public void SplitPart(Plane Plane, out STLReader Part1, out STLReader Part2) {
-            // step 1 Divide mesh into three regions (Above Plane, Below Plane, Intersecting Plane)
-            // step 2 (Triangles in the above plane region go to Part1, below plane region goes to Part2)
-            // step 3 (Sub-Divide triangles that are in both planes such that the new sub-triangles exist only within Part1 or Part2)  
-        }
+//        public void SplitPart(Plane Plane, out STLReader Part1, out STLReader Part2) {
+//            // step 1 Divide mesh into three regions (Above Plane, Below Plane, Intersecting Plane)
+//            // step 2 (Triangles in the above plane region go to Part1, below plane region goes to Part2)
+//            // step 3 (Sub-Divide triangles that are in both planes such that the new sub-triangles exist only within Part1 or Part2)  
+//        }
 
         public bool CheckWaterTightness() {
             // for an stl surface mesh to be watertight the following conditions must be satisfied:
