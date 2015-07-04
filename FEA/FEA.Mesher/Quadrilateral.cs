@@ -57,6 +57,10 @@ namespace FEA.Mesher
             return Ans;
         }
 
+        public void Split(out Triangle Triangle1, out Triangle Triangle2) {
+            // split this quadrilateral up into two triangles
+        }
+
         public double3 A;
         public double3 B;
         public double3 C;

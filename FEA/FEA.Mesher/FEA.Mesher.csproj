@@ -38,6 +38,12 @@
     <Reference Include="MathNet.Numerics.Data.Matlab">
       <HintPath>..\Externals\MathNet.Numerics.Data.Matlab.dll</HintPath>
     </Reference>
+    <Reference Include="MPI">
+      <HintPath>..\Externals\MPI.dll</HintPath>
+    </Reference>
+    <Reference Include="MPIUtils">
+      <HintPath>..\Externals\MPIUtils.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,5 +85,19 @@
       <Project>{A6181323-129A-491B-8F9A-AA02E91BA7AC}</Project>
       <Name>FEA.Assembler</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="libmpinet.so.0.0.6">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="libmpinet.so.0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="libmpinet.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="libmpinet.la">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

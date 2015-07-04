@@ -1,18 +1,20 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/Triangle.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/Quadrilateral.cs">
     <Files>
-      <File FileName="Unit_Tests/Program.cs" Line="361" Column="9" />
-      <File FileName="FEA.Mesher/STLReader.cs" Line="83" Column="13" />
-      <File FileName="FEA.Mesher/ThreeD_Linear_Path.cs" Line="1" Column="1" />
-      <File FileName="FEA.Mesher/TwoD_Linear_Path.cs" Line="1" Column="1" />
-      <File FileName="FEA.Mesher/Triangle.cs" Line="14" Column="10" />
-      <File FileName="FEA.Mesher/Plane.cs" Line="16" Column="1" />
+      <File FileName="FEA.Mesher/Triangle.cs" Line="160" Column="28" />
+      <File FileName="FEA.Mesher/STLReader.cs" Line="114" Column="30" />
+      <File FileName="FEA.Geometry/MyClass.cs" Line="13" Column="1" />
+      <File FileName="FEA.Mesher/Line.cs" Line="49" Column="9" />
+      <File FileName="Unit_Tests/Program.cs" Line="218" Column="26" />
+      <File FileName="FEA.Mesher/Quadrilateral.cs" Line="61" Column="62" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/IGSReader.cs" line="93" column="25" />
+      <RunToCursorBreakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/Triangle.cs" line="59" column="9" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="226" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using ManagedCuda.VectorTypes;
+using System.Collections.Generic;
 
 namespace FEA.Mesher
 {
@@ -79,9 +80,65 @@ namespace FEA.Mesher
                 }
             }
         }
-        public void SplitPart(out STLReader Part1, out STLReader Part2) {
-            
+        public void SplitPart(Plane Plane, out STLReader Part1, out STLReader Part2) {
+            // step 1 Divide mesh into three regions (Above Plane, Below Plane, Intersecting Plane)
+            // step 2 (Triangles in the above plane region go to Part1, below plane region goes to Part2)
+            // step 3 (Sub-Divide triangles that are in both planes such that the new sub-triangles exist only within Part1 or Part2)  
         }
+
+        public bool CheckWaterTightness() {
+            // for an stl surface mesh to be watertight the following conditions must be satisfied:
+            // The following is Taken from wikipedia https://en.wikipedia.org/wiki/STL_(file_format)
+            /*
+            To properly form a 3D volume, the surface represented by any STL files must be closed and connected, 
+            where every edge is part of exactly two triangles, and not self-intersecting.
+            Keep in mind "internal cavities" can exist inside a part. As such they are cutoff from other surface mesh triangles
+            */ 
+
+            // To do this, we will construct a dictionary of edges to keep track of the number of times that edge is used
+            // since an edge consists of 2 points 
+
+            var EdgeCount = new Dictionary<Line, int>(); 
+
+            for (int i = 0; i < TriangleCount; i++)
+            {
+                var Line1 = new Line(Triangles[i].A, Triangles[i].B);
+                var Line2 = new Line(Triangles[i].B, Triangles[i].C);
+                var Line3 = new Line(Triangles[i].C, Triangles[i].A);
+                try
+                {
+                    KeyHelper(EdgeCount, Line1);
+                    KeyHelper(EdgeCount, Line2);
+                    KeyHelper(EdgeCount, Line3);
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
+        private void KeyHelper(Dictionary<Line, int> EdgeCount, Line Edge) {
+            if (EdgeCount.ContainsKey(Edge))
+            {
+                int CurrentCount = EdgeCount[Edge];
+                if (CurrentCount > 1)
+                {
+                    throw new Exception("Each edge must be referenced exactly 2 times!");
+                }
+                else
+                {
+                    EdgeCount[Edge] = 2;
+                }
+            }
+            else
+            {
+                EdgeCount.Add(Edge, 1);
+            }
+        }
+
         uint TriangleCount;
         Triangle[] Triangles;
         double3[] NormalVector;
