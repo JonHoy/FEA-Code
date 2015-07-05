@@ -210,7 +210,6 @@ namespace FEA.Mesher
 
 
         public void WriteToFile(string Filename) {
-            // TODO implement STL writer (This is important because we must also use CAD programs to visually inspect our parts
             using (var writer = new BinaryWriter(File.OpenWrite(Filename))) {
                 var header = new byte[80];
                 writer.Write(header);
@@ -236,6 +235,39 @@ namespace FEA.Mesher
                 }
 
             }
+        }
+
+        public BoundingBox Bounds() {
+            
+            var Min = new double3(double.MaxValue);
+            var Max = new double3(double.MinValue);
+            for (int i = 0; i < TriangleCount; i++)
+            {
+                Max = MaxHelper(Max, Triangles[i].A);
+                Max = MaxHelper(Max, Triangles[i].B);
+                Max = MaxHelper(Max, Triangles[i].C);
+
+                Min = MinHelper(Min, Triangles[i].A);
+                Min = MinHelper(Min, Triangles[i].B);
+                Min = MinHelper(Max, Triangles[i].C);
+            }
+            return new BoundingBox(Min, Max);
+        }
+
+        private double3 MaxHelper(double3 Val1, double3 Val2) {
+            var Val = new double3();
+            Val.x = Math.Max(Val1.x, Val2.x);
+            Val.y = Math.Max(Val1.y, Val2.y);
+            Val.z = Math.Max(Val1.z, Val2.z);
+            return Val;
+        }
+
+        private double3 MinHelper(double3 Val1, double3 Val2) {
+            var Val = new double3();
+            Val.x = Math.Min(Val1.x, Val2.x);
+            Val.y = Math.Min(Val1.y, Val2.y);
+            Val.z = Math.Min(Val1.z, Val2.z);
+            return Val;
         }
 
         uint TriangleCount;

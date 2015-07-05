@@ -53,7 +53,6 @@
     <Compile Include="Rational_BSpline_Surface.cs" />
     <Compile Include="BSpline_Basis_Function.cs" />
     <Compile Include="TransformationMatrix.cs" />
-    <Compile Include="IGSPoint.cs" />
     <Compile Include="Circular_Arc.cs" />
     <Compile Include="Composite_Curve.cs" />
     <Compile Include="Conic_Arc.cs" />

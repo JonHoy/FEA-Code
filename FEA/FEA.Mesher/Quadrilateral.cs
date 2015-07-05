@@ -54,8 +54,9 @@ namespace FEA.Mesher
                 Tri = new Triangle(A,B,C);
             else
                 throw new Exception("Internal Error");
-            var Ans = Tri.Intersection(O, D);
-            return Ans;
+            var t = Tri.Intersection(O, D);
+
+            return O + t * D;
         }
 
         public List<Triangle> Split() {

@@ -25,7 +25,7 @@ namespace FEA.Mesher
         public double3 B;
         public double3 C;
         // Möller–Trumbore intersection algorithm (between ray and triangle)
-        public double3 Intersection(double3 O, double3 D) {
+        public double Intersection(double3 O, double3 D) {
             var Ans = new double3(double.NaN);
             double EPSILON = 0.000001; 
             var e1 = B - A;
@@ -34,7 +34,7 @@ namespace FEA.Mesher
             var det = e1.Dot(P);
 
             if(det > -EPSILON && det < EPSILON) 
-                return Ans;
+                return double.NaN;
 
             var inv_det = 1.0 / det;
 
@@ -42,19 +42,23 @@ namespace FEA.Mesher
             var u = T.Dot(P) * inv_det;
 
             if(u < 0 || u > 1) 
-                return Ans;
+                return double.NaN;
 
             var Q = T.Cross(e1);
             var v = D.Dot(Q) * inv_det;
             if (v < 0 || u + v > 1)
-                return Ans;
+                return double.NaN;
 
             var t = e2.Dot(Q) * inv_det;
 
             if(t > EPSILON) { //ray intersection
                 Ans = O + D * t;
             }  
-            return Ans;
+            if (Ans.x == double.NaN)
+                return double.NaN;
+            else
+                return t;
+                
         }
 
         public bool Intersection(Triangle Tri2) {

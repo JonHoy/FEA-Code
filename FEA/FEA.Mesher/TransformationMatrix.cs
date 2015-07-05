@@ -10,6 +10,10 @@ namespace FEA.Mesher
             R = new double[3,3];
             T = new double[3];
 
+            T[0] = X;
+            T[1] = Y;
+            T[2] = Z;
+
             double cosw = Math.Cos(ThetaX);
             double cosj = Math.Cos(ThetaY);
             double cosk = Math.Cos(ThetaZ);
@@ -28,7 +32,7 @@ namespace FEA.Mesher
             R[2, 1] = -1.0 * sinw * cosj;
             R[2, 2] = cosw * cosj;
         } // generates rotation matrix and translation vector based on input rotation and translation components 
-        public TransformationMatrix(double[] Parameters)
+        public TransformationMatrix(double[] Parameters) // this is based off of the IGS spec
         {
             T = new double[3];
             R = new double[3,3];
@@ -51,8 +55,8 @@ namespace FEA.Mesher
             T[2] = Parameters[12];
 
         }
-        public IGES.IGSPoint Transform(IGES.IGSPoint P) {
-            var Ans = new IGES.IGSPoint(T);
+        public double3 Transform(double3 P) {
+            var Ans = new double3(T[0], T[1], T[2]);
             Ans.x += P.x * R[0, 0] + P.y * R[0, 1] + P.z * R[0, 2];
             Ans.y += P.x * R[1, 0] + P.y * R[1, 1] + P.z * R[1, 2]; 
             Ans.x += P.x * R[2, 0] + P.y * R[2, 1] + P.z * R[2, 2];
