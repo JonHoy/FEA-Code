@@ -1,5 +1,6 @@
 ﻿using System;
 using ManagedCuda.VectorTypes;
+using System.Collections.Generic;
 
 namespace FEA.Mesher
 {
@@ -57,9 +58,34 @@ namespace FEA.Mesher
             return Ans;
         }
 
-//        public void Split(out Triangle Triangle1, out Triangle Triangle2) {
-//            // split this quadrilateral up into two triangles
-//        }
+        public List<Triangle> Split() {
+            // split this quadrilateral up into two non intersecting triangles
+            // there is two possible valid configurations for the split,
+            // the configuration chosen is the one with the maximum area/ perimeter ratio
+            var Tri1 = new Triangle(A,B,C);
+            var Tri2 = new Triangle(A, D, C);
+
+            var Ratio1 = Tri1.Area() / Tri1.Perimeter() + Tri2.Area() / Tri2.Perimeter();
+              
+            var Tri3 = new Triangle(A, B, D);
+            var Tri4 = new Triangle(C, B, D);
+
+            var Ratio2 = Tri3.Area() / Tri3.Perimeter() + Tri4.Area() / Tri4.Perimeter();
+
+            var Tris = new List<Triangle>(2);
+
+            if (Ratio1 >= Ratio2)
+            {
+                Tris.Add(Tri1);
+                Tris.Add(Tri2);
+            }
+            else
+            {
+                Tris.Add(Tri3);
+                Tris.Add(Tri4);
+            }
+            return Tris;
+        }
 
         public double3 A;
         public double3 B;

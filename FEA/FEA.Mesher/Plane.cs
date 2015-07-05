@@ -32,7 +32,7 @@ namespace FEA.Mesher
             }
         }
 
-        public double3 Intersection(double3 O, double3 D) {
+        public double3 Intersection(double3 O, double3 D, double tmax = double.PositiveInfinity) {
             // calculates the intersection of a ray and a plane
             // if no intersection occurs a vector of NaNs is returned
 
@@ -44,7 +44,7 @@ namespace FEA.Mesher
             double t = (d - PlaneVec.Dot(O)) / PlaneVec.Dot(D);
 
             var Ans = new double3(double.NaN);
-            if (t >= 0 && t != double.PositiveInfinity)
+            if (t >= 0 && t <= tmax)
             {
                 Ans = O + D * t;
             }

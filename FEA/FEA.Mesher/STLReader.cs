@@ -33,6 +33,11 @@ namespace FEA.Mesher
         // Bound the nurb so that it it is geometrically water tight 
         // Alternatively, a second or third order 3d interpolation scheme could be used. where the weights are based on the inverse of the distance to the other nodes
 
+        public STLReader(Triangle[] _Triangles, double3[] _NormalVector) {
+            Triangles = _Triangles;
+            NormalVector = _NormalVector;
+            TriangleCount = (uint)Triangles.Length;
+        }
         public STLReader(string Filename) // reads binary stl files
         {
             using (var reader = new BinaryReader(File.OpenRead(Filename)))
@@ -80,11 +85,66 @@ namespace FEA.Mesher
                 }
             }
         }
-//        public void SplitPart(Plane Plane, out STLReader Part1, out STLReader Part2) {
-//            // step 1 Divide mesh into three regions (Above Plane, Below Plane, Intersecting Plane)
-//            // step 2 (Triangles in the above plane region go to Part1, below plane region goes to Part2)
-//            // step 3 (Sub-Divide triangles that are in both planes such that the new sub-triangles exist only within Part1 or Part2)  
-//        }
+        public void SplitPart(Plane Slice, out STLReader Part1, out STLReader Part2) {
+            // step 1 Divide mesh into three regions (Above Plane, Below Plane, Intersecting Plane)
+            // step 2 (Triangles in the above plane region go to Part1, below plane region goes to Part2)
+            // step 3 (Sub-Divide triangles that are in both planes such that the new sub-triangles exist only within Part1 or Part2)
+            var Triangles1 = new List<Triangle>((int)TriangleCount/2);
+            var Triangles2 = new List<Triangle>((int)TriangleCount/2);
+            var Shared = new List<Triangle>();
+            var NormalVector1 = new List<double3>((int)TriangleCount/2);
+            var NormalVector2 = new List<double3>((int)TriangleCount/2);
+            var NormalShared = new List<double3>();
+            for (int i = 0; i < TriangleCount; i++)
+            {
+                var Loc = Triangles[i].AboveOrBelow(Slice);
+                if (Loc == Location.Above)
+                {
+                    Triangles1.Add(Triangles[i]);
+                    NormalVector1.Add(NormalVector[i]);
+                }
+                else if (Loc == Location.Below)
+                {
+                    Triangles2.Add(Triangles[i]);
+                    NormalVector2.Add(NormalVector[i]);
+                }
+                else {
+                    Shared.Add(Triangles[i]);
+                    NormalShared.Add(NormalVector[i]);
+                }
+                for (int k = 0; k < Shared.Count; k++) 
+                {
+                    var Tri = Shared[k];
+                    var AboveTris = new List<Triangle>();
+                    var BelowTris = new List<Triangle>();
+ 
+                    if (Tri.InPlane(Slice) == false) {
+                        Tri.Split(Slice, out AboveTris, out BelowTris);
+                    }
+                    else
+                    {
+                        // TODO determine solid side + or -
+                        // if all the points of the triangle are in the plane, we must determine which side is the solid side,
+                        // the solid side keeps the triangle, the other side loses it.
+                    }
+
+                    Triangles1.AddRange(AboveTris);
+                    for (int j = 0; j < AboveTris.Count; j++) {
+                        NormalVector1.Add(NormalShared[k]);
+                    }
+                    for (int j = 0; j < BelowTris.Count; j++) {
+                        NormalVector2.Add(NormalShared[k]);
+                    }
+                    Triangles2.AddRange(BelowTris);
+                }     
+            }
+            // TODO Make a watertight triangulation on the splitting region of a solid domain
+            // because we have split this part into two pieces, we must patch up the slice plane to make it watertight
+            // this involves an in plane 2d delaunay triangulation. To do this, we must transform to 2d and then back to 3d 
+
+            Part1 = new STLReader(Triangles1.ToArray(), NormalVector1.ToArray());
+            Part2 = new STLReader(Triangles2.ToArray(), NormalVector2.ToArray());
+        }
 
         public bool CheckWaterTightness() {
             // for an stl surface mesh to be watertight the following conditions must be satisfied:
@@ -97,6 +157,8 @@ namespace FEA.Mesher
 
             // To do this, we will construct a dictionary of edges to keep track of the number of times that edge is used
             // since an edge consists of 2 points 
+
+            // TODO implement check for triangle overlap
 
             var EdgeCount = new Dictionary<Line, int>(); 
 
@@ -136,6 +198,43 @@ namespace FEA.Mesher
             else
             {
                 EdgeCount.Add(Edge, 1);
+            }
+        }
+
+        public bool InsideOrOutside(double3 Pt) {
+        // determine if the point is inside or outside the geometry. If the point is on the surface,
+        // it will be considered inside
+        // TODO implement this via point in polygon
+            return false;
+        }
+
+
+        public void WriteToFile(string Filename) {
+            // TODO implement STL writer (This is important because we must also use CAD programs to visually inspect our parts
+            using (var writer = new BinaryWriter(File.OpenWrite(Filename))) {
+                var header = new byte[80];
+                writer.Write(header);
+                writer.Write(TriangleCount);
+                var TriBuffer = new byte[2 + 12 * 4];
+                var Floats = new float[12];
+                for (int i = 0; i < TriangleCount; i++)
+                {
+                    Floats[0] = (float)NormalVector[i].x;
+                    Floats[1] = (float)NormalVector[i].y;
+                    Floats[2] = (float)NormalVector[i].z;
+                    Floats[3] = (float)Triangles[i].A.x;
+                    Floats[4] = (float)Triangles[i].A.y;
+                    Floats[5] = (float)Triangles[i].A.z;
+                    Floats[6] = (float)Triangles[i].B.x;
+                    Floats[7] = (float)Triangles[i].B.y;
+                    Floats[8] = (float)Triangles[i].B.z;
+                    Floats[9] = (float)Triangles[i].C.x;
+                    Floats[10] = (float)Triangles[i].C.y;
+                    Floats[11] = (float)Triangles[i].C.z;
+                    Buffer.BlockCopy(Floats, 0, TriBuffer, 0, 48);
+                    writer.Write(TriBuffer);
+                }
+
             }
         }
 

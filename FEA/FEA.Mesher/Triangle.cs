@@ -62,6 +62,10 @@ namespace FEA.Mesher
             return false;
         }
 
+//        public Sphere Circumcircle() {
+//            // computes the circumcircle of this triangle
+//        }
+
         public Plane ComputePlane() {
             var Mat = Matrix<double>.Build.Dense(3, 3); // the plane equation
             Mat[0,0] = A.x;
@@ -130,6 +134,16 @@ namespace FEA.Mesher
             }
         }
 
+        public bool InPlane(Plane Slice) {
+            var Loc1 = (int)Slice.AboveOrBelow(A);
+            var Loc2 = (int)Slice.AboveOrBelow(B);
+            var Loc3 = (int)Slice.AboveOrBelow(C);
+            if (Loc1 == 0 && Loc2 == 0 && Loc3 == 0)
+                return true;
+            else
+                return false;
+        }
+
         public void Split(Plane Slice, out List<Triangle> Above, out List<Triangle> Below) {
         // splits this triangle up along the plane into triangles that are either above or below the plane
             // if all the points are in the plane, the output for above and below is simply the triangle
@@ -137,27 +151,83 @@ namespace FEA.Mesher
             // the split occurs at the edge which is shared by the above point and below point 
 
             // step 1: Compute intersection points by representing the edges as rays
+            var Tris1 = new List<Triangle>();
+            var Tris2 = new List<Triangle>();
+
             Above = new List<Triangle>();
             Below = new List<Triangle>();
 
             var O1 = A;
-            var D1 = B - A; // t is also normalized from 0 to 1 for the intersection to exist
+            var D1 = B - A; // t is also normalized from 0 to 1 automatically
             var O2 = B;
             var D2 = C - B;
             var O3 = C;
             var D3 = A - C;
 
-            var P1 = Slice.Intersection(O1, D1);
-            var P2 = Slice.Intersection(O2, D2);
-            var P3 = Slice.Intersection(O3, D3);
-            // since two intersections are expected, errors should be thrown if this doesnt happen
-            int NanCount = 0;
-            if (P1.x == double.NaN)
-                NanCount++;
-            if (P2.x == double.NaN)
-                NanCount++;
-            if (P3.x == double.NaN)
-                NanCount++;
+            var P1 = Slice.Intersection(O1, D1, 1); // p1
+            var P2 = Slice.Intersection(O2, D2, 1);
+            var P3 = Slice.Intersection(O3, D3, 1);
+            // TODO check for bisection 
+
+            int Bisects = -1;
+
+            if ((P1 - P2).Length == 0)
+                Bisects = 1;
+            else if ((P2 - P3).Length == 0)
+                Bisects = 2;
+            else if ((P1 - P3).Length == 0)
+                Bisects = 3;
+            if (Bisects == -1)
+            {
+                Quadrilateral Quad;
+                if (P1.x == double.NaN)
+                {
+                    Quad = new Quadrilateral(P2, P3, A, B);
+                    Tris1.Add(new Triangle(P2, P3, C));
+                }
+                else if (P2.x == double.NaN)
+                {
+                    Quad = new Quadrilateral(P1, P3, C, B);
+                    Tris1.Add(new Triangle(P1, P3, A));
+                }
+                else
+                {
+                    Quad = new Quadrilateral(P1, P2, C, A);
+                    Tris1.Add(new Triangle(P2, P1, B));
+                }
+                Tris2 = Quad.Split();
+
+            }
+            else
+            {
+                if (Bisects == 1)
+                {
+                    Tris1.Add(new Triangle(A, B, P3));
+                    Tris2.Add(new Triangle(C, B, P3));
+                }
+                else if (Bisects == 2)
+                {
+                    Tris1.Add(new Triangle(A, C, P1));
+                    Tris2.Add(new Triangle(C, B, P1));
+                }
+                else // Bisects == 3
+                {
+                    Tris1.Add(new Triangle(A, C, P2));
+                    Tris2.Add(new Triangle(A, B, P2));
+                }
+            }
+            var Loc = Tris1[0].AboveOrBelow(Slice);
+            if (Loc == Location.Above)
+            {
+                Above = Tris1;
+                Below = Tris2;
+            }
+            else
+            {
+                Above = Tris2;
+                Below = Tris1;
+            }
+
         }
 
         public double Area(){
