@@ -1,16 +1,15 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/Circular_Arc.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Unit_Tests/Program.cs">
     <Files>
-      <File FileName="FEA.Mesher/Line.cs" Line="51" Column="17" />
-      <File FileName="FEA.Mesher/Circular_Arc.cs" Line="20" Column="1" />
+      <File FileName="FEA.Mesher/STLReader.cs" Line="181" Column="1" />
+      <File FileName="Unit_Tests/Program.cs" Line="236" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/IGSReader.cs" line="93" column="25" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="226" column="1" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/STLReader.cs" line="182" column="13" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="228" column="13" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

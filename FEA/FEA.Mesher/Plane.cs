@@ -4,6 +4,29 @@ namespace FEA.Mesher
 {
     public class Plane // equation of a plane (ax + by + cz = d)
     {
+        public Plane(double Val, int Dim) {
+            d = Val;
+            a = 0;
+            b = 0;
+            c = 0;
+            if (Dim == 0)
+            {
+                a = 1;
+            }
+            else if (Dim == 1)
+            {
+                b = 1;
+            }
+            else if (Dim == 2)
+            {
+                c = 1;
+            }
+            else 
+            {
+                throw new Exception("Dim must be 0 , 1, or 2"); 
+            }
+        } // construct a Plane that satisfies the following equality: X = Val or Y = Val or Z = Val
+        // for X Dim == 0, Y Dim == 1, Z Dim == 2
         public Plane(double _a, double _b, double _c, double _d)
         {
             a = _a;

@@ -225,10 +225,14 @@ namespace Unit_Tests
         static private void TestSTLReader() {
             var r1 = new STLReader("T07_Propeler.stl");
             Debug.Assert(r1.CheckWaterTightness());
+            r1.SplitPart("T07_Propeler_1.stl", "T07_Propeler_2.stl"); 
             var r2 = new STLReader("Cable support hook.stl");
+            r2.SplitPart("Cable support hook 1.stl", "Cable support hook 2.stl");
             Debug.Assert(r2.CheckWaterTightness());
             var r3 = new STLReader("Sk20.stl");
+            r3.SplitPart("Sk20_1.stl", "Sk20_2.stl");
             Debug.Assert(r3.CheckWaterTightness());
+
         }
 
         static private void TestBasisFunction() {

@@ -37,6 +37,7 @@ namespace FEA.Mesher
             Triangles = _Triangles;
             NormalVector = _NormalVector;
             TriangleCount = (uint)Triangles.Length;
+            Extrema = Bounds();
         }
         public STLReader(string Filename) // reads binary stl files
         {
@@ -84,7 +85,33 @@ namespace FEA.Mesher
 
                 }
             }
+            Extrema = Bounds();
         }
+        public Plane SplittingPlane(int Dim) {
+            var BoundBox = Extrema;
+            Plane Slice;
+            double Val;
+            if (Dim == 0)
+            {
+                Val = BoundBox.Max.x + BoundBox.Min.x; 
+            }
+            else if (Dim == 1)
+            {
+                Val = BoundBox.Max.y + BoundBox.Min.y;
+            }
+            else if (Dim == 2)
+            {
+                Val = BoundBox.Max.z + BoundBox.Min.z;
+            }
+            else
+            {
+                throw new Exception("Dim must be 0, 1, or 2");
+            }
+            Val = Val / 2;
+            Slice = new Plane(Val, Dim);
+            return Slice;
+        }
+
         public void SplitPart(Plane Slice, out STLReader Part1, out STLReader Part2) {
             // step 1 Divide mesh into three regions (Above Plane, Below Plane, Intersecting Plane)
             // step 2 (Triangles in the above plane region go to Part1, below plane region goes to Part2)
@@ -111,39 +138,50 @@ namespace FEA.Mesher
                 else {
                     Shared.Add(Triangles[i]);
                     NormalShared.Add(NormalVector[i]);
-                }
-                for (int k = 0; k < Shared.Count; k++) 
-                {
-                    var Tri = Shared[k];
-                    var AboveTris = new List<Triangle>();
-                    var BelowTris = new List<Triangle>();
- 
-                    if (Tri.InPlane(Slice) == false) {
-                        Tri.Split(Slice, out AboveTris, out BelowTris);
-                    }
-                    else
-                    {
-                        // TODO determine solid side + or -
-                        // if all the points of the triangle are in the plane, we must determine which side is the solid side,
-                        // the solid side keeps the triangle, the other side loses it.
-                    }
-
-                    Triangles1.AddRange(AboveTris);
-                    for (int j = 0; j < AboveTris.Count; j++) {
-                        NormalVector1.Add(NormalShared[k]);
-                    }
-                    for (int j = 0; j < BelowTris.Count; j++) {
-                        NormalVector2.Add(NormalShared[k]);
-                    }
-                    Triangles2.AddRange(BelowTris);
                 }     
             }
+
+            for (int k = 0; k < Shared.Count; k++) 
+            {
+                var Tri = Shared[k];
+                var AboveTris = new List<Triangle>();
+                var BelowTris = new List<Triangle>();
+
+                if (Tri.InPlane(Slice) == false) {
+                    Tri.Split(Slice, out AboveTris, out BelowTris);
+                }
+                else
+                {
+                    // TODO determine solid side + or -
+                    // if all the points of the triangle are in the plane, we must determine which side is the solid side,
+                    // the solid side keeps the triangle, the other side loses it.
+                }
+
+                Triangles1.AddRange(AboveTris);
+                for (int j = 0; j < AboveTris.Count; j++) {
+                    NormalVector1.Add(NormalShared[k]);
+                }
+                for (int j = 0; j < BelowTris.Count; j++) {
+                    NormalVector2.Add(NormalShared[k]);
+                }
+                Triangles2.AddRange(BelowTris);
+            }
+
             // TODO Make a watertight triangulation on the splitting region of a solid domain
             // because we have split this part into two pieces, we must patch up the slice plane to make it watertight
             // this involves an in plane 2d delaunay triangulation. To do this, we must transform to 2d and then back to 3d 
 
             Part1 = new STLReader(Triangles1.ToArray(), NormalVector1.ToArray());
             Part2 = new STLReader(Triangles2.ToArray(), NormalVector2.ToArray());
+        }
+
+        public void SplitPart(string Part1FileName, string Part2FileName, int Dim = 0) {
+            var Slice = SplittingPlane(Dim);
+            STLReader Part1;
+            STLReader Part2;
+            SplitPart(Slice, out Part1, out Part2);
+            Part1.WriteToFile(Part1FileName);
+            Part2.WriteToFile(Part2FileName);
         }
 
         public bool CheckWaterTightness() {
@@ -205,11 +243,37 @@ namespace FEA.Mesher
         // determine if the point is inside or outside the geometry. If the point is on the surface,
         // it will be considered inside
         // TODO implement this via point in polygon
+            var Intersections = new List<double>();
+            var O = Extrema.Min - 1.0; // using point in polygon we use a point that we know is outside the geometry
+            // then we cast a ray
+            var D = (Pt - O) + 1;
+            for (int i = 0; i < Triangles.Length; i++)
+            {
+                var t = Triangles[i].Intersection(O, D);
+                if (t != double.NaN)
+                {
+                    Intersections.Add(t);
+                }
+            }
+            var results = Intersections.ToArray();
+            Array.Sort(results);
+            for (int i = 0; i < results.Length; i++)
+            {
+                if (results[i + 1] > 1)
+                {
+                    if (i % 2 == 0)
+                        return true; // point is inside
+                    else
+                        return false;
+                }
+                    
+            }
             return false;
         }
 
 
         public void WriteToFile(string Filename) {
+            File.Delete(Filename);
             using (var writer = new BinaryWriter(File.OpenWrite(Filename))) {
                 var header = new byte[80];
                 writer.Write(header);
@@ -233,11 +297,11 @@ namespace FEA.Mesher
                     Buffer.BlockCopy(Floats, 0, TriBuffer, 0, 48);
                     writer.Write(TriBuffer);
                 }
-
+                writer.Close();
             }
         }
 
-        public BoundingBox Bounds() {
+        private BoundingBox Bounds() {
             
             var Min = new double3(double.MaxValue);
             var Max = new double3(double.MinValue);
@@ -253,6 +317,8 @@ namespace FEA.Mesher
             }
             return new BoundingBox(Min, Max);
         }
+
+        public BoundingBox Extrema; 
 
         private double3 MaxHelper(double3 Val1, double3 Val2) {
             var Val = new double3();
