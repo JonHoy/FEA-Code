@@ -54,7 +54,7 @@ namespace FEA.Mesher
             if(t > EPSILON) { //ray intersection
                 Ans = O + D * t;
             }  
-            if (Ans.x == double.NaN)
+            if (double.IsNaN(Ans.x))
                 return double.NaN;
             else
                 return t;
@@ -184,12 +184,12 @@ namespace FEA.Mesher
             if (Bisects == -1)
             {
                 Quadrilateral Quad;
-                if (P1.x == double.NaN)
+                if (double.IsNaN(P1.x))
                 {
                     Quad = new Quadrilateral(P2, P3, A, B);
                     Tris1.Add(new Triangle(P2, P3, C));
                 }
-                else if (P2.x == double.NaN)
+                else if (double.IsNaN(P2.x))
                 {
                     Quad = new Quadrilateral(P1, P3, C, B);
                     Tris1.Add(new Triangle(P1, P3, A));

@@ -37,7 +37,7 @@ namespace FEA.Mesher
             if (BD.Length == 0)
                 return ReturnTriIntersect(2, O, D);
             var Ans = ReturnTriIntersect(1, O, D);
-            if (Ans.x == double.NaN)
+            if (double.IsNaN(Ans.x))
                 Ans = ReturnTriIntersect(3, O, D);
             return Ans;
         }

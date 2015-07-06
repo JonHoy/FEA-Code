@@ -147,7 +147,7 @@ namespace FEA.Mesher.IGES
 
         private double3 IntersectionHelper(double3 d, double3 P, double2 InitialGuess) {
             // reference
-            if (InitialGuess.x == double.NaN) //( X field = u value, Y field = v value 
+            if (double.IsNaN(InitialGuess.x)) //( X field = u value, Y field = v value 
                 return new double3(double.NaN);
             var nhat0 = new double3();
             if ((Math.Abs(d.x) > Math.Abs(d.y)) && (Math.Abs(d.x) > Math.Abs(d.z)))

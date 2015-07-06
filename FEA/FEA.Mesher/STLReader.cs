@@ -157,14 +157,16 @@ namespace FEA.Mesher
                     // the solid side keeps the triangle, the other side loses it.
                 }
 
-                Triangles1.AddRange(AboveTris);
+
                 for (int j = 0; j < AboveTris.Count; j++) {
                     NormalVector1.Add(NormalShared[k]);
+                    Triangles1.Add(AboveTris[j]);
                 }
                 for (int j = 0; j < BelowTris.Count; j++) {
                     NormalVector2.Add(NormalShared[k]);
+                    Triangles2.Add(BelowTris[j]);
                 }
-                Triangles2.AddRange(BelowTris);
+
             }
 
             // TODO Make a watertight triangulation on the splitting region of a solid domain
