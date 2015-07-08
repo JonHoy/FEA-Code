@@ -66,10 +66,6 @@ namespace FEA.Mesher
             return false;
         }
 
-//        public Sphere Circumcircle() {
-//            // computes the circumcircle of this triangle
-//        }
-
         public Plane ComputePlane() {
             var Mat = Matrix<double>.Build.Dense(3, 3); // the plane equation
             Mat[0,0] = A.x;
@@ -86,8 +82,11 @@ namespace FEA.Mesher
 
             var MatInv = Mat.Inverse();
 
-            double d = 1;
+            double3 BA = B - A;
+            double3 CA = C - A;
 
+            double3 n = BA.Cross(CA);
+            double d = -A.Dot(n);
             var f = Matrix<double>.Build.Dense(3, 1, -d);
 
             var Ans = MatInv * f;
@@ -148,7 +147,7 @@ namespace FEA.Mesher
                 return false;
         }
 
-        public void Split(Plane Slice, out List<Triangle> Above, out List<Triangle> Below) {
+        public List<Triangle> Split(Plane Slice) {
         // splits this triangle up along the plane into triangles that are either above or below the plane
             // if all the points are in the plane, the output for above and below is simply the triangle
             // if one point is in the plane, one is above the plane, and one is below the triangle is simply split into two
@@ -158,8 +157,6 @@ namespace FEA.Mesher
             var Tris1 = new List<Triangle>();
             var Tris2 = new List<Triangle>();
 
-            Above = new List<Triangle>();
-            Below = new List<Triangle>();
 
             var O1 = A;
             var D1 = B - A; // t is also normalized from 0 to 1 automatically
@@ -220,18 +217,8 @@ namespace FEA.Mesher
                     Tris2.Add(new Triangle(A, B, P2));
                 }
             }
-            var Loc = Tris1[0].AboveOrBelow(Slice);
-            if (Loc == Location.Above)
-            {
-                Above = Tris1;
-                Below = Tris2;
-            }
-            else
-            {
-                Above = Tris2;
-                Below = Tris1;
-            }
-
+            Tris1.AddRange(Tris2);
+            return Tris1;
         }
 
         public double Area(){

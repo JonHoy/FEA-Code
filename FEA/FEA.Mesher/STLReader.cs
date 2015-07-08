@@ -20,7 +20,7 @@ namespace FEA.Mesher
 
         // Disadvantages of STL
 
-        // 1.) Exact reproduction of smooth curved surfaces is not possible 
+        // 1.) Exact reproduction of smooth curved surfaces is not possible
 
         // 2.) Many Triangles might be required to desribe a curved surface
 
@@ -148,7 +148,22 @@ namespace FEA.Mesher
                 var BelowTris = new List<Triangle>();
 
                 if (Tri.InPlane(Slice) == false) {
-                    Tri.Split(Slice, out AboveTris, out BelowTris);
+                    var Tris = Tri.Split(Slice);
+                    foreach (var item in Tris)
+                    {
+                        if (item.AboveOrBelow(Slice) == Location.Above)
+                        {
+                            AboveTris.Add(item);
+                        }
+                        else if (item.AboveOrBelow(Slice) == Location.Below)
+                        {
+                            BelowTris.Add(item);
+                        }
+                        else
+                        {
+                            throw new Exception("The triangle must be above or below but not on the plane");
+                        }
+                    }
                 }
                 else
                 {
@@ -244,11 +259,35 @@ namespace FEA.Mesher
         public bool InsideOrOutside(double3 Pt) {
         // determine if the point is inside or outside the geometry. If the point is on the surface,
         // it will be considered inside
-        // TODO implement this via point in polygon
+            // TODO implement this via point in polygon (Need to account for cases where the ray is inside a triangle)
+
+            // cast three orthonormal test rays to determine inside or out
+            var O1 = new double3(Extrema.Max.x + 1.0, Pt.y, Pt.z);
+            var O2 = new double3(Pt.x, Extrema.Max.y + 1.0, Pt.z);
+            var O3 = new double3(Pt.x, Pt.y, Extrema.Max.z + 1);
+
+            var S1 = InsideOutsideHelper(Pt, O1);
+            var S2 = InsideOutsideHelper(Pt, O2);
+            var S3 = InsideOutsideHelper(Pt, O3);
+
+            int TrueCount = 0;
+            TrueCount += (int)S1;
+            TrueCount += (int)S2;
+            TrueCount += (int)S3;
+
+            if (TrueCount > 1)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        }
+
+        private bool InsideOutsideHelper(double3 Pt, double3 O) {
             var Intersections = new List<double>();
-            var O = Extrema.Min - 1.0; // using point in polygon we use a point that we know is outside the geometry
-            // then we cast a ray
-            var D = (Pt - O) + 1;
+            var D = (Pt - O);
             for (int i = 0; i < Triangles.Length; i++)
             {
                 var t = Triangles[i].Intersection(O, D);
@@ -268,11 +307,10 @@ namespace FEA.Mesher
                     else
                         return false;
                 }
-                    
+
             }
             return false;
         }
-
 
         public void WriteToFile(string Filename) {
             File.Delete(Filename);
@@ -336,6 +374,10 @@ namespace FEA.Mesher
             Val.y = Math.Min(Val1.y, Val2.y);
             Val.z = Math.Min(Val1.z, Val2.z);
             return Val;
+        }
+
+        private void PatchSlice() { // this function triangulates the slicing plane so that the split parts are watertight
+        
         }
 
         uint TriangleCount;

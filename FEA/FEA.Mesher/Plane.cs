@@ -25,6 +25,10 @@ namespace FEA.Mesher
             {
                 throw new Exception("Dim must be 0 , 1, or 2"); 
             }
+
+            UnitNormal = new double3(a, b, c);
+            UnitNormal.Normalize();
+
         } // construct a Plane that satisfies the following equality: X = Val or Y = Val or Z = Val
         // for X Dim == 0, Y Dim == 1, Z Dim == 2
         public Plane(double _a, double _b, double _c, double _d)
@@ -33,19 +37,28 @@ namespace FEA.Mesher
             b = _b;
             c = _c;
             d = _d;
+
+            UnitNormal = new double3(a, b, c);
+            UnitNormal.Normalize(); 
         }
         double a;
         double b;
         double c;
         double d;
 
+        double3 UnitNormal;
+
         public Location AboveOrBelow(double3 Point) {
-            double Val = a * Point.x + b * Point.y + c * Point.z - d;
-            if (Val > 0)
+            double Val =  (a * Point.x + b * Point.y + c * Point.z - d);
+
+            double Eps = 1.0e-7; // we must account for floating point errors by introducing a "Tolerance factor"
+            // This effectively means we have to treat a singular value as that value +/- tolerance factor
+            // For this reason, double precision is used and then it can be clamped by casting to single precision
+            if (Val > Eps)
             {
                 return Location.Above;
             }
-            else if (Val < 0)
+            else if (Val < -Eps)
             {
                 return Location.Below;
             }
@@ -73,6 +86,40 @@ namespace FEA.Mesher
             }
             return Ans;
         } 
+
+        public double3 Transform(double3 Pt, double3 x_new) {
+        /*
+            Transforms a point such that the input normal vector of 0i + 0j + k
+            is now alligned with the unit normal vector of the plane. This is is useful
+            when you want to describe co-planar points in X-Y coordinates instead of X-Y-Z
+            - Methods used 
+            http://www.continuummechanics.org/cm/coordxforms.html
+            v' = Q * v, v_i' = a_ij * v_j, a_ij = cos(x_i',x_j) 
+            Where Q = 3 x 3 matrix
+            v' is the output matrix 
+            cos(x_i',x_j) is the direction cosine between the two axes
+
+            z_old = [0 0 1];
+            z_new = Unit_Normal;
+            y_old = [0 1 0];
+            y_new -> 
+            x_old = [1 0 0];
+            x_new = ->
+        */
+            var z_old = new double3(0, 0, 1);
+            var z_new = UnitNormal;
+            var y_old = new double3(0, 1, 0);
+
+            x_new.Normalize(); // make sure its normalized
+            if (z_new.Dot(x_new) != 0)
+                throw new Exception("Axes must be orthonormal");
+            var y_new = z_new.Cross(x_new);
+
+        }
+
+        public double3 UnTransform(double3 Pt) {
+            //  Reverse of Transform Method
+        }
 
     }
     // a point in space can either be on, below, or above the plane

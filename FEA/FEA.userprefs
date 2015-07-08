@@ -1,17 +1,16 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/Quadrilateral.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="FEA.Mesher/STLReader.cs" Line="151" Column="1" />
-      <File FileName="Unit_Tests/Program.cs" Line="228" Column="1" />
-      <File FileName="FEA.Mesher/Triangle.cs" Line="193" Column="18" />
-      <File FileName="FEA.Mesher/Plane.cs" Line="74" Column="24" />
-      <File FileName="FEA.Mesher/Quadrilateral.cs" Line="41" Column="11" />
-      <File FileName="FEA.Mesher/Rational_BSpline_Surface.cs" Line="152" Column="25" />
+      <File FileName="FEA.Mesher/Plane.cs" Line="16" Column="31" />
+      <File FileName="FEA.Mesher/Triangle.cs" Line="96" Column="13" />
+      <File FileName="FEA.Mesher/STLReader.cs" Line="265" Column="111" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/STLReader.cs" line="164" column="29" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="FEA.Assembler/NaturalCoordinate.cs" line="35" offsetX="478" offsetY="612" expression="IterationRange" liveUpdate="False" />
