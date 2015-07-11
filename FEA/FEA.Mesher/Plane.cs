@@ -1,5 +1,7 @@
 ﻿using System;
 using ManagedCuda.VectorTypes;
+using MathNet.Numerics.LinearAlgebra;
+
 namespace FEA.Mesher
 {
     public class Plane // equation of a plane (ax + by + cz = d)
@@ -46,7 +48,7 @@ namespace FEA.Mesher
         double c;
         double d;
 
-        double3 UnitNormal;
+        public double3 UnitNormal { get;}
 
         public Location AboveOrBelow(double3 Point) {
             double Val =  (a * Point.x + b * Point.y + c * Point.z - d);
@@ -85,7 +87,34 @@ namespace FEA.Mesher
                 Ans = O + D * t;
             }
             return Ans;
-        } 
+        }   
+
+        private Matrix<double> TransformationMatrix(double3 x_new) {
+
+            var z_old = new double3(0, 0, 1);
+            var z_new = UnitNormal;
+            var y_old = new double3(0, 1, 0);
+            var x_old = new double3(1, 0, 0);
+            x_new.Normalize(); // make sure its normalized
+            if (z_new.Dot(x_new) != 0)
+                throw new Exception("Axes must be orthonormal");
+            var y_new = z_new.Cross(x_new);
+
+            var Q = MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.Build.Dense(3, 3);
+            Q[0, 0] = x_new.Dot(x_old);
+            Q[0, 1] = x_new.Dot(y_old);
+            Q[0, 2] = x_new.Dot(z_old);
+
+            Q[1, 0] = y_new.Dot(x_old);
+            Q[1, 1] = y_new.Dot(y_old);
+            Q[1, 2] = y_new.Dot(z_old);
+
+            Q[2, 0] = z_new.Dot(x_old);
+            Q[2, 1] = z_new.Dot(y_old);
+            Q[2, 2] = z_new.Dot(z_old);
+
+            return Q;
+        }
 
         public double3 Transform(double3 Pt, double3 x_new) {
         /*
@@ -106,19 +135,39 @@ namespace FEA.Mesher
             x_old = [1 0 0];
             x_new = ->
         */
-            var z_old = new double3(0, 0, 1);
-            var z_new = UnitNormal;
-            var y_old = new double3(0, 1, 0);
 
-            x_new.Normalize(); // make sure its normalized
-            if (z_new.Dot(x_new) != 0)
-                throw new Exception("Axes must be orthonormal");
-            var y_new = z_new.Cross(x_new);
+
+            // cos q = dot(v,w) / (mag(v) * mag(w)) 
+            var Q = TransformationMatrix(x_new);
+            var v = MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.Build.Dense(3, 1);
+
+            v[0,0] = Pt.x;
+            v[1,0] = Pt.y;
+            v[2,0] = Pt.z;
+
+            var vprime = Q * v;
+
+            return new double3(vprime[0,0], vprime[1,0], vprime[2,0]);
 
         }
 
-        public double3 UnTransform(double3 Pt) {
+        public double3 UnTransform(double3 Pt, double3 x_new) {
             //  Reverse of Transform Method
+            var Q = TransformationMatrix(x_new);
+            var vprime = MathNet.Numerics.LinearAlgebra.Double.DenseMatrix.Build.Dense(3, 1);
+
+            vprime[0,0] = Pt.x;
+            vprime[1,0] = Pt.y;
+            vprime[2,0] = Pt.z;
+
+            var v = Q.Inverse() * vprime;
+
+            var Ans = new double3();
+            Ans.x = v[0, 0];
+            Ans.y = v[1, 0];
+            Ans.z = v[2, 0];
+
+            return Ans;
         }
 
     }

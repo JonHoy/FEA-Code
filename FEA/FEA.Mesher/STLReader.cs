@@ -2,6 +2,7 @@
 using System.IO;
 using ManagedCuda.VectorTypes;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FEA.Mesher
 {
@@ -188,8 +189,15 @@ namespace FEA.Mesher
             // because we have split this part into two pieces, we must patch up the slice plane to make it watertight
             // this involves an in plane 2d delaunay triangulation. To do this, we must transform to 2d and then back to 3d 
 
+            ///var PatchTris = PatchSlice(Slice);
+
+            // now we have to account for in plane triangles. when given patches, the side above the unit normal will have that triangle removed
+
             Part1 = new STLReader(Triangles1.ToArray(), NormalVector1.ToArray());
             Part2 = new STLReader(Triangles2.ToArray(), NormalVector2.ToArray());
+
+            var Patch1 = Part1.PatchSlice(Slice);
+
         }
 
         public void SplitPart(string Part1FileName, string Part2FileName, int Dim = 0) {
@@ -271,9 +279,9 @@ namespace FEA.Mesher
             var S3 = InsideOutsideHelper(Pt, O3);
 
             int TrueCount = 0;
-            TrueCount += (int)S1;
-            TrueCount += (int)S2;
-            TrueCount += (int)S3;
+            TrueCount += Convert.ToInt32(S1);
+            TrueCount += Convert.ToInt32(S2);
+            TrueCount += Convert.ToInt32(S3);
 
             if (TrueCount > 1)
             {
@@ -376,8 +384,136 @@ namespace FEA.Mesher
             return Val;
         }
 
-        private void PatchSlice() { // this function triangulates the slicing plane so that the split parts are watertight
-        
+        private float3 ToFloat3(double3 Val) {
+            var Ans = new float3((float)Val.x,
+                          (float)Val.y,
+                          (float)Val.z);
+            return Ans;
+        }
+
+        private double3 ToDouble3(float3 Val) {
+            var Ans = new double3((double)Val.x,
+                (double)Val.y,
+                (double)Val.z);
+            return Ans;
+        }
+
+        private List<Triangle> PatchSlice(Plane Slice) { // this function triangulates the slicing plane so that the split parts are watertight
+            var PlanePts = new HashSet<double3>(); // these are the points in the plane
+            var PlaneTris = new List<Triangle>(); // these will be holes or required triangles depending on the unit normal
+            var PlaneLines = new HashSet<Line>(); // these are required edges in the surface triangulation 
+            foreach (var Tri in Triangles)
+            {
+                var LocA = Slice.AboveOrBelow(Tri.A);
+                var LocB = Slice.AboveOrBelow(Tri.B);
+                var LocC = Slice.AboveOrBelow(Tri.C);
+
+                Tri.A = ToDouble3(ToFloat3(Tri.A));
+                Tri.B = ToDouble3(ToFloat3(Tri.B));
+                Tri.C = ToDouble3(ToFloat3(Tri.C));
+
+                if (LocA == Location.On)
+                    PlanePts.Add(Tri.A);
+                
+                    
+                if (LocB == Location.On)
+                    PlanePts.Add(Tri.B);
+
+                if (LocC == Location.On)
+                    PlanePts.Add(Tri.C);
+                
+                if (LocA == Location.On && LocB == Location.On && LocC == Location.On)
+                    PlaneTris.Add(Tri);
+                else if (LocA == Location.On && LocB == Location.On)
+                    PlaneLines.Add(new Line(Tri.A, Tri.B));
+                else if (LocB == Location.On && LocC == Location.On)
+                    PlaneLines.Add(new Line(Tri.B, Tri.C));
+                else if (LocA == Location.On && LocB == Location.On)
+                    PlaneLines.Add(new Line(Tri.A, Tri.C));
+            }
+
+            var Pts3D = PlanePts.ToArray();
+
+            var Lines = PlaneLines.ToArray();
+
+            var x_new = Pts3D[1] - Pts3D[0]; 
+            x_new.Normalize(); // define the new x-axis as the vector between the  first two
+            // coplanar points
+            var z_new = Slice.UnitNormal;
+
+            var Poly = new TriangleNet.Geometry.Polygon(); 
+
+            //var TriPoints = new List<TriangleNet.Geometry.Vertex>(Pts3D.Length);
+            Console.WriteLine("Points in Plane:");
+            for (int i = 0; i < Pts3D.Length; i++)
+            {
+                var Pt_new = Slice.Transform(Pts3D[i], x_new);
+                var Vertex_new = new TriangleNet.Geometry.Vertex(Pt_new.x, Pt_new.y);
+                //TriPoints.Add(Vertex_new);
+                Poly.Add(Vertex_new);
+                Console.Write(Vertex_new.X);
+                Console.Write("\t");
+                Console.Write(Vertex_new.Y);
+                Console.Write("\t");
+                Console.WriteLine(Pt_new.z);
+            }
+                    //var Edg = new TriangleNet.Geometry.Edge(
+            for (int i = 0; i < Lines.Length; i++)
+            {
+                var PtA = Lines[i].A;
+                var PtB = Lines[i].B;
+                PtA = Slice.Transform(PtA, x_new);
+                PtB = Slice.Transform(PtB, x_new);
+                var P1 = new TriangleNet.Geometry.Vertex(PtA.x, PtA.y);
+                var P2 = new TriangleNet.Geometry.Vertex(PtB.x, PtB.y);
+                int I1 = Poly.Points.IndexOf(P1);
+                int I2 = Poly.Points.IndexOf(P2);
+                if (I1 == -1 || I2 == -1)
+                    Console.WriteLine("Bad Segment Found!");
+                var Edge = new TriangleNet.Geometry.Edge(I1, I2);
+                Poly.Add(Edge);
+            }
+
+            bool Status = CheckWaterTightness(Poly.Segments, Poly.Points);
+
+            TriangleNet.IO.TriangleWriter.WritePoly(Poly, "CrossSection.poly");
+            //var AlgorithmType = TriangleNet.Meshing.Algorithm.SweepLine;
+            var myMesher = new TriangleNet.Meshing.GenericMesher();
+            var myMesh = myMesher.Triangulate(Poly);
+            var Ans = new Triangle[myMesh.Triangles.Count];
+            for (int i = 0; i < Ans.Length; i++)
+            {
+                var myTri = myMesh.Triangles.ElementAt(i);
+                var P0 = myMesh.Vertices.ElementAt(myTri.P0);
+                var P1 = myMesh.Vertices.ElementAt(myTri.P1);
+                var P2 = myMesh.Vertices.ElementAt(myTri.P2);
+                var PtA = new double3(P0.X, P0.Y, 0);
+                var PtB = new double3(P1.X, P1.Y, 0);
+                var PtC = new double3(P2.X, P2.Y, 0);
+                PtA = Slice.UnTransform(PtA, x_new); // map back to 3d
+                PtB = Slice.UnTransform(PtB, x_new);
+                PtC = Slice.UnTransform(PtC, x_new);
+                Ans[i] = new Triangle(PtA, PtB, PtC);
+            }
+            return Ans.ToList();
+        }
+
+
+        private bool CheckWaterTightness(List<TriangleNet.Geometry.IEdge> Edges, List<TriangleNet.Geometry.Vertex> Points) {
+            var ReferenceCount = new int[Points.Count];
+            foreach (var Line in Edges)
+            {
+                ReferenceCount[Line.P0]++;
+                ReferenceCount[Line.P1]++;
+            }
+            for (int i = 0; i < ReferenceCount.Length; i++)
+            {
+                if (ReferenceCount[i] != 2)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         uint TriangleCount;

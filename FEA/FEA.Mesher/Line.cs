@@ -47,8 +47,8 @@ namespace FEA.Mesher
             }
         }
 
-        double3 A;
-        double3 B;
+        public double3 A;
+        public double3 B;
     }
 }
 
