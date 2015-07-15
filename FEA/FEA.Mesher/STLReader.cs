@@ -402,8 +402,9 @@ namespace FEA.Mesher
             var PlanePts = new HashSet<double3>(); // these are the points in the plane
             var PlaneTris = new List<Triangle>(); // these will be holes or required triangles depending on the unit normal
             var PlaneLines = new HashSet<Line>(); // these are required edges in the surface triangulation 
-            foreach (var Tri in Triangles)
+            for (int i = 0; i < Triangles.Length; i++)
             {
+                var Tri = Triangles[i];
                 var LocA = Slice.AboveOrBelow(Tri.A);
                 var LocB = Slice.AboveOrBelow(Tri.B);
                 var LocC = Slice.AboveOrBelow(Tri.C);

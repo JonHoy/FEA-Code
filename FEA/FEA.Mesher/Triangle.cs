@@ -2,9 +2,11 @@
 using ManagedCuda.VectorTypes;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
+using System.Runtime.InteropServices;
 namespace FEA.Mesher
 {
-    public class Triangle
+    [StructLayout(LayoutKind.Sequential)] 
+    public struct Triangle
     {
         public Triangle(double3 PointA, double3 PointB, double3 PointC)
         {
@@ -24,6 +26,7 @@ namespace FEA.Mesher
         public double3 A;
         public double3 B;
         public double3 C;
+        
         // Möller–Trumbore intersection algorithm (between ray and triangle)
         public double Intersection(double3 O, double3 D) {
             var Ans = new double3(double.NaN);
