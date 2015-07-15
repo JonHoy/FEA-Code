@@ -15,7 +15,7 @@
 #include "Vector.cuh"
 #include "Triangle.cuh"
 
-#define BlockSize 256
+#define BlockSize 512
 
 extern "C" __global__ void PointInPolygon(const int Count, // number of files
 const int PointCountPerSTL, // number of test points per stl file 
@@ -28,9 +28,13 @@ Vector<float>* Points) // Test Points (values which equal nan are outside polygo
 	__shared__ Triangle<float> SharedTriangles[BlockSize]; // cache for high bandwidth
 	int blockId = blockIdx.z + blockIdx.y * gridDim.z + blockIdx.x * gridDim.y * gridDim.z;
 	int threadId = threadIdx.z + threadIdx.y * blockDim.z + threadIdx.x * blockDim.y * blockDim.z;
-	int Offset = blockId * PointCountPerSTL; // Offset Location for the testpoint
+	int PointCountPerThread = PointCountPerSTL / BlockSize;
+	int Offset = blockId * PointCountPerSTL + threadId * PointCountPerThread; // Offset Location for the testpoint
+	
 	// make sure that only blocks with data get processed 
 	if (blockId < Count) {
+
+		int TriangleCount = TriangleCounts[blockId + 1] - TriangleCounts[blockId]; // count the number of triangles in the stl file	
 
 		Vector<float> Origin; // we will cast 3 rays (X dir, Y dir, and Z dir) ) which have an origin outside of the polygon 
 		Vector<float> Direction; // Direction is the vector difference of the Test Point and the Origin
@@ -39,11 +43,12 @@ Vector<float>* Points) // Test Points (values which equal nan are outside polygo
 		
 		Vector<float> Max = Maxima[blockId];
 		Vector<float> Min = Minima[blockId];
-		SharedTriangles[threadId] = Triangles[TriangleCounts[blockId] + threadId]; // save to shared memory 
+		if (threadId < TriangleCount)
+			SharedTriangles[threadId] = Triangles[TriangleCounts[blockId] + threadId]; // save to shared memory 
 		
 		__syncthreads(); // sync the threads so that the shared memory is all there and no race conditions occur
 		
-		for (int i = 0; i < PointCountPerSTL; i++)
+		for (int i = 0; i < PointCountPerThread; i++)
 		{
 			TestPoint = Points[i + Offset];
 			Origin.x = Min.x;
@@ -52,7 +57,7 @@ Vector<float>* Points) // Test Points (values which equal nan are outside polygo
 			Direction = TestPoint - Origin;
 			int AboveCount = 0; // number of ray triangle intersections above the test point
 			int BelowCount = 0; // number of ray triangle intersections below the test point
-			for (int j = 0; j < BlockSize; j++) {
+			for (int j = 0; j < TriangleCount; j++) {
 				Triangle<float> CurrentTriangle = SharedTriangles[j];
 				float t = CurrentTriangle.Intersection(Origin, Direction); // find intersection point if it exists
 				if (t > 1.0)

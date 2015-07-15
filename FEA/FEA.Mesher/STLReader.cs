@@ -384,14 +384,14 @@ namespace FEA.Mesher
             return Val;
         }
 
-        private float3 ToFloat3(double3 Val) {
+        public static float3 ToFloat3(double3 Val) {
             var Ans = new float3((float)Val.x,
                           (float)Val.y,
                           (float)Val.z);
             return Ans;
         }
 
-        private double3 ToDouble3(float3 Val) {
+        public static double3 ToDouble3(float3 Val) {
             var Ans = new double3((double)Val.x,
                 (double)Val.y,
                 (double)Val.z);
@@ -517,9 +517,9 @@ namespace FEA.Mesher
             return true;
         }
 
-        uint TriangleCount;
-        Triangle[] Triangles;
-        double3[] NormalVector;
+        public uint TriangleCount; 
+        public Triangle[] Triangles; 
+        public double3[] NormalVector;
     }
 }
 

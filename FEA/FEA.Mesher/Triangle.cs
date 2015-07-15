@@ -244,5 +244,24 @@ namespace FEA.Mesher
 
     }
 
+    [StructLayout(LayoutKind.Sequential)] 
+    public struct TriangleSTL {
+        float3 NormalVector;
+        float3 Vertex1;
+        float3 Vertex2;
+        float3 Vertex3;
+        UInt16 AttributeByteCount;
+
+        public TriangleSTL(Triangle Tri) {
+            var Plane = Tri.ComputePlane();
+            NormalVector = STLReader.ToFloat3(Plane.UnitNormal);
+            Vertex1 = STLReader.ToFloat3(Tri.A);
+            Vertex2 = STLReader.ToFloat3(Tri.A);
+            Vertex3 = STLReader.ToFloat3(Tri.A);
+            AttributeByteCount = 0;
+        }
+
+    }
+
 }
 
