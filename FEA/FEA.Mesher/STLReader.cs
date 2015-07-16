@@ -3,6 +3,7 @@ using System.IO;
 using ManagedCuda.VectorTypes;
 using System.Collections.Generic;
 using System.Linq;
+using TriangleNet.Geometry;
 
 namespace FEA.Mesher
 {
@@ -199,9 +200,13 @@ namespace FEA.Mesher
             var Patch = Part1.PatchSlice(Slice); // since we sliced open the stl file we must patch it back up
             // TODO remove 2d line segments that are redundant and can be reduced to a single segment. This violates mesh conformity but not water tightness
             // maybe add in line segments that are too far apart as well to get a more uniform output mesh
-            Array.Resize<Triangle>(ref Part1.Triangles, Part1.Triangles.Length + Patch.Length);
-            //Array.Copy(Patch. 
-            Array.Resize<Triangle>(ref Part2.Triangles, Part2.Triangles.Length + Patch.Length);
+            int Part1OldLength = Part1.Triangles.Length;
+            int Part2OldLength = Part2.Triangles.Length;
+
+            Array.Resize<Triangle>(ref Part1.Triangles, Part1OldLength + Patch.Length);
+            Array.Copy(Patch, 0, Part1.Triangles, Part1OldLength, Patch.Length);
+            Array.Resize<Triangle>(ref Part2.Triangles, Part2OldLength + Patch.Length);
+            Array.Copy(Patch, 0, Part1.Triangles, Part1OldLength, Patch.Length);
         }
 
         public void SplitPart(string Part1FileName, string Part2FileName, int Dim = 0) {
@@ -445,14 +450,14 @@ namespace FEA.Mesher
             // coplanar points
             var z_new = Slice.UnitNormal;
 
-            var Poly = new TriangleNet.Geometry.Polygon(); 
+            var Poly = new Polygon(); 
 
-            //var TriPoints = new List<TriangleNet.Geometry.Vertex>(Pts3D.Length);
+            //var TriPoints = new List<Vertex>(Pts3D.Length);
             Console.WriteLine("Points in Plane:");
             for (int i = 0; i < Pts3D.Length; i++)
             {
                 var Pt_new = Slice.Transform(Pts3D[i], x_new);
-                var Vertex_new = new TriangleNet.Geometry.Vertex(Pt_new.x, Pt_new.y);
+                var Vertex_new = new Vertex(Pt_new.x, Pt_new.y);
                 //TriPoints.Add(Vertex_new);
                 Poly.Add(Vertex_new);
                 Console.Write(Vertex_new.X);
@@ -461,20 +466,20 @@ namespace FEA.Mesher
                 Console.Write("\t");
                 Console.WriteLine(Pt_new.z);
             }
-                    //var Edg = new TriangleNet.Geometry.Edge(
+
             for (int i = 0; i < Lines.Length; i++)
             {
                 var PtA = Lines[i].A;
                 var PtB = Lines[i].B;
                 PtA = Slice.Transform(PtA, x_new);
                 PtB = Slice.Transform(PtB, x_new);
-                var P1 = new TriangleNet.Geometry.Vertex(PtA.x, PtA.y);
-                var P2 = new TriangleNet.Geometry.Vertex(PtB.x, PtB.y);
+                var P1 = new Vertex(PtA.x, PtA.y);
+                var P2 = new Vertex(PtB.x, PtB.y);
                 int I1 = Poly.Points.IndexOf(P1);
                 int I2 = Poly.Points.IndexOf(P2);
                 if (I1 == -1 || I2 == -1)
                     Console.WriteLine("Bad Segment Found!");
-                var Edge = new TriangleNet.Geometry.Edge(I1, I2);
+                var Edge = new Edge(I1, I2);
                 Poly.Add(Edge);
             }
 
@@ -483,7 +488,16 @@ namespace FEA.Mesher
             TriangleNet.IO.TriangleWriter.WritePoly(Poly, "CrossSection.poly");
             //var AlgorithmType = TriangleNet.Meshing.Algorithm.SweepLine;
             var myMesher = new TriangleNet.Meshing.GenericMesher();
-            var myMesh = myMesher.Triangulate(Poly);
+            var myMesh = myMesher.Triangulate(Poly);    
+            // TODO: 
+            // How does this fair when the cross section is multiple separate regions adhering to Jordan Curve Theorem
+
+            // FIXME: Write algorithm to break up seperate regions along the plane
+
+            // Also account for holes being punched in the mesh (One side gets a hole, the mirror doesnt) when the cutting plane is along an interior surface
+
+            // TODO Add back in unit normals to patch
+
             var Ans = new Triangle[myMesh.Triangles.Count];
             for (int i = 0; i < Ans.Length; i++)
             {
@@ -501,9 +515,72 @@ namespace FEA.Mesher
             }
             return Ans;
         }
+        private void RemoveRedundantSegments(List<IEdge> Edges, List<Vertex> Points) { 
+            // this algorithm is not exhaustive but rather assumes that redudant segments are next to each other in the sequence
+            // keep in mind this results in a failure in the 3d watertightness but technically the mesh has no gaps or overlap
+            // so technically the mesh is still watertight even if the algorithm doesnt detect it
+            var olddydx = double.NaN;
+            var OldPoint = new Vertex(double.NaN, double.NaN);
 
+            var PointSet = new HashSet<Vertex>();
+            var EdgeSet = new List<double4>();
 
-        private bool CheckWaterTightness(List<TriangleNet.Geometry.IEdge> Edges, List<TriangleNet.Geometry.Vertex> Points) {
+            var CurrentLine = new double4(Points[Edges[0].P0].X,
+                Points[Edges[0].P0].Y,
+                Points[Edges[0].P1].X,
+                Points[Edges[0].P1].Y);
+
+            for (int i = 1; i < Edges.Count; i++)
+            {
+
+                var P1 = Points[Edges[i].P1];
+                var P0 = Points[Edges[i].P0];
+                double dydx = (P1.Y - P0.Y) / (P1.Y - P0.Y);
+                var XDist = OldPoint.X - P0.X;
+                var YDist = OldPoint.Y - P0.Y;
+
+                if (olddydx == dydx && XDist == 0 && YDist == 0)
+                {
+                    CurrentLine.z = P1.X;
+                    CurrentLine.w = P1.Y;
+                }
+                else 
+                {
+                    EdgeSet.Add(CurrentLine);
+                    CurrentLine.x = P0.X;
+                    CurrentLine.y = P0.Y;
+                    CurrentLine.z = P1.X;
+                    CurrentLine.w = P1.Y;
+                }
+
+                olddydx = dydx;
+                OldPoint = P1;
+            }
+
+            EdgeSet.Add(CurrentLine);
+            foreach (var item in EdgeSet)
+            {
+                PointSet.Add(new Vertex(item.x, item.y));
+                PointSet.Add(new Vertex(item.z, item.w));
+            }
+            Points = PointSet.ToList();
+            
+        }
+
+        private int IndexOf(Vertex Pt, List<Vertex> Set) {
+            int ans = -1;
+            for (int i = 0; i < Set.Count; i++)
+            {
+                if (Set[i].Equals(Pt))
+                {
+                    ans = i;
+                    break;
+                }
+            }
+            return ans;
+        }
+
+        private bool CheckWaterTightness(List<IEdge> Edges, List<Vertex> Points) {
             var ReferenceCount = new int[Points.Count];
             foreach (var Line in Edges)
             {
