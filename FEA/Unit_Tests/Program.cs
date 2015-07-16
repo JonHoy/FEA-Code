@@ -39,15 +39,49 @@ namespace Unit_Tests
 
 		static private void TestMesher() {
             TestBasisFunction();
-            //var Id = new IGSReader("Cable support hook.igs");
-            //TestNURBS(Id);
-            //var Id2 = new IGSReader("impeller turbo charger 127.IGS");
-            //TestNURBS(Id2);
             TestSTLReader();
+            Test2dMesher();
 		}
 
         static private void TestPointInPolygon() {
             var STLFile = new STLReader("Cable support hook.stl");
+        }
+
+        static private void Test2dMesher() {
+            // make a 2 non intersecting, non overlapping boxes put a hole in one of them and make sure the mesher does its job properly.
+
+            var Pts = new List<TriangleNet.Geometry.Vertex>();
+            var Lines = new List<TriangleNet.Geometry.IEdge>();
+            var Poly = new TriangleNet.Geometry.Polygon();
+            // box1
+            Poly.Add(new TriangleNet.Geometry.Vertex(0, 0));
+            Poly.Add(new TriangleNet.Geometry.Vertex(1, 0));
+            Poly.Add(new TriangleNet.Geometry.Edge(0, 1));
+            Poly.Add(new TriangleNet.Geometry.Vertex(1, 1));
+            Poly.Add(new TriangleNet.Geometry.Edge(1, 2));
+            Poly.Add(new TriangleNet.Geometry.Vertex(0, 1));
+            Poly.Add(new TriangleNet.Geometry.Edge(2, 3));
+            Poly.Add(new TriangleNet.Geometry.Edge(3, 0));
+            // box2
+            Poly.Add(new TriangleNet.Geometry.Vertex(2, 2));
+            Poly.Add(new TriangleNet.Geometry.Vertex(3, 2));
+            Poly.Add(new TriangleNet.Geometry.Edge(4, 5));
+            Poly.Add(new TriangleNet.Geometry.Vertex(3, 3));
+            Poly.Add(new TriangleNet.Geometry.Edge(5, 6));
+            Poly.Add(new TriangleNet.Geometry.Vertex(2, 3));
+            Poly.Add(new TriangleNet.Geometry.Edge(6, 7));
+            Poly.Add(new TriangleNet.Geometry.Edge(7, 4));
+            // hole in box1
+            Poly.Add(new TriangleNet.Geometry.Vertex(.25, .25));
+            Poly.Add(new TriangleNet.Geometry.Vertex(.75, .25));
+            Poly.Add(new TriangleNet.Geometry.Edge(8, 9));
+            Poly.Add(new TriangleNet.Geometry.Vertex(.75, .75));
+            Poly.Add(new TriangleNet.Geometry.Edge(9, 10));
+            Poly.Add(new TriangleNet.Geometry.Vertex(.25, .75));
+            Poly.Add(new TriangleNet.Geometry.Edge(10, 11));
+            Poly.Add(new TriangleNet.Geometry.Edge(11, 8));
+
+            TriangleNet.IO.TriangleWriter.WritePoly(Poly, "MultiplePolyTest.poly");
         }
 
 		static private void TestPhysics() {}

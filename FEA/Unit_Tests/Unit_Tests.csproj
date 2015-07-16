@@ -51,6 +51,9 @@
     <Reference Include="ManagedCuda">
       <HintPath>..\Externals\ManagedCuda.dll</HintPath>
     </Reference>
+    <Reference Include="Triangle">
+      <HintPath>..\Externals\Triangle.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
