@@ -196,8 +196,12 @@ namespace FEA.Mesher
             Part1 = new STLReader(Triangles1.ToArray(), NormalVector1.ToArray());
             Part2 = new STLReader(Triangles2.ToArray(), NormalVector2.ToArray());
 
-            var Patch1 = Part1.PatchSlice(Slice);
-
+            var Patch = Part1.PatchSlice(Slice); // since we sliced open the stl file we must patch it back up
+            // TODO remove 2d line segments that are redundant and can be reduced to a single segment. This violates mesh conformity but not water tightness
+            // maybe add in line segments that are too far apart as well to get a more uniform output mesh
+            Array.Resize<Triangle>(ref Part1.Triangles, Part1.Triangles.Length + Patch.Length);
+            //Array.Copy(Patch. 
+            Array.Resize<Triangle>(ref Part2.Triangles, Part2.Triangles.Length + Patch.Length);
         }
 
         public void SplitPart(string Part1FileName, string Part2FileName, int Dim = 0) {
@@ -299,7 +303,7 @@ namespace FEA.Mesher
             for (int i = 0; i < Triangles.Length; i++)
             {
                 var t = Triangles[i].Intersection(O, D);
-                if (t != double.NaN)
+                if (!double.IsNaN(t))
                 {
                     Intersections.Add(t);
                 }
@@ -345,7 +349,6 @@ namespace FEA.Mesher
                     Buffer.BlockCopy(Floats, 0, TriBuffer, 0, 48);
                     writer.Write(TriBuffer);
                 }
-                writer.Close();
             }
         }
 
@@ -398,7 +401,7 @@ namespace FEA.Mesher
             return Ans;
         }
 
-        private List<Triangle> PatchSlice(Plane Slice) { // this function triangulates the slicing plane so that the split parts are watertight
+        private Triangle[] PatchSlice(Plane Slice) { // this function triangulates the slicing plane so that the split parts are watertight
             var PlanePts = new HashSet<double3>(); // these are the points in the plane
             var PlaneTris = new List<Triangle>(); // these will be holes or required triangles depending on the unit normal
             var PlaneLines = new HashSet<Line>(); // these are required edges in the surface triangulation 
@@ -496,7 +499,7 @@ namespace FEA.Mesher
                 PtC = Slice.UnTransform(PtC, x_new);
                 Ans[i] = new Triangle(PtA, PtB, PtC);
             }
-            return Ans.ToList();
+            return Ans;
         }
 
 

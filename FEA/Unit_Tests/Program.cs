@@ -45,7 +45,11 @@ namespace Unit_Tests
             //TestNURBS(Id2);
             TestSTLReader();
 		}
-            
+
+        static private void TestPointInPolygon() {
+            var STLFile = new STLReader("Cable support hook.stl");
+        }
+
 		static private void TestPhysics() {}
 
 		static private void TestIndices() {

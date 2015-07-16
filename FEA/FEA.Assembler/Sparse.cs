@@ -10,10 +10,7 @@ namespace FEA.Assembler
 		public int[] Rows;
 		public int[] RowsCompressed;
 		public int[] Cols;
-		[DllImport ("libFEA")]
-		private static extern int getpid();
-		[DllImport ("libFEA")]
-		private static extern ulong STL_Unique(ulong* Ptr, ulong length);
+
 		public Sparse (int[,] NDelaunay, int NodeCount) {
 			GenerateCSR (NDelaunay, NodeCount);
 //			HashSet<ulong> mySet = new HashSet<ulong> (); // make a hashset that contains the unique indices of the array. After creation, it can be sorted

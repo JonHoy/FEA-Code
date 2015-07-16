@@ -48,7 +48,7 @@ namespace FEA.Mesher
         double c;
         double d;
 
-        public double3 UnitNormal { get;}
+        public double3 UnitNormal;
 
         public Location AboveOrBelow(double3 Point) {
             double Val =  (a * Point.x + b * Point.y + c * Point.z - d);

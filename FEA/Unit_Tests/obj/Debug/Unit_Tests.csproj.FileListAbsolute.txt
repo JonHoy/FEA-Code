@@ -1,8 +1,0 @@
-D:\Documents\GitHub\FEA-Code\FEA\Unit_Tests\bin\Debug\Unit_Tests.exe.config
-D:\Documents\GitHub\FEA-Code\FEA\Unit_Tests\bin\Debug\Unit_Tests.exe
-D:\Documents\GitHub\FEA-Code\FEA\Unit_Tests\bin\Debug\Unit_Tests.pdb
-D:\Documents\GitHub\FEA-Code\FEA\Unit_Tests\obj\Debug\Unit_Tests.csprojResolveAssemblyReference.cache
-D:\Documents\GitHub\FEA-Code\FEA\Unit_Tests\obj\Debug\Unit_Tests.exe
-D:\Documents\GitHub\FEA-Code\FEA\Unit_Tests\obj\Debug\Unit_Tests.pdb
-D:\Documents\GitHub\FEA-Code\FEA\Unit_Tests\bin\Debug\FEA.dll
-D:\Documents\GitHub\FEA-Code\FEA\Unit_Tests\bin\Debug\FEA.pdb

@@ -219,13 +219,13 @@ namespace FEA.Mesher.IGES
                 for (int j = 0; j < Cols; j++) {
                     Quad = new Quadrilateral(ControlNet[i, j], ControlNet[i, j + 1], ControlNet[i + 1, j + 1], ControlNet[i + 1, j]);
                     var LocalIntersection = Quad.Intersection(P, d);
-                    if (LocalIntersection.x != double.NaN)
+                    if (!double.IsNaN(LocalIntersection.x))
                     {
                         var InitialGuess = new double2();
                         InitialGuess.x = (U1 - U0) * ((i + 0.5 )/ (double) Rows) + U0;
                         InitialGuess.y = (V1 - V0) * ((j + 0.5) / (double) Cols) + V0;
                         var Point = IntersectionHelper(d, P, InitialGuess);
-                        if (Point.x != double.NaN)
+                        if (!double.IsNaN(Point.x))
                             IntesectionPts.Add(Point);
                     }
                 }
