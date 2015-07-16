@@ -1,29 +1,19 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/PointInserter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/STLReader.cs">
     <Files>
-      <File FileName="FEA.Mesher/Triangle.cs" Line="255" Column="16" />
-      <File FileName="FEA.Mesher/STLReader.cs" Line="520" Column="35" />
-      <File FileName="FEA.Mesher/PointInserter.cs" Line="71" Column="41" />
-      <File FileName="FEA.Mesher/BoundingBox.cs" Line="26" Column="10" />
+      <File FileName="FEA.Mesher/Triangle.cs" Line="1" Column="1" />
+      <File FileName="FEA.Mesher/STLReader.cs" Line="415" Column="14" />
+      <File FileName="FEA.Mesher/PointInserter.cs" Line="1" Column="1" />
+      <File FileName="FEA.Mesher/BoundingBox.cs" Line="1" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="FEA" expanded="True">
-            <Node name="FEA.Mesher" expanded="True">
-              <Node name="PointInserter.cs" selected="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/STLReader.cs" line="478" column="13" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/STLReader.cs" line="504" column="13" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/STLReader.cs" line="517" column="13" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/STLReader.cs" line="505" column="13" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/STLReader.cs" line="616" column="1" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/STLReader.cs" line="589" column="13" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/STLReader.cs" line="577" column="21" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

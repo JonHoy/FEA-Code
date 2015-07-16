@@ -1,4 +1,4 @@
-//Auto Generated File: Saturday, July 11, 2015
+//Auto Generated File: Thursday, July 16, 2015
 template<typename T, int Size, int Dims>
 struct CoefficientMatrix{
 __device__ CoefficientMatrix() {}

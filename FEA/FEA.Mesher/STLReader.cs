@@ -405,7 +405,8 @@ namespace FEA.Mesher
                 (double)Val.z);
             return Ans;
         }
-
+        // TODO Generalize Slice to be more than just a plane (Maybe a parametric surface or NURB?)
+        // Implement with Binary Space Partitioning
         private Triangle[] PatchSlice(Plane Slice) { // this function triangulates the slicing plane so that the split parts are watertight
             var PlanePts = new HashSet<double3>(); // these are the points in the plane
             var PlaneTris = new List<Triangle>(); // these will be holes or required triangles depending on the unit normal
@@ -483,14 +484,18 @@ namespace FEA.Mesher
                 Poly.Add(Edge);
             }
 
+            //Poly = RemoveRedundantSegments(Poly.Segments, Poly.Points);
+
             bool Status = CheckWaterTightness(Poly.Segments, Poly.Points);
 
             TriangleNet.IO.TriangleWriter.WritePoly(Poly, "CrossSection.poly");
             //var AlgorithmType = TriangleNet.Meshing.Algorithm.SweepLine;
             var myMesher = new TriangleNet.Meshing.GenericMesher();
-            var myMesh = myMesher.Triangulate(Poly);    
+            var myMesh = myMesher.Triangulate(Poly); // Poly needs to be broken up into self contained singular regions   
             // TODO: 
             // How does this fair when the cross section is multiple separate regions adhering to Jordan Curve Theorem
+            // Each region/ closed curve is a linked list.   
+
 
             // FIXME: Write algorithm to break up seperate regions along the plane
 
@@ -515,15 +520,23 @@ namespace FEA.Mesher
             }
             return Ans;
         }
-        private void RemoveRedundantSegments(List<IEdge> Edges, List<Vertex> Points) { 
+        /*
+        private Polygon RemoveRedundantSegments(List<IEdge> Edges, List<Vertex> Points) { 
             // this algorithm is not exhaustive but rather assumes that redudant segments are next to each other in the sequence
             // keep in mind this results in a failure in the 3d watertightness but technically the mesh has no gaps or overlap
             // so technically the mesh is still watertight even if the algorithm doesnt detect it
+
+            double Eps = 1e-6;
+
             var olddydx = double.NaN;
-            var OldPoint = new Vertex(double.NaN, double.NaN);
+
+            var OldPoint0 = new Vertex(double.NaN, double.NaN);
+            var OldPoint1 = new Vertex(double.NaN, double.NaN);
 
             var PointSet = new HashSet<Vertex>();
             var EdgeSet = new List<double4>();
+
+            var newEdges = new List<IEdge>();
 
             var CurrentLine = new double4(Points[Edges[0].P0].X,
                 Points[Edges[0].P0].Y,
@@ -535,11 +548,26 @@ namespace FEA.Mesher
 
                 var P1 = Points[Edges[i].P1];
                 var P0 = Points[Edges[i].P0];
-                double dydx = (P1.Y - P0.Y) / (P1.Y - P0.Y);
-                var XDist = OldPoint.X - P0.X;
-                var YDist = OldPoint.Y - P0.Y;
+                double dydx = (P1.Y - P0.Y) / (P1.X - P0.X);
+                var XDist00 = Math.Abs(OldPoint0.X - P0.X);
+                var YDist00 = Math.Abs(OldPoint0.Y - P0.Y);
+                var XDist01 = Math.Abs(OldPoint0.X - P1.X);
+                var YDist01 = Math.Abs(OldPoint0.Y - P1.Y);
 
-                if (olddydx == dydx && XDist == 0 && YDist == 0)
+                var XDist10 = Math.Abs(OldPoint1.X - P0.X);
+                var YDist10 = Math.Abs(OldPoint1.Y - P0.Y);
+                var XDist11 = Math.Abs(OldPoint1.X - P1.X);
+                var YDist11 = Math.Abs(OldPoint1.Y - P1.Y);
+
+                var XDist0 = Math.Min(XDist00, XDist01);
+                var XDist1 = Math.Min(XDist10, XDist11);
+
+                var YDist0 = Math.Min(YDist01, YDist00);
+                var YDist1 = Math.Min(YDist10, YDist11);
+
+                var XDist = Math.Min(XDist0, XDist1);
+                var YDist = Math.Min(YDist0, YDist1);
+                if (Math.Abs(olddydx - dydx) < Eps && XDist == 0 && YDist == 0)
                 {
                     CurrentLine.z = P1.X;
                     CurrentLine.w = P1.Y;
@@ -554,7 +582,8 @@ namespace FEA.Mesher
                 }
 
                 olddydx = dydx;
-                OldPoint = P1;
+                OldPoint1 = P1;
+                OldPoint0 = P0;
             }
 
             EdgeSet.Add(CurrentLine);
@@ -563,9 +592,30 @@ namespace FEA.Mesher
                 PointSet.Add(new Vertex(item.x, item.y));
                 PointSet.Add(new Vertex(item.z, item.w));
             }
-            Points = PointSet.ToList();
-            
+            var newPoints = PointSet.ToList();
+            foreach (var item in EdgeSet)
+            {
+                var P0 = new Vertex(item.x, item.y);
+                var P1 = new Vertex(item.z, item.w);
+                var I0 = IndexOf(P0, newPoints);
+                var I1 = IndexOf(P1, newPoints);
+                var Edge = new Edge(I0, I1);
+                newEdges.Add(Edge);
+            }
+            Edges = newEdges;
+
+            var newPoly = new Polygon();
+            foreach (var item in newPoints)
+            {
+                newPoly.Add(item);
+            }
+            foreach (var item in newEdges)
+            {
+                newPoly.Add(new Edge(item.P0, item.P1));
+            }
+            return newPoly;
         }
+        */
 
         private int IndexOf(Vertex Pt, List<Vertex> Set) {
             int ans = -1;
