@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/STLReader.cs">
     <Files>
-      <File FileName="FEA.Mesher/STLReader.cs" Line="206" Column="88" />
-      <File FileName="Unit_Tests/Program.cs" Line="84" Column="84" />
+      <File FileName="FEA.Mesher/STLReader.cs" Line="220" Column="14" />
+      <File FileName="Unit_Tests/Program.cs" Line="57" Column="61" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

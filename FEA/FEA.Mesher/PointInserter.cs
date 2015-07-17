@@ -17,7 +17,7 @@ namespace FEA.Mesher
                 throw new Exception("NumPoints must be divisible by " + BlockSize.ToString());
             int[] TriangleCounts = new int[GridCount + 1];
             var Maxima = new float3[GridCount];
-            var Mimima = new float3[GridCount];
+            var Minima = new float3[GridCount];
             TriangleCounts[0] = 0;
             for (int i = 0; i < GridCount; i++)
             {
@@ -27,7 +27,7 @@ namespace FEA.Mesher
                     throw new Exception("STL File must have no more than " + BlockSize.ToString() + " Triangles");
                 }
                 TriangleCounts[i + 1] = LocalCount;
-                Mimima[i] = STLReader.ToFloat3(Files[i].Extrema.Min);
+                Minima[i] = STLReader.ToFloat3(Files[i].Extrema.Min);
                 Maxima[i] = STLReader.ToFloat3(Files[i].Extrema.Max);
             }
             var Triangles = new TriangleSTL[TriangleCounts[GridCount]];
@@ -50,8 +50,30 @@ namespace FEA.Mesher
             var d_TriangleCounts = new CudaDeviceVariable<int>(GridCount);
             var d_Minima = new CudaDeviceVariable<float3>(GridCount);
             var d_Maxima = new CudaDeviceVariable<float3>(GridCount);
-            var d_Points = new CudaDeviceVariable<float3>(GridCount);
-
+            var d_Points = new CudaDeviceVariable<float3>(GridCount * NumPoints);
+            var h_Points = new float3[GridCount * NumPoints];
+            var rng = new Random(0); // use a sequence that is repeatable over and over again
+            for (int i = 0; i < GridCount * NumPoints; i++)
+            {
+                h_Points[i].x = (float)rng.NextDouble();
+                h_Points[i].y = (float)rng.NextDouble();
+                h_Points[i].z = (float)rng.NextDouble();
+            }
+            int ctr = 0;
+            for (int i = 0; i < GridCount; i++)
+            {
+                for (int j = 0; j < NumPoints; j++) {
+                    h_Points[i].x = Minima[i].x + h_Points[i].x * (Maxima[i].x - Minima[i].x);
+                    h_Points[i].y = Minima[i].y + h_Points[i].y * (Maxima[i].y - Minima[i].y);
+                    h_Points[i].z = Minima[i].z + h_Points[i].z * (Maxima[i].z - Minima[i].z);
+                    ctr++;
+                }
+            }
+            d_Points = h_Points;
+            d_Triangles = Triangles;
+            d_TriangleCounts = TriangleCounts;
+            d_Minima = Minima;
+            d_Maxima = Maxima;
             // copy over to host
             // TODO generate grid on GPU instead of CPU
 
@@ -66,6 +88,7 @@ namespace FEA.Mesher
             PointInPolygonKernel.Run(GridCount,
                 NumPoints,
                 d_TriangleCounts.DevicePointer,
+                d_Triangles.DevicePointer,
                 d_Maxima.DevicePointer,
                 d_Minima.DevicePointer,
                 d_Points.DevicePointer);

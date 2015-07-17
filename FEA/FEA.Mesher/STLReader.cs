@@ -4,6 +4,7 @@ using ManagedCuda.VectorTypes;
 using System.Collections.Generic;
 using System.Linq;
 using TriangleNet.Geometry;
+using System.Threading.Tasks;
 
 namespace FEA.Mesher
 {
@@ -196,6 +197,7 @@ namespace FEA.Mesher
 
             Part1 = new STLReader(Triangles1.ToArray(), NormalVector1.ToArray());
             Part2 = new STLReader(Triangles2.ToArray(), NormalVector2.ToArray());
+
     
             var Patch = Part1.PatchSlice(Slice); // since we sliced open the stl file we must patch it back up
             // TODO remove 2d line segments that are redundant and can be reduced to a single segment. This violates mesh conformity but not water tightness
@@ -203,10 +205,11 @@ namespace FEA.Mesher
             int Part1OldLength = Part1.Triangles.Length;
             int Part2OldLength = Part2.Triangles.Length;
 
+
             Array.Resize<Triangle>(ref Part1.Triangles, Part1OldLength + Patch.Length);
             Array.Copy(Patch, 0, Part1.Triangles, Part1OldLength, Patch.Length);
             Array.Resize<Triangle>(ref Part2.Triangles, Part2OldLength + Patch.Length);
-            Array.Copy(Patch, 0, Part1.Triangles, Part1OldLength, Patch.Length);
+            Array.Copy(Patch, 0, Part2.Triangles, Part2OldLength, Patch.Length);
 
             Array.Resize<double3>(ref Part1.NormalVector, Part1OldLength + Patch.Length);
             Array.Resize<double3>(ref Part2.NormalVector, Part2OldLength + Patch.Length);
@@ -217,14 +220,28 @@ namespace FEA.Mesher
                 Part1.NormalVector[i + Part1OldLength] = Part1Normal;
                 Part2.NormalVector[i + Part2OldLength] = Part2Normal;
             }
+            bool Status1 = Part1.CheckWaterTightness();
+            bool Status2 = Part2.CheckWaterTightness();
+
+            Part1.TriangleCount = (uint) Part1.Triangles.Length;
+            Part2.TriangleCount = (uint) Part2.Triangles.Length;
+
         }
 
-        public List<STLReader> RecursiveSplit(int MaxTriangleCount) {
+        public List<STLReader> RecursiveSplit(int MaxTriCount) {
             // this algorithm subdivides the stl part into a list of small pieces
             // This is 3d quadtree like in that it keeps on dividing along the dimension of greatest length
             // eg if the part is bounded by 12in x 5in x 16in box
             // the new boxes are 12 x 5 x 8 in size
             // and if needs be, then further subdivided to 6 x 5 x 8 then to 6 x 5 x 4 and so on...
+            //MaxTriangleCount = MaxTriCount;
+            var MasterList = new List<STLReader>();
+            if (TriangleCount < MaxTriCount)
+            {
+                MasterList.Add(this);
+                return MasterList;
+            }
+
             var Lengths = new double[3];
             Lengths[0] = Extrema.Max.x - Extrema.Min.x;
             Lengths[1] = Extrema.Max.y - Extrema.Min.y;
@@ -232,17 +249,54 @@ namespace FEA.Mesher
             int MaxDim = 0;
             double MaxLength = 0;
             double SliceLocation = 0;
+            double StartPt = 0;
             for (int i = 0; i < 3; i++)
             {
                 if (Lengths[i] > MaxLength)
                 {
                     MaxLength = Lengths[i];
-                    SliceLocation = Extrema.Min.x + MaxLength / 2.0;
                     MaxDim = i;
                 }
             }
+            if (MaxDim == 0)
+            {
+                SliceLocation = Extrema.Min.x + MaxLength / 2;
+            }
+            else if (MaxDim == 1){
+                SliceLocation = Extrema.Min.y + MaxLength / 2;
+            }
+            else {
+                SliceLocation = Extrema.Min.z + MaxLength / 2;
+            }
+
             var Slice = new Plane(SliceLocation, MaxDim);
-            // this needs to be parallelized
+            STLReader Part1;
+            STLReader Part2;
+            SplitPart(Slice, out Part1, out Part2);
+            Part1.WriteToFile("Part1_" + TriangleCount.ToString() + ".stl");
+            Part2.WriteToFile("Part2_" + TriangleCount.ToString() + ".stl");
+            /*
+            // Multithreaded implementation
+            var Obj1 = new SubDividerObj();
+            Obj1.Part = Part1;
+            Obj1.MaxTriCount = MaxTriCount;
+            var Obj2 = new SubDividerObj();
+            Obj2.Part = Part2;
+            Obj2.MaxTriCount = MaxTriCount;
+            var Thrd1 = new System.Threading.Thread(SubDividerObj.DoWork);
+            var Thrd2 = new System.Threading.Thread(SubDividerObj.DoWork);
+            Thrd1.Start(Obj1);
+            Thrd2.Start(Obj2);
+            Thrd1.Join();
+            Thrd2.Join();
+            MasterList.AddRange(Obj1.Output);
+            MasterList.AddRange(Obj2.Output);
+            */
+            //
+            // Single Threaded Implementation
+            MasterList.AddRange(Part1.RecursiveSplit(MaxTriCount));
+            MasterList.AddRange(Part2.RecursiveSplit(MaxTriCount));
+            return MasterList;
         }
 
         public void SplitPart(string Part1FileName, string Part2FileName, int Dim = 0) {
@@ -489,6 +543,8 @@ namespace FEA.Mesher
 
             var Poly = new Polygon(); 
 
+            double ZOffset = Slice.Transform(Pts3D[0], x_new).z;
+
             for (int i = 0; i < Pts3D.Length; i++)
             {
                 var Pt_new = Slice.Transform(Pts3D[i], x_new);
@@ -496,6 +552,7 @@ namespace FEA.Mesher
                 Poly.Add(Vertex_new);
             }
 
+            var EdgeSet = new HashSet<Edge>();
             for (int i = 0; i < Lines.Length; i++)
             {
                 var PtA = Lines[i].A;
@@ -508,18 +565,33 @@ namespace FEA.Mesher
                 int I2 = Poly.Points.IndexOf(P2);
                 if (I1 == -1 || I2 == -1)
                     Console.WriteLine("Bad Segment Found!");
-                var Edge = new Edge(I1, I2);
-                Poly.Add(Edge);
-            }
 
+                var Edge = new Edge(Math.Min(I1, I2),Math.Max(I1, I2));
+                EdgeSet.Add(Edge);
+            }
+            var PolyEdges = EdgeSet.ToArray();
+            foreach (var item in PolyEdges)
+            {
+                Poly.Add(item);
+            }
             //Poly = RemoveRedundantSegments(Poly.Segments, Poly.Points);
 
             bool Status = CheckWaterTightness(Poly.Segments, Poly.Points);
 
-            TriangleNet.IO.TriangleWriter.WritePoly(Poly, "CrossSection.poly");
-            //var AlgorithmType = TriangleNet.Meshing.Algorithm.SweepLine;
+            TriangleNet.IO.TriangleWriter.WritePoly(Poly, "PolyTest.poly");
+
+            if (Status == false) {
+                Console.WriteLine("Warning, Inconsistent cross section detected!");
+                throw new Exception("STL File is not watertight!");
+            }
+
+            var qualityOptions = new TriangleNet.Meshing.QualityOptions();
+            qualityOptions.MinimumAngle = 20;
+            qualityOptions.MaximumAngle = 140;
+            
             var myMesher = new TriangleNet.Meshing.GenericMesher();
-            var myMesh = myMesher.Triangulate(Poly); // Poly needs to be broken up into self contained singular regions   
+            var myMesh = (TriangleNet.Mesh)myMesher.Triangulate(Poly, qualityOptions); // Poly needs to be broken up into self contained singular regions   
+
             // TODO: 
             // How does this fair when the cross section is multiple separate regions adhering to Jordan Curve Theorem
             // Each region/ closed curve is a linked list.   
@@ -532,15 +604,20 @@ namespace FEA.Mesher
             // TODO Add back in unit normals to patch
 
             var Ans = new Triangle[myMesh.Triangles.Count];
+            if (Ans.Length == 0)
+            {
+                throw new Exception("Patch Meshing Failure Detected!");
+            }
+            TriangleNet.IO.TriangleWriter.Write(myMesh, "MeshTest.ele");
             for (int i = 0; i < Ans.Length; i++)
             {
                 var myTri = myMesh.Triangles.ElementAt(i);
                 var P0 = myMesh.Vertices.ElementAt(myTri.P0);
                 var P1 = myMesh.Vertices.ElementAt(myTri.P1);
                 var P2 = myMesh.Vertices.ElementAt(myTri.P2);
-                var PtA = new double3(P0.X, P0.Y, 0);
-                var PtB = new double3(P1.X, P1.Y, 0);
-                var PtC = new double3(P2.X, P2.Y, 0);
+                var PtA = new double3(P0.X, P0.Y, ZOffset);
+                var PtB = new double3(P1.X, P1.Y, ZOffset);
+                var PtC = new double3(P2.X, P2.Y, ZOffset);
                 PtA = Slice.UnTransform(PtA, x_new); // map back to 3d
                 PtB = Slice.UnTransform(PtB, x_new);
                 PtC = Slice.UnTransform(PtC, x_new);
@@ -579,9 +656,25 @@ namespace FEA.Mesher
             return true;
         }
 
-        public uint TriangleCount; 
+        public uint TriangleCount;
         public Triangle[] Triangles; 
         public double3[] NormalVector;
     }
+
+    class SubDividerObj {
+        public int MaxTriCount;
+        public STLReader Part;
+        public List<STLReader> Output;
+
+        public SubDividerObj() {
+        }
+
+        public static void DoWork(object data) {
+            var Obj = (SubDividerObj) data;
+            Obj.Output = Obj.Part.RecursiveSplit(Obj.MaxTriCount);
+        }
+    }
+
 }
+
 
