@@ -12,8 +12,7 @@ namespace FEA.Mesher
             Domains = Files;
             GridCount = Domains.Length;
             int BlockSize = 512;
-            TestPointsPerFile = NumPoints;
-            if (BlockSize % TestPointsPerFile != 0)
+            if (NumPoints % BlockSize != 0)
                 throw new Exception("NumPoints must be divisible by " + BlockSize.ToString());
             int[] TriangleCounts = new int[GridCount + 1];
             var Maxima = new float3[GridCount];
@@ -22,7 +21,7 @@ namespace FEA.Mesher
             for (int i = 0; i < GridCount; i++)
             {
                 int LocalCount = TriangleCounts[i] + (int)Files[i].TriangleCount;
-                if (LocalCount > BlockSize)
+                if (Files[i].TriangleCount > BlockSize)
                 {
                     throw new Exception("STL File must have no more than " + BlockSize.ToString() + " Triangles");
                 }
@@ -46,6 +45,8 @@ namespace FEA.Mesher
             //DeviceVariables.Add("Maxima", new CudaDeviceVariable<float3>(GridCount));
             //DeviceVariables.Add("Minima", new CudaDeviceVariable<float3>(GridCount));
 
+            var ctx = new CudaContext(0);
+
             var d_Triangles = new CudaDeviceVariable<TriangleSTL>(Triangles.Length);
             var d_TriangleCounts = new CudaDeviceVariable<int>(GridCount);
             var d_Minima = new CudaDeviceVariable<float3>(GridCount);
@@ -63,9 +64,9 @@ namespace FEA.Mesher
             for (int i = 0; i < GridCount; i++)
             {
                 for (int j = 0; j < NumPoints; j++) {
-                    h_Points[i].x = Minima[i].x + h_Points[i].x * (Maxima[i].x - Minima[i].x);
-                    h_Points[i].y = Minima[i].y + h_Points[i].y * (Maxima[i].y - Minima[i].y);
-                    h_Points[i].z = Minima[i].z + h_Points[i].z * (Maxima[i].z - Minima[i].z);
+                    h_Points[ctr].x = Minima[i].x + h_Points[ctr].x * (Maxima[i].x - Minima[i].x);
+                    h_Points[ctr].y = Minima[i].y + h_Points[ctr].y * (Maxima[i].y - Minima[i].y);
+                    h_Points[ctr].z = Minima[i].z + h_Points[ctr].z * (Maxima[i].z - Minima[i].z);
                     ctr++;
                 }
             }
@@ -77,7 +78,7 @@ namespace FEA.Mesher
             // copy over to host
             // TODO generate grid on GPU instead of CPU
 
-            var ctx = new CudaContext(CudaContext.GetMaxGflopsDeviceId());
+
             var PointInPolygonKernel = ctx.LoadKernelPTX("PointInPolygon.ptx", "PointInPolygon");
             var BlockDim = new dim3(BlockSize, 1, 1);
             var GridDim = new dim3(GridCount, 1, 1);
@@ -92,7 +93,7 @@ namespace FEA.Mesher
                 d_Maxima.DevicePointer,
                 d_Minima.DevicePointer,
                 d_Points.DevicePointer);
-
+            h_Points = d_Points;
         }
         int GridCount;
         STLReader[] Domains;

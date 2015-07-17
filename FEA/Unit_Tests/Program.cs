@@ -269,7 +269,8 @@ namespace Unit_Tests
                 if (item.TriangleCount > MaxCount)
                     throw new Exception("This must be less than " + MaxCount.ToString() + " Triangles");
             }
-            var Mesher = new PointInserter(SubDivisions.ToArray(), 100000000);
+            int NumPoints = 512 * 10000;
+            var Mesher = new PointInserter(SubDivisions.ToArray(), NumPoints);
         }
 
         static private void TestBasisFunction() {

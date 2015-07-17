@@ -1,13 +1,16 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/STLReader.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/PointInserter.cs">
     <Files>
       <File FileName="FEA.Mesher/STLReader.cs" Line="220" Column="14" />
-      <File FileName="Unit_Tests/Program.cs" Line="57" Column="61" />
+      <File FileName="Unit_Tests/Program.cs" Line="273" Column="1" />
+      <File FileName="FEA.Mesher/PointInserter.cs" Line="68" Column="99" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/PointInserter.cs" line="96" column="13" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="FEA.Assembler/NaturalCoordinate.cs" line="35" offsetX="478" offsetY="612" expression="IterationRange" liveUpdate="False" />
