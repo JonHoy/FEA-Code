@@ -196,7 +196,7 @@ namespace FEA.Mesher
 
             Part1 = new STLReader(Triangles1.ToArray(), NormalVector1.ToArray());
             Part2 = new STLReader(Triangles2.ToArray(), NormalVector2.ToArray());
-
+    
             var Patch = Part1.PatchSlice(Slice); // since we sliced open the stl file we must patch it back up
             // TODO remove 2d line segments that are redundant and can be reduced to a single segment. This violates mesh conformity but not water tightness
             // maybe add in line segments that are too far apart as well to get a more uniform output mesh
@@ -207,6 +207,42 @@ namespace FEA.Mesher
             Array.Copy(Patch, 0, Part1.Triangles, Part1OldLength, Patch.Length);
             Array.Resize<Triangle>(ref Part2.Triangles, Part2OldLength + Patch.Length);
             Array.Copy(Patch, 0, Part1.Triangles, Part1OldLength, Patch.Length);
+
+            Array.Resize<double3>(ref Part1.NormalVector, Part1OldLength + Patch.Length);
+            Array.Resize<double3>(ref Part2.NormalVector, Part2OldLength + Patch.Length);
+            double3 Part1Normal = -1.0 * Slice.UnitNormal;
+            double3 Part2Normal = Slice.UnitNormal;
+            for (int i = 0; i < Patch.Length; i++)
+            {
+                Part1.NormalVector[i + Part1OldLength] = Part1Normal;
+                Part2.NormalVector[i + Part2OldLength] = Part2Normal;
+            }
+        }
+
+        public List<STLReader> RecursiveSplit(int MaxTriangleCount) {
+            // this algorithm subdivides the stl part into a list of small pieces
+            // This is 3d quadtree like in that it keeps on dividing along the dimension of greatest length
+            // eg if the part is bounded by 12in x 5in x 16in box
+            // the new boxes are 12 x 5 x 8 in size
+            // and if needs be, then further subdivided to 6 x 5 x 8 then to 6 x 5 x 4 and so on...
+            var Lengths = new double[3];
+            Lengths[0] = Extrema.Max.x - Extrema.Min.x;
+            Lengths[1] = Extrema.Max.y - Extrema.Min.y;
+            Lengths[2] = Extrema.Max.z - Extrema.Min.z;
+            int MaxDim = 0;
+            double MaxLength = 0;
+            double SliceLocation = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                if (Lengths[i] > MaxLength)
+                {
+                    MaxLength = Lengths[i];
+                    SliceLocation = Extrema.Min.x + MaxLength / 2.0;
+                    MaxDim = i;
+                }
+            }
+            var Slice = new Plane(SliceLocation, MaxDim);
+            // this needs to be parallelized
         }
 
         public void SplitPart(string Part1FileName, string Part2FileName, int Dim = 0) {
@@ -453,19 +489,11 @@ namespace FEA.Mesher
 
             var Poly = new Polygon(); 
 
-            //var TriPoints = new List<Vertex>(Pts3D.Length);
-            Console.WriteLine("Points in Plane:");
             for (int i = 0; i < Pts3D.Length; i++)
             {
                 var Pt_new = Slice.Transform(Pts3D[i], x_new);
                 var Vertex_new = new Vertex(Pt_new.x, Pt_new.y);
-                //TriPoints.Add(Vertex_new);
                 Poly.Add(Vertex_new);
-                Console.Write(Vertex_new.X);
-                Console.Write("\t");
-                Console.Write(Vertex_new.Y);
-                Console.Write("\t");
-                Console.WriteLine(Pt_new.z);
             }
 
             for (int i = 0; i < Lines.Length; i++)
@@ -520,102 +548,6 @@ namespace FEA.Mesher
             }
             return Ans;
         }
-        /*
-        private Polygon RemoveRedundantSegments(List<IEdge> Edges, List<Vertex> Points) { 
-            // this algorithm is not exhaustive but rather assumes that redudant segments are next to each other in the sequence
-            // keep in mind this results in a failure in the 3d watertightness but technically the mesh has no gaps or overlap
-            // so technically the mesh is still watertight even if the algorithm doesnt detect it
-
-            double Eps = 1e-6;
-
-            var olddydx = double.NaN;
-
-            var OldPoint0 = new Vertex(double.NaN, double.NaN);
-            var OldPoint1 = new Vertex(double.NaN, double.NaN);
-
-            var PointSet = new HashSet<Vertex>();
-            var EdgeSet = new List<double4>();
-
-            var newEdges = new List<IEdge>();
-
-            var CurrentLine = new double4(Points[Edges[0].P0].X,
-                Points[Edges[0].P0].Y,
-                Points[Edges[0].P1].X,
-                Points[Edges[0].P1].Y);
-
-            for (int i = 1; i < Edges.Count; i++)
-            {
-
-                var P1 = Points[Edges[i].P1];
-                var P0 = Points[Edges[i].P0];
-                double dydx = (P1.Y - P0.Y) / (P1.X - P0.X);
-                var XDist00 = Math.Abs(OldPoint0.X - P0.X);
-                var YDist00 = Math.Abs(OldPoint0.Y - P0.Y);
-                var XDist01 = Math.Abs(OldPoint0.X - P1.X);
-                var YDist01 = Math.Abs(OldPoint0.Y - P1.Y);
-
-                var XDist10 = Math.Abs(OldPoint1.X - P0.X);
-                var YDist10 = Math.Abs(OldPoint1.Y - P0.Y);
-                var XDist11 = Math.Abs(OldPoint1.X - P1.X);
-                var YDist11 = Math.Abs(OldPoint1.Y - P1.Y);
-
-                var XDist0 = Math.Min(XDist00, XDist01);
-                var XDist1 = Math.Min(XDist10, XDist11);
-
-                var YDist0 = Math.Min(YDist01, YDist00);
-                var YDist1 = Math.Min(YDist10, YDist11);
-
-                var XDist = Math.Min(XDist0, XDist1);
-                var YDist = Math.Min(YDist0, YDist1);
-                if (Math.Abs(olddydx - dydx) < Eps && XDist == 0 && YDist == 0)
-                {
-                    CurrentLine.z = P1.X;
-                    CurrentLine.w = P1.Y;
-                }
-                else 
-                {
-                    EdgeSet.Add(CurrentLine);
-                    CurrentLine.x = P0.X;
-                    CurrentLine.y = P0.Y;
-                    CurrentLine.z = P1.X;
-                    CurrentLine.w = P1.Y;
-                }
-
-                olddydx = dydx;
-                OldPoint1 = P1;
-                OldPoint0 = P0;
-            }
-
-            EdgeSet.Add(CurrentLine);
-            foreach (var item in EdgeSet)
-            {
-                PointSet.Add(new Vertex(item.x, item.y));
-                PointSet.Add(new Vertex(item.z, item.w));
-            }
-            var newPoints = PointSet.ToList();
-            foreach (var item in EdgeSet)
-            {
-                var P0 = new Vertex(item.x, item.y);
-                var P1 = new Vertex(item.z, item.w);
-                var I0 = IndexOf(P0, newPoints);
-                var I1 = IndexOf(P1, newPoints);
-                var Edge = new Edge(I0, I1);
-                newEdges.Add(Edge);
-            }
-            Edges = newEdges;
-
-            var newPoly = new Polygon();
-            foreach (var item in newPoints)
-            {
-                newPoly.Add(item);
-            }
-            foreach (var item in newEdges)
-            {
-                newPoly.Add(new Edge(item.P0, item.P1));
-            }
-            return newPoly;
-        }
-        */
 
         private int IndexOf(Vertex Pt, List<Vertex> Set) {
             int ans = -1;
