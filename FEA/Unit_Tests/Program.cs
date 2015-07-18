@@ -18,7 +18,8 @@ namespace Unit_Tests
     {
         static void Main(string[] args)
 		{
-			TestMesher ();
+            var Tst = new KernelTests();
+            TestMesher ();
 			TestAssembler ();
 		}
 
