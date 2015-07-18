@@ -86,6 +86,11 @@ struct Triangle
         T Area = CrossProd.Length() / 2.0;
         return Area;
     }
+    
+    __device__ Vector<T> Centroid() { // This is useful for casting rays
+    	Vector<T> Centroid = (A + B + C) / 3.0;
+    	return Centroid;
+    }
 
 
 };

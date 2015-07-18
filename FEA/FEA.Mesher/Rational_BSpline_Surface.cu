@@ -1,4 +1,4 @@
-
+// template of NURB
 template <typename T, int K1, int K2, int M1, int M2>
 class Rational_BSpline_Surface 
 {

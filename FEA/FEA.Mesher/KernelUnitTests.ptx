@@ -4,7 +4,7 @@
 	// nvopencc 4.1 built on 2013-07-17
 
 	//-----------------------------------------------------------
-	// Compiling /tmp/tmpxft_000054e0_00000000-9_KernelUnitTests.cpp3.i (/tmp/ccBI#.RN9Fos)
+	// Compiling /tmp/tmpxft_00006ca1_00000000-9_KernelUnitTests.cpp3.i (/tmp/ccBI#.P5gb5y)
 	//-----------------------------------------------------------
 
 	//-----------------------------------------------------------
@@ -18,39 +18,40 @@
 
 	.file	1	"<command-line>"
 	.file	2	"/usr/include/stdc-predef.h"
-	.file	3	"/tmp/tmpxft_000054e0_00000000-8_KernelUnitTests.cudafe2.gpu"
+	.file	3	"/tmp/tmpxft_00006ca1_00000000-8_KernelUnitTests.cudafe2.gpu"
 	.file	4	"Vector.cuh"
-	.file	5	"/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h"
-	.file	6	"/usr/include/crt/device_runtime.h"
-	.file	7	"/usr/include/host_defines.h"
-	.file	8	"/usr/include/builtin_types.h"
-	.file	9	"/usr/include/device_types.h"
-	.file	10	"/usr/include/driver_types.h"
-	.file	11	"/usr/include/surface_types.h"
-	.file	12	"/usr/include/texture_types.h"
-	.file	13	"/usr/include/vector_types.h"
-	.file	14	"/usr/include/device_launch_parameters.h"
-	.file	15	"/usr/include/crt/storage_class.h"
-	.file	16	"KernelUnitTests.cu"
-	.file	17	"/usr/include/common_functions.h"
-	.file	18	"/usr/include/math_functions.h"
-	.file	19	"/usr/include/math_constants.h"
-	.file	20	"/usr/include/device_functions.h"
-	.file	21	"/usr/include/sm_11_atomic_functions.h"
-	.file	22	"/usr/include/sm_12_atomic_functions.h"
-	.file	23	"/usr/include/sm_13_double_functions.h"
-	.file	24	"/usr/include/sm_20_atomic_functions.h"
-	.file	25	"/usr/include/sm_32_atomic_functions.h"
-	.file	26	"/usr/include/sm_35_atomic_functions.h"
-	.file	27	"/usr/include/sm_20_intrinsics.h"
-	.file	28	"/usr/include/sm_30_intrinsics.h"
-	.file	29	"/usr/include/sm_32_intrinsics.h"
-	.file	30	"/usr/include/sm_35_intrinsics.h"
-	.file	31	"/usr/include/surface_functions.h"
-	.file	32	"/usr/include/texture_fetch_functions.h"
-	.file	33	"/usr/include/texture_indirect_functions.h"
-	.file	34	"/usr/include/surface_indirect_functions.h"
-	.file	35	"/usr/include/math_functions_dbl_ptx1.h"
+	.file	5	"Triangle.cuh"
+	.file	6	"/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h"
+	.file	7	"/usr/include/crt/device_runtime.h"
+	.file	8	"/usr/include/host_defines.h"
+	.file	9	"/usr/include/builtin_types.h"
+	.file	10	"/usr/include/device_types.h"
+	.file	11	"/usr/include/driver_types.h"
+	.file	12	"/usr/include/surface_types.h"
+	.file	13	"/usr/include/texture_types.h"
+	.file	14	"/usr/include/vector_types.h"
+	.file	15	"/usr/include/device_launch_parameters.h"
+	.file	16	"/usr/include/crt/storage_class.h"
+	.file	17	"KernelUnitTests.cu"
+	.file	18	"/usr/include/common_functions.h"
+	.file	19	"/usr/include/math_functions.h"
+	.file	20	"/usr/include/math_constants.h"
+	.file	21	"/usr/include/device_functions.h"
+	.file	22	"/usr/include/sm_11_atomic_functions.h"
+	.file	23	"/usr/include/sm_12_atomic_functions.h"
+	.file	24	"/usr/include/sm_13_double_functions.h"
+	.file	25	"/usr/include/sm_20_atomic_functions.h"
+	.file	26	"/usr/include/sm_32_atomic_functions.h"
+	.file	27	"/usr/include/sm_35_atomic_functions.h"
+	.file	28	"/usr/include/sm_20_intrinsics.h"
+	.file	29	"/usr/include/sm_30_intrinsics.h"
+	.file	30	"/usr/include/sm_32_intrinsics.h"
+	.file	31	"/usr/include/sm_35_intrinsics.h"
+	.file	32	"/usr/include/surface_functions.h"
+	.file	33	"/usr/include/texture_fetch_functions.h"
+	.file	34	"/usr/include/texture_indirect_functions.h"
+	.file	35	"/usr/include/surface_indirect_functions.h"
+	.file	36	"/usr/include/math_functions_dbl_ptx1.h"
 
 
 	.entry TestCrossProduct (
@@ -64,8 +65,9 @@
 	.reg .u64 %rd<10>;
 	.reg .f32 %f<17>;
 	.reg .pred %p<3>;
-	.loc	16	12	0
+	.loc	17	19	0
 $LDWbegin_TestCrossProduct:
+	.loc	17	21	0
 	mov.u16 	%rh1, %ntid.y;
 	mov.u16 	%rh2, %tid.x;
 	mul.wide.u16 	%r1, %rh2, %rh1;
@@ -92,7 +94,7 @@ $LDWbegin_TestCrossProduct:
 	ld.param.s32 	%r19, [__cudaparm_TestCrossProduct_Count];
 	setp.le.s32 	%p1, %r19, %r18;
 	@%p1 bra 	$Lt_0_1026;
-	.loc	16	19	0
+	.loc	17	23	0
 	cvt.s64.s32 	%rd1, %r18;
 	mul.wide.s32 	%rd2, %r18, 12;
 	ld.param.u64 	%rd3, [__cudaparm_TestCrossProduct_B];
@@ -117,14 +119,14 @@ $LDWbegin_TestCrossProduct:
 	mul.f32 	%f13, %f5, %f1;
 	mul.f32 	%f14, %f9, %f2;
 	sub.f32 	%f15, %f14, %f13;
-	.loc	16	19	0
+	.loc	17	23	0
 	ld.param.u64 	%rd7, [__cudaparm_TestCrossProduct_C];
 	add.u64 	%rd8, %rd7, %rd2;
 	st.global.f32 	[%rd8+0], %f8;
 	st.global.f32 	[%rd8+4], %f12;
 	st.global.f32 	[%rd8+8], %f15;
 $Lt_0_1026:
-	.loc	16	22	0
+	.loc	17	26	0
 	exit;
 $LDWend_TestCrossProduct:
 	} // TestCrossProduct
@@ -140,8 +142,9 @@ $LDWend_TestCrossProduct:
 	.reg .u64 %rd<11>;
 	.reg .f32 %f<11>;
 	.reg .pred %p<3>;
-	.loc	16	27	0
+	.loc	17	31	0
 $LDWbegin_TestDotProduct:
+	.loc	17	33	0
 	mov.u16 	%rh1, %ntid.y;
 	mov.u16 	%rh2, %tid.x;
 	mul.wide.u16 	%r1, %rh2, %rh1;
@@ -184,13 +187,13 @@ $LDWbegin_TestDotProduct:
 	ld.global.f32 	%f7, [%rd4+8];
 	ld.global.f32 	%f8, [%rd6+8];
 	mad.f32 	%f9, %f7, %f8, %f6;
-	.loc	16	34	0
+	.loc	17	35	0
 	ld.param.u64 	%rd7, [__cudaparm_TestDotProduct_C];
 	mul.wide.s32 	%rd8, %r18, 4;
 	add.u64 	%rd9, %rd7, %rd8;
 	st.global.f32 	[%rd9+0], %f9;
 $Lt_1_1026:
-	.loc	16	37	0
+	.loc	17	38	0
 	exit;
 $LDWend_TestDotProduct:
 	} // TestDotProduct
@@ -206,8 +209,9 @@ $LDWend_TestDotProduct:
 	.reg .u64 %rd<10>;
 	.reg .f32 %f<11>;
 	.reg .pred %p<3>;
-	.loc	16	42	0
+	.loc	17	43	0
 $LDWbegin_TestAdd:
+	.loc	17	45	0
 	mov.u16 	%rh1, %ntid.y;
 	mov.u16 	%rh2, %tid.x;
 	mul.wide.u16 	%r1, %rh2, %rh1;
@@ -248,7 +252,7 @@ $LDWbegin_TestAdd:
 	ld.global.f32 	%f4, [%rd4+8];
 	ld.global.f32 	%f5, [%rd6+8];
 	add.f32 	%f6, %f4, %f5;
-	.loc	16	49	0
+	.loc	17	47	0
 	ld.param.u64 	%rd7, [__cudaparm_TestAdd_C];
 	add.u64 	%rd8, %rd7, %rd2;
 	ld.global.f32 	%f7, [%rd4+0];
@@ -258,7 +262,7 @@ $LDWbegin_TestAdd:
 	st.global.f32 	[%rd8+4], %f3;
 	st.global.f32 	[%rd8+8], %f6;
 $Lt_2_1026:
-	.loc	16	51	0
+	.loc	17	49	0
 	exit;
 $LDWend_TestAdd:
 	} // TestAdd
@@ -274,8 +278,9 @@ $LDWend_TestAdd:
 	.reg .u64 %rd<10>;
 	.reg .f32 %f<11>;
 	.reg .pred %p<3>;
-	.loc	16	56	0
+	.loc	17	54	0
 $LDWbegin_TestSubtract:
+	.loc	17	56	0
 	mov.u16 	%rh1, %ntid.y;
 	mov.u16 	%rh2, %tid.x;
 	mul.wide.u16 	%r1, %rh2, %rh1;
@@ -316,7 +321,7 @@ $LDWbegin_TestSubtract:
 	ld.global.f32 	%f4, [%rd4+8];
 	ld.global.f32 	%f5, [%rd6+8];
 	sub.f32 	%f6, %f4, %f5;
-	.loc	16	63	0
+	.loc	17	58	0
 	ld.param.u64 	%rd7, [__cudaparm_TestSubtract_C];
 	add.u64 	%rd8, %rd7, %rd2;
 	ld.global.f32 	%f7, [%rd4+0];
@@ -326,7 +331,7 @@ $LDWbegin_TestSubtract:
 	st.global.f32 	[%rd8+4], %f3;
 	st.global.f32 	[%rd8+8], %f6;
 $Lt_3_1026:
-	.loc	16	65	0
+	.loc	17	60	0
 	exit;
 $LDWend_TestSubtract:
 	} // TestSubtract
@@ -342,8 +347,9 @@ $LDWend_TestSubtract:
 	.reg .u64 %rd<11>;
 	.reg .f32 %f<9>;
 	.reg .pred %p<3>;
-	.loc	16	70	0
+	.loc	17	65	0
 $LDWbegin_TestMultiply:
+	.loc	17	66	0
 	mov.u16 	%rh1, %ntid.y;
 	mov.u16 	%rh2, %tid.x;
 	mul.wide.u16 	%r1, %rh2, %rh1;
@@ -370,7 +376,7 @@ $LDWbegin_TestMultiply:
 	ld.param.s32 	%r19, [__cudaparm_TestMultiply_Count];
 	setp.le.s32 	%p1, %r19, %r18;
 	@%p1 bra 	$Lt_4_1026;
-	.loc	16	77	0
+	.loc	17	68	0
 	cvt.s64.s32 	%rd1, %r18;
 	ld.param.u64 	%rd2, [__cudaparm_TestMultiply_B];
 	mul.wide.s32 	%rd3, %r18, 4;
@@ -385,7 +391,7 @@ $LDWbegin_TestMultiply:
 	.loc	4	44	0
 	ld.global.f32 	%f4, [%rd7+8];
 	mul.f32 	%f5, %f4, %f1;
-	.loc	16	77	0
+	.loc	17	68	0
 	ld.param.u64 	%rd8, [__cudaparm_TestMultiply_C];
 	add.u64 	%rd9, %rd8, %rd5;
 	ld.global.f32 	%f6, [%rd7+0];
@@ -394,7 +400,7 @@ $LDWbegin_TestMultiply:
 	st.global.f32 	[%rd9+4], %f3;
 	st.global.f32 	[%rd9+8], %f5;
 $Lt_4_1026:
-	.loc	16	79	0
+	.loc	17	70	0
 	exit;
 $LDWend_TestMultiply:
 	} // TestMultiply
@@ -410,8 +416,9 @@ $LDWend_TestMultiply:
 	.reg .u64 %rd<11>;
 	.reg .f32 %f<9>;
 	.reg .pred %p<3>;
-	.loc	16	84	0
+	.loc	17	75	0
 $LDWbegin_TestDivide:
+	.loc	17	76	0
 	mov.u16 	%rh1, %ntid.y;
 	mov.u16 	%rh2, %tid.x;
 	mul.wide.u16 	%r1, %rh2, %rh1;
@@ -438,7 +445,7 @@ $LDWbegin_TestDivide:
 	ld.param.s32 	%r19, [__cudaparm_TestDivide_Count];
 	setp.le.s32 	%p1, %r19, %r18;
 	@%p1 bra 	$Lt_5_1026;
-	.loc	16	91	0
+	.loc	17	78	0
 	cvt.s64.s32 	%rd1, %r18;
 	ld.param.u64 	%rd2, [__cudaparm_TestDivide_B];
 	mul.wide.s32 	%rd3, %r18, 4;
@@ -451,7 +458,7 @@ $LDWbegin_TestDivide:
 	ld.global.f32 	%f2, [%rd7+4];
 	.loc	4	52	0
 	ld.global.f32 	%f3, [%rd7+8];
-	.loc	16	91	0
+	.loc	17	78	0
 	ld.param.u64 	%rd8, [__cudaparm_TestDivide_C];
 	add.u64 	%rd9, %rd8, %rd5;
 	ld.global.f32 	%f4, [%rd7+0];
@@ -462,7 +469,7 @@ $LDWbegin_TestDivide:
 	div.full.f32 	%f7, %f3, %f1;
 	st.global.f32 	[%rd9+8], %f7;
 $Lt_5_1026:
-	.loc	16	93	0
+	.loc	17	80	0
 	exit;
 $LDWend_TestDivide:
 	} // TestDivide
@@ -477,8 +484,9 @@ $LDWend_TestDivide:
 	.reg .u64 %rd<9>;
 	.reg .f32 %f<9>;
 	.reg .pred %p<3>;
-	.loc	16	98	0
+	.loc	17	85	0
 $LDWbegin_TestLength:
+	.loc	17	86	0
 	mov.u16 	%rh1, %ntid.y;
 	mov.u16 	%rh2, %tid.x;
 	mul.wide.u16 	%r1, %rh2, %rh1;
@@ -516,14 +524,14 @@ $LDWbegin_TestLength:
 	mul.f32 	%f4, %f1, %f1;
 	mad.f32 	%f5, %f2, %f2, %f4;
 	mad.f32 	%f6, %f3, %f3, %f5;
-	.loc	16	105	0
+	.loc	17	88	0
 	sqrt.approx.f32 	%f7, %f6;
 	ld.param.u64 	%rd5, [__cudaparm_TestLength_B];
 	mul.wide.s32 	%rd6, %r18, 4;
 	add.u64 	%rd7, %rd5, %rd6;
 	st.global.f32 	[%rd7+0], %f7;
 $Lt_6_1026:
-	.loc	16	107	0
+	.loc	17	90	0
 	exit;
 $LDWend_TestLength:
 	} // TestLength
@@ -538,8 +546,9 @@ $LDWend_TestLength:
 	.reg .u64 %rd<8>;
 	.reg .f32 %f<14>;
 	.reg .pred %p<3>;
-	.loc	16	111	0
+	.loc	17	94	0
 $LDWbegin_TestNormalize:
+	.loc	17	95	0
 	mov.u16 	%rh1, %ntid.y;
 	mov.u16 	%rh2, %tid.x;
 	mul.wide.u16 	%r1, %rh2, %rh1;
@@ -566,7 +575,7 @@ $LDWbegin_TestNormalize:
 	ld.param.s32 	%r19, [__cudaparm_TestNormalize_Count];
 	setp.le.s32 	%p1, %r19, %r18;
 	@%p1 bra 	$Lt_7_1026;
-	.loc	16	118	0
+	.loc	17	97	0
 	cvt.s64.s32 	%rd1, %r18;
 	mul.wide.s32 	%rd2, %r18, 12;
 	ld.param.u64 	%rd3, [__cudaparm_TestNormalize_A];
@@ -596,8 +605,424 @@ $LDWbegin_TestNormalize:
 	div.full.f32 	%f12, %f3, %f9;
 	st.global.f32 	[%rd6+8], %f12;
 $Lt_7_1026:
-	.loc	16	121	0
+	.loc	17	100	0
 	exit;
 $LDWend_TestNormalize:
 	} // TestNormalize
+
+	.entry TestTriangleArea (
+		.param .s32 __cudaparm_TestTriangleArea_Count,
+		.param .u64 __cudaparm_TestTriangleArea_A,
+		.param .u64 __cudaparm_TestTriangleArea_B)
+	{
+	.reg .u16 %rh<7>;
+	.reg .u32 %r<21>;
+	.reg .u64 %rd<9>;
+	.reg .f32 %f<32>;
+	.reg .pred %p<3>;
+	.loc	17	104	0
+$LDWbegin_TestTriangleArea:
+	.loc	17	105	0
+	mov.u16 	%rh1, %ntid.y;
+	mov.u16 	%rh2, %tid.x;
+	mul.wide.u16 	%r1, %rh2, %rh1;
+	mov.u16 	%rh3, %ctaid.x;
+	mov.u16 	%rh4, %nctaid.y;
+	mul.wide.u16 	%r2, %rh3, %rh4;
+	mov.u16 	%rh5, %ntid.x;
+	mul.wide.u16 	%r3, %rh5, %rh1;
+	cvt.u32.u16 	%r4, %tid.y;
+	add.u32 	%r5, %r4, %r1;
+	cvt.u32.u16 	%r6, %ctaid.y;
+	add.u32 	%r7, %r6, %r2;
+	cvt.u32.u16 	%r8, %ntid.z;
+	mul.lo.u32 	%r9, %r3, %r8;
+	mul.lo.u32 	%r10, %r5, %r8;
+	cvt.u32.u16 	%r11, %nctaid.z;
+	mul.lo.u32 	%r12, %r11, %r7;
+	cvt.u32.u16 	%r13, %tid.z;
+	add.u32 	%r14, %r13, %r10;
+	cvt.u32.u16 	%r15, %ctaid.z;
+	add.u32 	%r16, %r15, %r12;
+	mul.lo.u32 	%r17, %r9, %r16;
+	add.u32 	%r18, %r14, %r17;
+	ld.param.s32 	%r19, [__cudaparm_TestTriangleArea_Count];
+	setp.le.s32 	%p1, %r19, %r18;
+	@%p1 bra 	$Lt_8_1026;
+	.loc	5	82	0
+	cvt.s64.s32 	%rd1, %r18;
+	ld.param.u64 	%rd2, [__cudaparm_TestTriangleArea_A];
+	mul.wide.s32 	%rd3, %r18, 52;
+	add.u64 	%rd4, %rd2, %rd3;
+	ld.global.f32 	%f1, [%rd4+12];
+	ld.global.f32 	%f2, [%rd4+24];
+	sub.f32 	%f3, %f2, %f1;
+	ld.global.f32 	%f4, [%rd4+16];
+	ld.global.f32 	%f5, [%rd4+28];
+	sub.f32 	%f6, %f5, %f4;
+	ld.global.f32 	%f7, [%rd4+20];
+	ld.global.f32 	%f8, [%rd4+32];
+	sub.f32 	%f9, %f8, %f7;
+	.loc	5	83	0
+	ld.global.f32 	%f10, [%rd4+36];
+	sub.f32 	%f11, %f10, %f1;
+	ld.global.f32 	%f12, [%rd4+40];
+	sub.f32 	%f13, %f12, %f4;
+	ld.global.f32 	%f14, [%rd4+44];
+	sub.f32 	%f15, %f14, %f7;
+	.loc	17	107	0
+	mul.f32 	%f16, %f3, %f15;
+	mul.f32 	%f17, %f9, %f13;
+	mul.f32 	%f18, %f11, %f6;
+	mul.f32 	%f19, %f11, %f9;
+	sub.f32 	%f20, %f19, %f16;
+	mul.f32 	%f21, %f6, %f15;
+	sub.f32 	%f22, %f21, %f17;
+	mul.f32 	%f23, %f3, %f13;
+	sub.f32 	%f24, %f23, %f18;
+	mul.f32 	%f25, %f20, %f20;
+	mad.f32 	%f26, %f22, %f22, %f25;
+	mad.f32 	%f27, %f24, %f24, %f26;
+	sqrt.approx.f32 	%f28, %f27;
+	mov.f32 	%f29, 0f3f000000;    	// 0.5
+	mul.f32 	%f30, %f28, %f29;
+	ld.param.u64 	%rd5, [__cudaparm_TestTriangleArea_B];
+	mul.wide.s32 	%rd6, %r18, 4;
+	add.u64 	%rd7, %rd5, %rd6;
+	st.global.f32 	[%rd7+0], %f30;
+$Lt_8_1026:
+	.loc	17	109	0
+	exit;
+$LDWend_TestTriangleArea:
+	} // TestTriangleArea
+
+	.entry TestNormalVector (
+		.param .s32 __cudaparm_TestNormalVector_Count,
+		.param .u64 __cudaparm_TestNormalVector_A)
+	{
+	.reg .u16 %rh<7>;
+	.reg .u32 %r<21>;
+	.reg .u64 %rd<6>;
+	.reg .f32 %f<26>;
+	.reg .pred %p<3>;
+	.loc	17	112	0
+$LDWbegin_TestNormalVector:
+	.loc	17	113	0
+	mov.u16 	%rh1, %ntid.y;
+	mov.u16 	%rh2, %tid.x;
+	mul.wide.u16 	%r1, %rh2, %rh1;
+	mov.u16 	%rh3, %ctaid.x;
+	mov.u16 	%rh4, %nctaid.y;
+	mul.wide.u16 	%r2, %rh3, %rh4;
+	mov.u16 	%rh5, %ntid.x;
+	mul.wide.u16 	%r3, %rh5, %rh1;
+	cvt.u32.u16 	%r4, %tid.y;
+	add.u32 	%r5, %r4, %r1;
+	cvt.u32.u16 	%r6, %ctaid.y;
+	add.u32 	%r7, %r6, %r2;
+	cvt.u32.u16 	%r8, %ntid.z;
+	mul.lo.u32 	%r9, %r3, %r8;
+	mul.lo.u32 	%r10, %r5, %r8;
+	cvt.u32.u16 	%r11, %nctaid.z;
+	mul.lo.u32 	%r12, %r11, %r7;
+	cvt.u32.u16 	%r13, %tid.z;
+	add.u32 	%r14, %r13, %r10;
+	cvt.u32.u16 	%r15, %ctaid.z;
+	add.u32 	%r16, %r15, %r12;
+	mul.lo.u32 	%r17, %r9, %r16;
+	add.u32 	%r18, %r14, %r17;
+	ld.param.s32 	%r19, [__cudaparm_TestNormalVector_Count];
+	setp.le.s32 	%p1, %r19, %r18;
+	@%p1 bra 	$Lt_9_1026;
+	.loc	5	76	0
+	ld.param.u64 	%rd1, [__cudaparm_TestNormalVector_A];
+	cvt.s64.s32 	%rd2, %r18;
+	mul.wide.s32 	%rd3, %r18, 52;
+	add.u64 	%rd4, %rd1, %rd3;
+	ld.global.f32 	%f1, [%rd4+24];
+	ld.global.f32 	%f2, [%rd4+12];
+	sub.f32 	%f3, %f2, %f1;
+	ld.global.f32 	%f4, [%rd4+28];
+	ld.global.f32 	%f5, [%rd4+16];
+	sub.f32 	%f6, %f5, %f4;
+	ld.global.f32 	%f7, [%rd4+32];
+	ld.global.f32 	%f8, [%rd4+20];
+	sub.f32 	%f9, %f8, %f7;
+	.loc	5	77	0
+	ld.global.f32 	%f10, [%rd4+36];
+	sub.f32 	%f11, %f1, %f10;
+	ld.global.f32 	%f12, [%rd4+40];
+	sub.f32 	%f13, %f4, %f12;
+	ld.global.f32 	%f14, [%rd4+44];
+	sub.f32 	%f15, %f7, %f14;
+	.loc	5	78	0
+	mul.f32 	%f16, %f9, %f13;
+	mul.f32 	%f17, %f6, %f15;
+	sub.f32 	%f18, %f17, %f16;
+	st.global.f32 	[%rd4+0], %f18;
+	mul.f32 	%f19, %f3, %f15;
+	mul.f32 	%f20, %f11, %f9;
+	sub.f32 	%f21, %f20, %f19;
+	st.global.f32 	[%rd4+4], %f21;
+	mul.f32 	%f22, %f11, %f6;
+	mul.f32 	%f23, %f3, %f13;
+	sub.f32 	%f24, %f23, %f22;
+	st.global.f32 	[%rd4+8], %f24;
+$Lt_9_1026:
+	.loc	17	117	0
+	exit;
+$LDWend_TestNormalVector:
+	} // TestNormalVector
+
+	.entry TestTriangleIntersection (
+		.param .s32 __cudaparm_TestTriangleIntersection_Count,
+		.param .u64 __cudaparm_TestTriangleIntersection_A,
+		.param .u64 __cudaparm_TestTriangleIntersection_O,
+		.param .u64 __cudaparm_TestTriangleIntersection_D,
+		.param .u64 __cudaparm_TestTriangleIntersection_t)
+	{
+	.reg .u16 %rh<7>;
+	.reg .u32 %r<21>;
+	.reg .u64 %rd<14>;
+	.reg .f32 %f<64>;
+	.reg .f64 %fd<11>;
+	.reg .pred %p<10>;
+	.loc	17	123	0
+$LDWbegin_TestTriangleIntersection:
+	.loc	17	124	0
+	mov.u16 	%rh1, %ntid.y;
+	mov.u16 	%rh2, %tid.x;
+	mul.wide.u16 	%r1, %rh2, %rh1;
+	mov.u16 	%rh3, %ctaid.x;
+	mov.u16 	%rh4, %nctaid.y;
+	mul.wide.u16 	%r2, %rh3, %rh4;
+	mov.u16 	%rh5, %ntid.x;
+	mul.wide.u16 	%r3, %rh5, %rh1;
+	cvt.u32.u16 	%r4, %tid.y;
+	add.u32 	%r5, %r4, %r1;
+	cvt.u32.u16 	%r6, %ctaid.y;
+	add.u32 	%r7, %r6, %r2;
+	cvt.u32.u16 	%r8, %ntid.z;
+	mul.lo.u32 	%r9, %r3, %r8;
+	mul.lo.u32 	%r10, %r5, %r8;
+	cvt.u32.u16 	%r11, %nctaid.z;
+	mul.lo.u32 	%r12, %r11, %r7;
+	cvt.u32.u16 	%r13, %tid.z;
+	add.u32 	%r14, %r13, %r10;
+	cvt.u32.u16 	%r15, %ctaid.z;
+	add.u32 	%r16, %r15, %r12;
+	mul.lo.u32 	%r17, %r9, %r16;
+	add.u32 	%r18, %r14, %r17;
+	ld.param.s32 	%r19, [__cudaparm_TestTriangleIntersection_Count];
+	setp.le.s32 	%p1, %r19, %r18;
+	@%p1 bra 	$Lt_10_6914;
+	.loc	17	126	0
+	cvt.s64.s32 	%rd1, %r18;
+	mul.wide.s32 	%rd2, %r18, 12;
+	ld.param.u64 	%rd3, [__cudaparm_TestTriangleIntersection_O];
+	add.u64 	%rd4, %rd3, %rd2;
+	ld.global.f32 	%f1, [%rd4+0];
+	ld.global.f32 	%f2, [%rd4+4];
+	ld.global.f32 	%f3, [%rd4+8];
+	ld.param.u64 	%rd5, [__cudaparm_TestTriangleIntersection_D];
+	add.u64 	%rd6, %rd5, %rd2;
+	ld.global.f32 	%f4, [%rd6+0];
+	ld.global.f32 	%f5, [%rd6+4];
+	ld.global.f32 	%f6, [%rd6+8];
+	.loc	5	33	0
+	ld.param.u64 	%rd7, [__cudaparm_TestTriangleIntersection_A];
+	mul.wide.s32 	%rd8, %r18, 52;
+	add.u64 	%rd9, %rd7, %rd8;
+	ld.global.f32 	%f7, [%rd9+12];
+	ld.global.f32 	%f8, [%rd9+24];
+	sub.f32 	%f9, %f8, %f7;
+	ld.global.f32 	%f10, [%rd9+16];
+	ld.global.f32 	%f11, [%rd9+28];
+	sub.f32 	%f12, %f11, %f10;
+	ld.global.f32 	%f13, [%rd9+20];
+	ld.global.f32 	%f14, [%rd9+32];
+	sub.f32 	%f15, %f14, %f13;
+	.loc	5	34	0
+	ld.global.f32 	%f16, [%rd9+36];
+	sub.f32 	%f17, %f16, %f7;
+	ld.global.f32 	%f18, [%rd9+40];
+	sub.f32 	%f19, %f18, %f10;
+	ld.global.f32 	%f20, [%rd9+44];
+	sub.f32 	%f21, %f20, %f13;
+	.loc	5	33	0
+	mul.f32 	%f22, %f4, %f21;
+	mul.f32 	%f23, %f6, %f19;
+	mul.f32 	%f24, %f17, %f5;
+	mul.f32 	%f25, %f17, %f6;
+	sub.f32 	%f26, %f25, %f22;
+	mul.f32 	%f27, %f5, %f21;
+	sub.f32 	%f28, %f27, %f23;
+	mul.f32 	%f29, %f4, %f19;
+	sub.f32 	%f30, %f29, %f24;
+	mul.f32 	%f31, %f26, %f12;
+	mad.f32 	%f32, %f9, %f28, %f31;
+	mad.f32 	%f33, %f15, %f30, %f32;
+	cvt.f64.f32 	%fd1, %f33;
+	mov.f64 	%fd2, 0dbeb0c6f7a0b5ed8d;	// -1e-06
+	setp.gt.f64 	%p2, %fd1, %fd2;
+	@!%p2 bra 	$Lt_10_7938;
+	mov.f64 	%fd3, 0d3eb0c6f7a0b5ed8d;	// 1e-06
+	setp.lt.f64 	%p3, %fd1, %fd3;
+	@!%p3 bra 	$L_10_5378;
+	.loc	5	41	0
+	mov.f32 	%f34, 0fbf800000;    	// -1
+	bra.uni 	$LDWendi__ZN8TriangleIfE12IntersectionE6VectorIfES2__261_1;
+$Lt_10_7938:
+$L_10_5378:
+	.loc	5	44	0
+	sub.f32 	%f35, %f2, %f10;
+	sub.f32 	%f36, %f1, %f7;
+	sub.f32 	%f37, %f3, %f13;
+	mul.f32 	%f38, %f35, %f26;
+	mad.f32 	%f39, %f28, %f36, %f38;
+	mad.f32 	%f40, %f30, %f37, %f39;
+	rcp.rn.f64 	%fd4, %fd1;
+	cvt.rn.f32.f64 	%f41, %fd4;
+	mul.f32 	%f42, %f40, %f41;
+	cvt.f64.f32 	%fd5, %f42;
+	mov.f64 	%fd6, 0d0000000000000000;	// 0
+	setp.lt.f64 	%p4, %fd5, %fd6;
+	@%p4 bra 	$L_10_6146;
+	mov.f64 	%fd7, 0d3ff0000000000000;	// 1
+	setp.gt.f64 	%p5, %fd5, %fd7;
+	@!%p5 bra 	$L_10_5890;
+$L_10_6146:
+	.loc	5	51	0
+	mov.f32 	%f34, 0fbf800000;    	// -1
+	bra.uni 	$LDWendi__ZN8TriangleIfE12IntersectionE6VectorIfES2__261_1;
+$L_10_5890:
+	.loc	5	54	0
+	mul.f32 	%f43, %f35, %f9;
+	mul.f32 	%f44, %f36, %f15;
+	mul.f32 	%f45, %f37, %f12;
+	mul.f32 	%f46, %f36, %f12;
+	sub.f32 	%f47, %f46, %f43;
+	mul.f32 	%f48, %f9, %f37;
+	sub.f32 	%f49, %f48, %f44;
+	mul.f32 	%f50, %f35, %f15;
+	sub.f32 	%f51, %f50, %f45;
+	mul.f32 	%f52, %f49, %f5;
+	mad.f32 	%f53, %f51, %f4, %f52;
+	mad.f32 	%f54, %f47, %f6, %f53;
+	mul.f32 	%f55, %f54, %f41;
+	mov.f32 	%f56, 0f00000000;    	// 0
+	setp.lt.f32 	%p6, %f55, %f56;
+	@%p6 bra 	$L_10_6658;
+	add.f32 	%f57, %f42, %f55;
+	mov.f32 	%f58, 0f3f800000;    	// 1
+	setp.gt.f32 	%p7, %f57, %f58;
+	@!%p7 bra 	$L_10_6402;
+$L_10_6658:
+	.loc	5	60	0
+	mov.f32 	%f34, 0fbf800000;    	// -1
+	bra.uni 	$LDWendi__ZN8TriangleIfE12IntersectionE6VectorIfES2__261_1;
+$L_10_6402:
+	mul.f32 	%f59, %f49, %f19;
+	mad.f32 	%f60, %f17, %f51, %f59;
+	mad.f32 	%f61, %f21, %f47, %f60;
+	mul.f32 	%f62, %f61, %f41;
+	cvt.f64.f32 	%fd8, %f62;
+	mov.f64 	%fd9, 0d3eb0c6f7a0b5ed8d;	// 1e-06
+	setp.gt.f64 	%p8, %fd8, %fd9;
+	@!%p8 bra 	$Lt_10_7426;
+	.loc	5	67	0
+	mov.f32 	%f34, %f62;
+	bra.uni 	$LDWendi__ZN8TriangleIfE12IntersectionE6VectorIfES2__261_1;
+$Lt_10_7426:
+	.loc	5	70	0
+	mov.f32 	%f34, 0fbf800000;    	// -1
+$LDWendi__ZN8TriangleIfE12IntersectionE6VectorIfES2__261_1:
+	.loc	17	126	0
+	ld.param.u64 	%rd10, [__cudaparm_TestTriangleIntersection_t];
+	mul.lo.u64 	%rd11, %rd1, 4;
+	add.u64 	%rd12, %rd10, %rd11;
+	st.global.f32 	[%rd12+0], %f34;
+$Lt_10_6914:
+	.loc	17	128	0
+	exit;
+$LDWend_TestTriangleIntersection:
+	} // TestTriangleIntersection
+
+	.entry TestCentroidCalculations (
+		.param .s32 __cudaparm_TestCentroidCalculations_Count,
+		.param .u64 __cudaparm_TestCentroidCalculations_A,
+		.param .u64 __cudaparm_TestCentroidCalculations_B)
+	{
+	.reg .u16 %rh<7>;
+	.reg .u32 %r<21>;
+	.reg .u64 %rd<9>;
+	.reg .f32 %f<23>;
+	.reg .pred %p<3>;
+	.loc	17	132	0
+$LDWbegin_TestCentroidCalculations:
+	.loc	17	134	0
+	mov.u16 	%rh1, %ntid.y;
+	mov.u16 	%rh2, %tid.x;
+	mul.wide.u16 	%r1, %rh2, %rh1;
+	mov.u16 	%rh3, %ctaid.x;
+	mov.u16 	%rh4, %nctaid.y;
+	mul.wide.u16 	%r2, %rh3, %rh4;
+	mov.u16 	%rh5, %ntid.x;
+	mul.wide.u16 	%r3, %rh5, %rh1;
+	cvt.u32.u16 	%r4, %tid.y;
+	add.u32 	%r5, %r4, %r1;
+	cvt.u32.u16 	%r6, %ctaid.y;
+	add.u32 	%r7, %r6, %r2;
+	cvt.u32.u16 	%r8, %ntid.z;
+	mul.lo.u32 	%r9, %r3, %r8;
+	mul.lo.u32 	%r10, %r5, %r8;
+	cvt.u32.u16 	%r11, %nctaid.z;
+	mul.lo.u32 	%r12, %r11, %r7;
+	cvt.u32.u16 	%r13, %tid.z;
+	add.u32 	%r14, %r13, %r10;
+	cvt.u32.u16 	%r15, %ctaid.z;
+	add.u32 	%r16, %r15, %r12;
+	mul.lo.u32 	%r17, %r9, %r16;
+	add.u32 	%r18, %r14, %r17;
+	ld.param.s32 	%r19, [__cudaparm_TestCentroidCalculations_Count];
+	setp.le.s32 	%p1, %r19, %r18;
+	@%p1 bra 	$Lt_11_1026;
+	.loc	5	91	0
+	cvt.s64.s32 	%rd1, %r18;
+	ld.param.u64 	%rd2, [__cudaparm_TestCentroidCalculations_A];
+	mul.wide.s32 	%rd3, %r18, 52;
+	add.u64 	%rd4, %rd2, %rd3;
+	ld.global.f32 	%f1, [%rd4+16];
+	ld.global.f32 	%f2, [%rd4+28];
+	add.f32 	%f3, %f1, %f2;
+	ld.global.f32 	%f4, [%rd4+20];
+	ld.global.f32 	%f5, [%rd4+32];
+	add.f32 	%f6, %f4, %f5;
+	ld.global.f32 	%f7, [%rd4+40];
+	ld.global.f32 	%f8, [%rd4+44];
+	.loc	17	136	0
+	ld.param.u64 	%rd5, [__cudaparm_TestCentroidCalculations_B];
+	mul.wide.s32 	%rd6, %r18, 12;
+	add.u64 	%rd7, %rd5, %rd6;
+	ld.global.f32 	%f9, [%rd4+36];
+	ld.global.f32 	%f10, [%rd4+12];
+	ld.global.f32 	%f11, [%rd4+24];
+	add.f32 	%f12, %f10, %f11;
+	add.f32 	%f13, %f9, %f12;
+	mov.f32 	%f14, 0f40400000;    	// 3
+	div.full.f32 	%f15, %f13, %f14;
+	st.global.f32 	[%rd7+0], %f15;
+	add.f32 	%f16, %f3, %f7;
+	mov.f32 	%f17, 0f40400000;    	// 3
+	div.full.f32 	%f18, %f16, %f17;
+	st.global.f32 	[%rd7+4], %f18;
+	add.f32 	%f19, %f6, %f8;
+	mov.f32 	%f20, 0f40400000;    	// 3
+	div.full.f32 	%f21, %f19, %f20;
+	st.global.f32 	[%rd7+8], %f21;
+$Lt_11_1026:
+	.loc	17	138	0
+	exit;
+$LDWend_TestCentroidCalculations:
+	} // TestCentroidCalculations
 
