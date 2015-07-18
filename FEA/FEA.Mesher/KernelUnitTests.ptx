@@ -4,7 +4,7 @@
 	// nvopencc 4.1 built on 2013-07-17
 
 	//-----------------------------------------------------------
-	// Compiling /tmp/tmpxft_00003f04_00000000-9_KernelUnitTests.cpp3.i (/tmp/ccBI#.lyBtzH)
+	// Compiling /tmp/tmpxft_000054e0_00000000-9_KernelUnitTests.cpp3.i (/tmp/ccBI#.RN9Fos)
 	//-----------------------------------------------------------
 
 	//-----------------------------------------------------------
@@ -18,7 +18,7 @@
 
 	.file	1	"<command-line>"
 	.file	2	"/usr/include/stdc-predef.h"
-	.file	3	"/tmp/tmpxft_00003f04_00000000-8_KernelUnitTests.cudafe2.gpu"
+	.file	3	"/tmp/tmpxft_000054e0_00000000-8_KernelUnitTests.cudafe2.gpu"
 	.file	4	"Vector.cuh"
 	.file	5	"/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h"
 	.file	6	"/usr/include/crt/device_runtime.h"
@@ -330,4 +330,274 @@ $Lt_3_1026:
 	exit;
 $LDWend_TestSubtract:
 	} // TestSubtract
+
+	.entry TestMultiply (
+		.param .s32 __cudaparm_TestMultiply_Count,
+		.param .u64 __cudaparm_TestMultiply_A,
+		.param .u64 __cudaparm_TestMultiply_B,
+		.param .u64 __cudaparm_TestMultiply_C)
+	{
+	.reg .u16 %rh<7>;
+	.reg .u32 %r<21>;
+	.reg .u64 %rd<11>;
+	.reg .f32 %f<9>;
+	.reg .pred %p<3>;
+	.loc	16	70	0
+$LDWbegin_TestMultiply:
+	mov.u16 	%rh1, %ntid.y;
+	mov.u16 	%rh2, %tid.x;
+	mul.wide.u16 	%r1, %rh2, %rh1;
+	mov.u16 	%rh3, %ctaid.x;
+	mov.u16 	%rh4, %nctaid.y;
+	mul.wide.u16 	%r2, %rh3, %rh4;
+	mov.u16 	%rh5, %ntid.x;
+	mul.wide.u16 	%r3, %rh5, %rh1;
+	cvt.u32.u16 	%r4, %tid.y;
+	add.u32 	%r5, %r4, %r1;
+	cvt.u32.u16 	%r6, %ctaid.y;
+	add.u32 	%r7, %r6, %r2;
+	cvt.u32.u16 	%r8, %ntid.z;
+	mul.lo.u32 	%r9, %r3, %r8;
+	mul.lo.u32 	%r10, %r5, %r8;
+	cvt.u32.u16 	%r11, %nctaid.z;
+	mul.lo.u32 	%r12, %r11, %r7;
+	cvt.u32.u16 	%r13, %tid.z;
+	add.u32 	%r14, %r13, %r10;
+	cvt.u32.u16 	%r15, %ctaid.z;
+	add.u32 	%r16, %r15, %r12;
+	mul.lo.u32 	%r17, %r9, %r16;
+	add.u32 	%r18, %r14, %r17;
+	ld.param.s32 	%r19, [__cudaparm_TestMultiply_Count];
+	setp.le.s32 	%p1, %r19, %r18;
+	@%p1 bra 	$Lt_4_1026;
+	.loc	16	77	0
+	cvt.s64.s32 	%rd1, %r18;
+	ld.param.u64 	%rd2, [__cudaparm_TestMultiply_B];
+	mul.wide.s32 	%rd3, %r18, 4;
+	add.u64 	%rd4, %rd2, %rd3;
+	ld.global.f32 	%f1, [%rd4+0];
+	.loc	4	43	0
+	mul.wide.s32 	%rd5, %r18, 12;
+	ld.param.u64 	%rd6, [__cudaparm_TestMultiply_A];
+	add.u64 	%rd7, %rd6, %rd5;
+	ld.global.f32 	%f2, [%rd7+4];
+	mul.f32 	%f3, %f2, %f1;
+	.loc	4	44	0
+	ld.global.f32 	%f4, [%rd7+8];
+	mul.f32 	%f5, %f4, %f1;
+	.loc	16	77	0
+	ld.param.u64 	%rd8, [__cudaparm_TestMultiply_C];
+	add.u64 	%rd9, %rd8, %rd5;
+	ld.global.f32 	%f6, [%rd7+0];
+	mul.f32 	%f7, %f6, %f1;
+	st.global.f32 	[%rd9+0], %f7;
+	st.global.f32 	[%rd9+4], %f3;
+	st.global.f32 	[%rd9+8], %f5;
+$Lt_4_1026:
+	.loc	16	79	0
+	exit;
+$LDWend_TestMultiply:
+	} // TestMultiply
+
+	.entry TestDivide (
+		.param .s32 __cudaparm_TestDivide_Count,
+		.param .u64 __cudaparm_TestDivide_A,
+		.param .u64 __cudaparm_TestDivide_B,
+		.param .u64 __cudaparm_TestDivide_C)
+	{
+	.reg .u16 %rh<7>;
+	.reg .u32 %r<21>;
+	.reg .u64 %rd<11>;
+	.reg .f32 %f<9>;
+	.reg .pred %p<3>;
+	.loc	16	84	0
+$LDWbegin_TestDivide:
+	mov.u16 	%rh1, %ntid.y;
+	mov.u16 	%rh2, %tid.x;
+	mul.wide.u16 	%r1, %rh2, %rh1;
+	mov.u16 	%rh3, %ctaid.x;
+	mov.u16 	%rh4, %nctaid.y;
+	mul.wide.u16 	%r2, %rh3, %rh4;
+	mov.u16 	%rh5, %ntid.x;
+	mul.wide.u16 	%r3, %rh5, %rh1;
+	cvt.u32.u16 	%r4, %tid.y;
+	add.u32 	%r5, %r4, %r1;
+	cvt.u32.u16 	%r6, %ctaid.y;
+	add.u32 	%r7, %r6, %r2;
+	cvt.u32.u16 	%r8, %ntid.z;
+	mul.lo.u32 	%r9, %r3, %r8;
+	mul.lo.u32 	%r10, %r5, %r8;
+	cvt.u32.u16 	%r11, %nctaid.z;
+	mul.lo.u32 	%r12, %r11, %r7;
+	cvt.u32.u16 	%r13, %tid.z;
+	add.u32 	%r14, %r13, %r10;
+	cvt.u32.u16 	%r15, %ctaid.z;
+	add.u32 	%r16, %r15, %r12;
+	mul.lo.u32 	%r17, %r9, %r16;
+	add.u32 	%r18, %r14, %r17;
+	ld.param.s32 	%r19, [__cudaparm_TestDivide_Count];
+	setp.le.s32 	%p1, %r19, %r18;
+	@%p1 bra 	$Lt_5_1026;
+	.loc	16	91	0
+	cvt.s64.s32 	%rd1, %r18;
+	ld.param.u64 	%rd2, [__cudaparm_TestDivide_B];
+	mul.wide.s32 	%rd3, %r18, 4;
+	add.u64 	%rd4, %rd2, %rd3;
+	ld.global.f32 	%f1, [%rd4+0];
+	.loc	4	51	0
+	mul.wide.s32 	%rd5, %r18, 12;
+	ld.param.u64 	%rd6, [__cudaparm_TestDivide_A];
+	add.u64 	%rd7, %rd6, %rd5;
+	ld.global.f32 	%f2, [%rd7+4];
+	.loc	4	52	0
+	ld.global.f32 	%f3, [%rd7+8];
+	.loc	16	91	0
+	ld.param.u64 	%rd8, [__cudaparm_TestDivide_C];
+	add.u64 	%rd9, %rd8, %rd5;
+	ld.global.f32 	%f4, [%rd7+0];
+	div.full.f32 	%f5, %f4, %f1;
+	st.global.f32 	[%rd9+0], %f5;
+	div.full.f32 	%f6, %f2, %f1;
+	st.global.f32 	[%rd9+4], %f6;
+	div.full.f32 	%f7, %f3, %f1;
+	st.global.f32 	[%rd9+8], %f7;
+$Lt_5_1026:
+	.loc	16	93	0
+	exit;
+$LDWend_TestDivide:
+	} // TestDivide
+
+	.entry TestLength (
+		.param .s32 __cudaparm_TestLength_Count,
+		.param .u64 __cudaparm_TestLength_A,
+		.param .u64 __cudaparm_TestLength_B)
+	{
+	.reg .u16 %rh<7>;
+	.reg .u32 %r<21>;
+	.reg .u64 %rd<9>;
+	.reg .f32 %f<9>;
+	.reg .pred %p<3>;
+	.loc	16	98	0
+$LDWbegin_TestLength:
+	mov.u16 	%rh1, %ntid.y;
+	mov.u16 	%rh2, %tid.x;
+	mul.wide.u16 	%r1, %rh2, %rh1;
+	mov.u16 	%rh3, %ctaid.x;
+	mov.u16 	%rh4, %nctaid.y;
+	mul.wide.u16 	%r2, %rh3, %rh4;
+	mov.u16 	%rh5, %ntid.x;
+	mul.wide.u16 	%r3, %rh5, %rh1;
+	cvt.u32.u16 	%r4, %tid.y;
+	add.u32 	%r5, %r4, %r1;
+	cvt.u32.u16 	%r6, %ctaid.y;
+	add.u32 	%r7, %r6, %r2;
+	cvt.u32.u16 	%r8, %ntid.z;
+	mul.lo.u32 	%r9, %r3, %r8;
+	mul.lo.u32 	%r10, %r5, %r8;
+	cvt.u32.u16 	%r11, %nctaid.z;
+	mul.lo.u32 	%r12, %r11, %r7;
+	cvt.u32.u16 	%r13, %tid.z;
+	add.u32 	%r14, %r13, %r10;
+	cvt.u32.u16 	%r15, %ctaid.z;
+	add.u32 	%r16, %r15, %r12;
+	mul.lo.u32 	%r17, %r9, %r16;
+	add.u32 	%r18, %r14, %r17;
+	ld.param.s32 	%r19, [__cudaparm_TestLength_Count];
+	setp.le.s32 	%p1, %r19, %r18;
+	@%p1 bra 	$Lt_6_1026;
+	.loc	4	57	0
+	cvt.s64.s32 	%rd1, %r18;
+	ld.param.u64 	%rd2, [__cudaparm_TestLength_A];
+	mul.wide.s32 	%rd3, %r18, 12;
+	add.u64 	%rd4, %rd2, %rd3;
+	ld.global.f32 	%f1, [%rd4+4];
+	ld.global.f32 	%f2, [%rd4+0];
+	ld.global.f32 	%f3, [%rd4+8];
+	mul.f32 	%f4, %f1, %f1;
+	mad.f32 	%f5, %f2, %f2, %f4;
+	mad.f32 	%f6, %f3, %f3, %f5;
+	.loc	16	105	0
+	sqrt.approx.f32 	%f7, %f6;
+	ld.param.u64 	%rd5, [__cudaparm_TestLength_B];
+	mul.wide.s32 	%rd6, %r18, 4;
+	add.u64 	%rd7, %rd5, %rd6;
+	st.global.f32 	[%rd7+0], %f7;
+$Lt_6_1026:
+	.loc	16	107	0
+	exit;
+$LDWend_TestLength:
+	} // TestLength
+
+	.entry TestNormalize (
+		.param .s32 __cudaparm_TestNormalize_Count,
+		.param .u64 __cudaparm_TestNormalize_A,
+		.param .u64 __cudaparm_TestNormalize_B)
+	{
+	.reg .u16 %rh<7>;
+	.reg .u32 %r<21>;
+	.reg .u64 %rd<8>;
+	.reg .f32 %f<14>;
+	.reg .pred %p<3>;
+	.loc	16	111	0
+$LDWbegin_TestNormalize:
+	mov.u16 	%rh1, %ntid.y;
+	mov.u16 	%rh2, %tid.x;
+	mul.wide.u16 	%r1, %rh2, %rh1;
+	mov.u16 	%rh3, %ctaid.x;
+	mov.u16 	%rh4, %nctaid.y;
+	mul.wide.u16 	%r2, %rh3, %rh4;
+	mov.u16 	%rh5, %ntid.x;
+	mul.wide.u16 	%r3, %rh5, %rh1;
+	cvt.u32.u16 	%r4, %tid.y;
+	add.u32 	%r5, %r4, %r1;
+	cvt.u32.u16 	%r6, %ctaid.y;
+	add.u32 	%r7, %r6, %r2;
+	cvt.u32.u16 	%r8, %ntid.z;
+	mul.lo.u32 	%r9, %r3, %r8;
+	mul.lo.u32 	%r10, %r5, %r8;
+	cvt.u32.u16 	%r11, %nctaid.z;
+	mul.lo.u32 	%r12, %r11, %r7;
+	cvt.u32.u16 	%r13, %tid.z;
+	add.u32 	%r14, %r13, %r10;
+	cvt.u32.u16 	%r15, %ctaid.z;
+	add.u32 	%r16, %r15, %r12;
+	mul.lo.u32 	%r17, %r9, %r16;
+	add.u32 	%r18, %r14, %r17;
+	ld.param.s32 	%r19, [__cudaparm_TestNormalize_Count];
+	setp.le.s32 	%p1, %r19, %r18;
+	@%p1 bra 	$Lt_7_1026;
+	.loc	16	118	0
+	cvt.s64.s32 	%rd1, %r18;
+	mul.wide.s32 	%rd2, %r18, 12;
+	ld.param.u64 	%rd3, [__cudaparm_TestNormalize_A];
+	add.u64 	%rd4, %rd3, %rd2;
+	ld.param.u64 	%rd5, [__cudaparm_TestNormalize_B];
+	add.u64 	%rd6, %rd5, %rd2;
+	ld.global.f32 	%f1, [%rd4+0];
+	st.global.f32 	[%rd6+0], %f1;
+	ld.global.f32 	%f2, [%rd4+4];
+	st.global.f32 	[%rd6+4], %f2;
+	ld.global.f32 	%f3, [%rd4+8];
+	st.global.f32 	[%rd6+8], %f3;
+	.loc	4	63	0
+	ld.global.f32 	%f4, [%rd6+0];
+	ld.global.f32 	%f5, [%rd6+4];
+	mul.f32 	%f6, %f5, %f5;
+	mad.f32 	%f7, %f4, %f4, %f6;
+	mad.f32 	%f8, %f3, %f3, %f7;
+	.loc	4	64	0
+	sqrt.approx.f32 	%f9, %f8;
+	div.full.f32 	%f10, %f4, %f9;
+	st.global.f32 	[%rd6+0], %f10;
+	.loc	4	65	0
+	div.full.f32 	%f11, %f5, %f9;
+	st.global.f32 	[%rd6+4], %f11;
+	.loc	4	66	0
+	div.full.f32 	%f12, %f3, %f9;
+	st.global.f32 	[%rd6+8], %f12;
+$Lt_7_1026:
+	.loc	16	121	0
+	exit;
+$LDWend_TestNormalize:
+	} // TestNormalize
 

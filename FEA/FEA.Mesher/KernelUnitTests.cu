@@ -64,6 +64,74 @@ Vector<float>* C) {
 	}
 }
 
+extern "C" __global__ void TestMultiply(int Count,
+Vector<float>* A,
+float* B,
+Vector<float>* C) {
+
+	int blockId = blockIdx.z + blockIdx.y * gridDim.z + blockIdx.x * gridDim.y * gridDim.z;
+	int threadId = threadIdx.z + threadIdx.y * blockDim.z + threadIdx.x * blockDim.y * blockDim.z;
+	
+	int i = blockId * (blockDim.x * blockDim.y * blockDim.z) + threadId;
+	if (i < Count) {
+		C[i] = A[i] * B[i];
+	}
+}
+
+extern "C" __global__ void TestDivide(int Count,
+Vector<float>* A,
+float* B,
+Vector<float>* C) {
+
+	int blockId = blockIdx.z + blockIdx.y * gridDim.z + blockIdx.x * gridDim.y * gridDim.z;
+	int threadId = threadIdx.z + threadIdx.y * blockDim.z + threadIdx.x * blockDim.y * blockDim.z;
+	
+	int i = blockId * (blockDim.x * blockDim.y * blockDim.z) + threadId;
+	if (i < Count) {
+		C[i] = A[i] / B[i];
+	}
+}
+
+
+extern "C" __global__ void TestLength(int Count,
+Vector<float>* A,
+float* B) {
+
+	int blockId = blockIdx.z + blockIdx.y * gridDim.z + blockIdx.x * gridDim.y * gridDim.z;
+	int threadId = threadIdx.z + threadIdx.y * blockDim.z + threadIdx.x * blockDim.y * blockDim.z;
+	
+	int i = blockId * (blockDim.x * blockDim.y * blockDim.z) + threadId;
+	if (i < Count) {
+		B[i] = A[i].Length();
+	}
+}
+
+extern "C" __global__ void TestNormalize(int Count,
+Vector<float>* A,
+Vector<float>* B) {
+
+	int blockId = blockIdx.z + blockIdx.y * gridDim.z + blockIdx.x * gridDim.y * gridDim.z;
+	int threadId = threadIdx.z + threadIdx.y * blockDim.z + threadIdx.x * blockDim.y * blockDim.z;
+	
+	int i = blockId * (blockDim.x * blockDim.y * blockDim.z) + threadId;
+	if (i < Count) {
+		B[i] = A[i];
+		B[i].Normalize();
+	}
+}
+
+extern "C" __global__ void TestTriangleArea(int Count,
+Triangle<float>* A,
+float* B) {
+	
+	int blockId = blockIdx.z + blockIdx.y * gridDim.z + blockIdx.x * gridDim.y * gridDim.z;
+	int threadId = threadIdx.z + threadIdx.y * blockDim.z + threadIdx.x * blockDim.y * blockDim.z;
+	
+	int i = blockId * (blockDim.x * blockDim.y * blockDim.z) + threadId;
+	if (i < Count) {
+		B[i] = A.Area();
+	}
+} 
 
 
 
