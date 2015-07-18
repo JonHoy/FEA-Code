@@ -14,21 +14,73 @@ namespace Unit_Tests
             var A = new SyncVariable<float3>(GenRandomVectors(Len));
             var B = new SyncVariable<float3>(GenRandomVectors(Len));
             var C = new SyncVariable<float3>(Len);
+            var D = new SyncVariable<float>(Len);
 
             var CrossProdKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestCrossProduct"); 
-            //var AddKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestAd"); 
-            CrossProdKernel.BlockDimensions.x = 8;
-            CrossProdKernel.BlockDimensions.y = 8;
-            CrossProdKernel.BlockDimensions.z = 8;
-            CrossProdKernel.GridDimensions = Len / 512 + 1;
+            var AddKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestAdd"); 
+            var SubKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestSubtract");
+            var DotKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestDotProduct");
+            var BlockDims = new dim3(512);
+            var GridDims = new dim3(Len / 512 + 1);
+
+            CrossProdKernel.BlockDimensions = BlockDims;
+            CrossProdKernel.GridDimensions = GridDims;
+            AddKernel.BlockDimensions = BlockDims;
+            AddKernel.GridDimensions = GridDims;
+            SubKernel.BlockDimensions = BlockDims;
+            SubKernel.GridDimensions = GridDims;
+            DotKernel.BlockDimensions = BlockDims;
+            DotKernel.GridDimensions = GridDims;
+
             CrossProdKernel.Run(Len, A.GPUPtr(), B.GPUPtr(), C.GPUPtr());
+            A.Sync();
+            B.Sync();
+            C.Sync();
+            float eps = 1e-7f;
+            for (int i = 0; i < Len; i++)
+            {
+                var Ans = A.cpuArray[i].Cross(B.cpuArray[i]) - C.cpuArray[i];
+
+                if (Ans.Length >= eps)
+                {
+                    throw new Exception("Test Failed");
+                }
+            }
+            AddKernel.Run(Len, A.GPUPtr(), B.GPUPtr(), C.GPUPtr());
             A.Sync();
             B.Sync();
             C.Sync();
             for (int i = 0; i < Len; i++)
             {
-                var Ans = A.cpuArray[i].Cross(B.cpuArray[i]) - C.cpuArray[i];
-                if (Ans.Length != 0)
+                var Ans = A.cpuArray[i] + B.cpuArray[i] - C.cpuArray[i];
+
+                if (Ans.Length >= eps)
+                {
+                    throw new Exception("Test Failed");
+                }
+            }
+            SubKernel.Run(Len, A.GPUPtr(), B.GPUPtr(), C.GPUPtr());
+            A.Sync();
+            B.Sync();
+            C.Sync();
+            for (int i = 0; i < Len; i++)
+            {
+                var Ans = A.cpuArray[i] - B.cpuArray[i] - C.cpuArray[i];
+
+                if (Ans.Length >= eps)
+                {
+                    throw new Exception("Test Failed");
+                }
+            }
+            DotKernel.Run(Len, A.GPUPtr(), B.GPUPtr(), D.GPUPtr());
+            A.Sync();
+            B.Sync();
+            D.Sync();
+            for (int i = 0; i < Len; i++)
+            {
+                float Ans = A.cpuArray[i].Dot(B.cpuArray[i]) - D.cpuArray[i];
+
+                if (Ans >= 3*eps)
                 {
                     throw new Exception("Test Failed");
                 }
@@ -46,6 +98,7 @@ namespace Unit_Tests
                 Ans[i].y = (float)rng.NextDouble();
                 Ans[i].z = (float)rng.NextDouble();
             }
+            return Ans;
         }
 
     }
