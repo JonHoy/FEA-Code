@@ -273,8 +273,8 @@ namespace FEA.Mesher
             STLReader Part1;
             STLReader Part2;
             SplitPart(Slice, out Part1, out Part2);
-            Part1.WriteToFile("Part1_" + TriangleCount.ToString() + ".stl");
-            Part2.WriteToFile("Part2_" + TriangleCount.ToString() + ".stl");
+            Part1.WriteToFile("Part1_" + Part1.TriangleCount.ToString() + ".stl");
+            Part2.WriteToFile("Part2_" + Part2.TriangleCount.ToString() + ".stl");
             /*
             // Multithreaded implementation
             var Obj1 = new SubDividerObj();
@@ -582,7 +582,7 @@ namespace FEA.Mesher
 
             if (Status == false) {
                 Console.WriteLine("Warning, Inconsistent cross section detected!");
-                throw new Exception("STL File is not watertight!");
+                //throw new Exception("STL File is not watertight!");
             }
 
             var qualityOptions = new TriangleNet.Meshing.QualityOptions();
