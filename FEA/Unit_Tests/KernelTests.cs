@@ -37,7 +37,8 @@ namespace Unit_Tests
             var AddKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestAdd"); 
             var SubKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestSubtract");
             var DotKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestDotProduct");
-            var AreaKernel = ctx.LoadKernelPTX("KernelUnitTest.ptx", "TestTriangleArea");
+            var AreaKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestTriangleArea");
+            var IntersectionKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestPlaneIntersection");
             var BlockDims = new dim3(512);
             var GridDims = new dim3(Len / 512 + 1);
 
@@ -105,9 +106,14 @@ namespace Unit_Tests
                     throw new Exception("Test Failed");
                 }
             }
-            AreaKernel.Run(Len, Tris.GPUPtr(), A);
+            AreaKernel.Run(Len, Tris.GPUPtr(), D.GPUPtr());
             Tris.Sync();
-            A.Sync();
+            D.Sync();
+            for (int i = 0; i < Len; i++)
+            {
+                float ans = D.cpuArray[i];
+            }
+
         }
         //public ExecuteKernel()
 

@@ -110,8 +110,8 @@ Triangle<float>* A) {
 	}		
 }
 
-extern "C" __global__ void TestTriangleIntersection(int Count,
-Triangle<float>* A,
+extern "C" __global__ void TestPlaneIntersection(int Count,
+Plane<float>* A,
 Vector<float>* O,
 Vector<float>* D,
 float* t) {
