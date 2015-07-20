@@ -246,11 +246,11 @@ namespace FEA.Mesher
 
     [StructLayout(LayoutKind.Sequential)] 
     public struct TriangleSTL {
-        float3 NormalVector;
-        float3 Vertex1;
-        float3 Vertex2;
-        float3 Vertex3;
-        UInt16 AttributeByteCount;
+        public float3 NormalVector;
+        public float3 Vertex1;
+        public float3 Vertex2;
+        public float3 Vertex3;
+        public UInt16 AttributeByteCount;
 
         public TriangleSTL(Triangle Tri) {
             var Plane = Tri.ComputePlane();

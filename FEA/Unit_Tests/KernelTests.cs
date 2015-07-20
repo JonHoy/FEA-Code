@@ -15,11 +15,29 @@ namespace Unit_Tests
             var B = new SyncVariable<float3>(GenRandomVectors(Len));
             var C = new SyncVariable<float3>(Len);
             var D = new SyncVariable<float>(Len);
+            var TrisCpu = new FEA.Mesher.TriangleSTL[Len];
+            var rng = new Random();
+            for (int i = 0; i < Len; i++)
+            {
+                TrisCpu[i].Vertex1.x = (float)rng.NextDouble();
+                TrisCpu[i].Vertex1.y = (float)rng.NextDouble();
+                TrisCpu[i].Vertex1.z = (float)rng.NextDouble();
+
+                TrisCpu[i].Vertex2.x = (float)rng.NextDouble();
+                TrisCpu[i].Vertex2.y = (float)rng.NextDouble();
+                TrisCpu[i].Vertex2.z = (float)rng.NextDouble();
+
+                TrisCpu[i].Vertex3.x = (float)rng.NextDouble();
+                TrisCpu[i].Vertex3.y = (float)rng.NextDouble();
+                TrisCpu[i].Vertex3.z = (float)rng.NextDouble();
+            }
+            var Tris = new SyncVariable<FEA.Mesher.TriangleSTL>(TrisCpu);
 
             var CrossProdKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestCrossProduct"); 
             var AddKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestAdd"); 
             var SubKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestSubtract");
             var DotKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestDotProduct");
+            var AreaKernel = ctx.LoadKernelPTX("KernelUnitTest.ptx", "TestTriangleArea");
             var BlockDims = new dim3(512);
             var GridDims = new dim3(Len / 512 + 1);
 
@@ -31,6 +49,8 @@ namespace Unit_Tests
             SubKernel.GridDimensions = GridDims;
             DotKernel.BlockDimensions = BlockDims;
             DotKernel.GridDimensions = GridDims;
+            AreaKernel.BlockDimensions = BlockDims;
+            AreaKernel.GridDimensions = GridDims;
 
             CrossProdKernel.Run(Len, A.GPUPtr(), B.GPUPtr(), C.GPUPtr());
             A.Sync();
@@ -85,6 +105,9 @@ namespace Unit_Tests
                     throw new Exception("Test Failed");
                 }
             }
+            AreaKernel.Run(Len, Tris.GPUPtr(), A);
+            Tris.Sync();
+            A.Sync();
         }
         //public ExecuteKernel()
 
