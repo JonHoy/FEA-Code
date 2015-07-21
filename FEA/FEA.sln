@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FEA.Physics", "FEA.Physics\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FEA.Mesher", "FEA.Mesher\FEA.Mesher.csproj", "{6AD07651-FC9D-4CE1-999B-FC7A3FDCB9E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{ABE895CA-C094-4108-871A-420BFC135381}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,9 +42,14 @@ Global
 		{A6181323-129A-491B-8F9A-AA02E91BA7AC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6181323-129A-491B-8F9A-AA02E91BA7AC}.Release-Signed|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6181323-129A-491B-8F9A-AA02E91BA7AC}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
+		{ABE895CA-C094-4108-871A-420BFC135381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE895CA-C094-4108-871A-420BFC135381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE895CA-C094-4108-871A-420BFC135381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE895CA-C094-4108-871A-420BFC135381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE895CA-C094-4108-871A-420BFC135381}.Release-Signed|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE895CA-C094-4108-871A-420BFC135381}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Unit_Tests\Unit_Tests.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.inheritsSet = VisualStudio
