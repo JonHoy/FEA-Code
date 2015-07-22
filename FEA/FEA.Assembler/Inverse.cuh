@@ -4,6 +4,8 @@
 // Wolfram Alpha input: inverse {{a, b, c}, {d, e, f}, {g, h, i}}
 // Wolfram Alpha input: inverse {{a, b, c, d}, {e, f, g, h}, {i, j, k, l}, {m, n, o, p}} 
 
+// TODO Write Test Functions for these kernels
+
 template <typename T>
 __device__ void Inverse2(T A[2][2]) {
 	T a = A[0][0]; T b = A[0][1];
@@ -29,7 +31,7 @@ __device__ void Inverse3(T A[3][3]) {
 
 //template <typename T>
 //__device__ void Inverse4(T A[4][4]) {
-//// TODO
+//// TODO add a 4x4 inverse (This *could* be laborious but might be necessary later on)
 //}
 
 template <typename T, int SizeX, int SizeY>

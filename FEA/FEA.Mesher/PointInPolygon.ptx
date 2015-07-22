@@ -4,7 +4,7 @@
 	// nvopencc 4.1 built on 2013-07-17
 
 	//-----------------------------------------------------------
-	// Compiling /tmp/tmpxft_00001b85_00000000-9_PointInPolygon.cpp3.i (/tmp/ccBI#.UScflP)
+	// Compiling /tmp/tmpxft_00000d70_00000000-9_PointInPolygon.cpp3.i (/tmp/ccBI#.pCCqpk)
 	//-----------------------------------------------------------
 
 	//-----------------------------------------------------------
@@ -18,7 +18,7 @@
 
 	.file	1	"<command-line>"
 	.file	2	"/usr/include/stdc-predef.h"
-	.file	3	"/tmp/tmpxft_00001b85_00000000-8_PointInPolygon.cudafe2.gpu"
+	.file	3	"/tmp/tmpxft_00000d70_00000000-8_PointInPolygon.cudafe2.gpu"
 	.file	4	"Vector.cuh"
 	.file	5	"Triangle.cuh"
 	.file	6	"/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h"
@@ -32,26 +32,27 @@
 	.file	14	"/usr/include/vector_types.h"
 	.file	15	"/usr/include/device_launch_parameters.h"
 	.file	16	"/usr/include/crt/storage_class.h"
-	.file	17	"PointInPolygon.cu"
-	.file	18	"/usr/include/common_functions.h"
-	.file	19	"/usr/include/math_functions.h"
-	.file	20	"/usr/include/math_constants.h"
-	.file	21	"/usr/include/device_functions.h"
-	.file	22	"/usr/include/sm_11_atomic_functions.h"
-	.file	23	"/usr/include/sm_12_atomic_functions.h"
-	.file	24	"/usr/include/sm_13_double_functions.h"
-	.file	25	"/usr/include/sm_20_atomic_functions.h"
-	.file	26	"/usr/include/sm_32_atomic_functions.h"
-	.file	27	"/usr/include/sm_35_atomic_functions.h"
-	.file	28	"/usr/include/sm_20_intrinsics.h"
-	.file	29	"/usr/include/sm_30_intrinsics.h"
-	.file	30	"/usr/include/sm_32_intrinsics.h"
-	.file	31	"/usr/include/sm_35_intrinsics.h"
-	.file	32	"/usr/include/surface_functions.h"
-	.file	33	"/usr/include/texture_fetch_functions.h"
-	.file	34	"/usr/include/texture_indirect_functions.h"
-	.file	35	"/usr/include/surface_indirect_functions.h"
-	.file	36	"/usr/include/math_functions_dbl_ptx1.h"
+	.file	17	"../FEA.Assembler/Inverse.cuh"
+	.file	18	"PointInPolygon.cu"
+	.file	19	"/usr/include/common_functions.h"
+	.file	20	"/usr/include/math_functions.h"
+	.file	21	"/usr/include/math_constants.h"
+	.file	22	"/usr/include/device_functions.h"
+	.file	23	"/usr/include/sm_11_atomic_functions.h"
+	.file	24	"/usr/include/sm_12_atomic_functions.h"
+	.file	25	"/usr/include/sm_13_double_functions.h"
+	.file	26	"/usr/include/sm_20_atomic_functions.h"
+	.file	27	"/usr/include/sm_32_atomic_functions.h"
+	.file	28	"/usr/include/sm_35_atomic_functions.h"
+	.file	29	"/usr/include/sm_20_intrinsics.h"
+	.file	30	"/usr/include/sm_30_intrinsics.h"
+	.file	31	"/usr/include/sm_32_intrinsics.h"
+	.file	32	"/usr/include/sm_35_intrinsics.h"
+	.file	33	"/usr/include/surface_functions.h"
+	.file	34	"/usr/include/texture_fetch_functions.h"
+	.file	35	"/usr/include/texture_indirect_functions.h"
+	.file	36	"/usr/include/surface_indirect_functions.h"
+	.file	37	"/usr/include/math_functions_dbl_ptx1.h"
 
 
 	.entry PointInPolygon (
@@ -66,11 +67,11 @@
 	.reg .u16 %rh<10>;
 	.reg .u32 %r<73>;
 	.reg .u64 %rd<67>;
-	.reg .f32 %f<61>;
+	.reg .f32 %f<118>;
 	.reg .f64 %fd<9>;
-	.reg .pred %p<11>;
-	.shared .align 4 .b8 __cuda___cuda_local_var_15115_42_non_const_SharedTriangles48[26624];
-	.loc	17	26	0
+	.reg .pred %p<15>;
+	.shared .align 4 .b8 __cuda___cuda_local_var_15193_42_non_const_SharedTriangles48[26624];
+	.loc	18	26	0
 $LDWbegin_PointInPolygon:
 	mov.u16 	%rh1, %ctaid.x;
 	mov.u16 	%rh2, %nctaid.y;
@@ -83,8 +84,8 @@ $LDWbegin_PointInPolygon:
 	add.u32 	%r7, %r6, %r5;
 	ld.param.s32 	%r8, [__cudaparm_PointInPolygon_Count];
 	setp.le.s32 	%p1, %r8, %r7;
-	@%p1 bra 	$Lt_0_7170;
-	.loc	17	37	0
+	@%p1 bra 	$Lt_0_9730;
+	.loc	18	37	0
 	cvt.s64.s32 	%rd1, %r7;
 	ld.param.u64 	%rd2, [__cudaparm_PointInPolygon_TriangleCounts];
 	mul.wide.s32 	%rd3, %r7, 4;
@@ -92,7 +93,7 @@ $LDWbegin_PointInPolygon:
 	ld.global.s32 	%r9, [%rd4+0];
 	ld.global.s32 	%r10, [%rd4+4];
 	sub.s32 	%r11, %r10, %r9;
-	.loc	17	45	0
+	.loc	18	45	0
 	ld.param.u64 	%rd5, [__cudaparm_PointInPolygon_Minima];
 	mul.wide.s32 	%rd6, %r7, 12;
 	add.u64 	%rd7, %rd5, %rd6;
@@ -107,9 +108,9 @@ $LDWbegin_PointInPolygon:
 	cvt.u32.u16 	%r17, %tid.z;
 	add.u32 	%r18, %r17, %r16;
 	setp.le.s32 	%p2, %r11, %r18;
-	@%p2 bra 	$Lt_0_6658;
-	.loc	17	47	0
-	mov.u64 	%rd8, __cuda___cuda_local_var_15115_42_non_const_SharedTriangles48;
+	@%p2 bra 	$Lt_0_9218;
+	.loc	18	47	0
+	mov.u64 	%rd8, __cuda___cuda_local_var_15193_42_non_const_SharedTriangles48;
 	cvt.s64.s32 	%rd9, %r18;
 	mul.wide.s32 	%rd10, %r18, 52;
 	add.u64 	%rd11, %rd8, %rd10;
@@ -225,9 +226,9 @@ $LDWbegin_PointInPolygon:
 	add.u64 	%rd60, %rd12, %rd59;
 	ld.global.s8 	%rh8, [%rd60+51];
 	st.shared.s8 	[%rd11+51], %rh8;
-$Lt_0_6658:
-	mov.u64 	%rd8, __cuda___cuda_local_var_15115_42_non_const_SharedTriangles48;
-	.loc	17	49	0
+$Lt_0_9218:
+	mov.u64 	%rd8, __cuda___cuda_local_var_15193_42_non_const_SharedTriangles48;
+	.loc	18	49	0
 	bar.sync 	0;
 	ld.param.s32 	%r50, [__cudaparm_PointInPolygon_PointCountPerSTL];
 	shr.s32 	%r51, %r50, 31;
@@ -237,7 +238,7 @@ $Lt_0_6658:
 	shr.s32 	%r55, %r54, 9;
 	mov.u32 	%r56, 0;
 	setp.le.s32 	%p3, %r55, %r56;
-	@%p3 bra 	$Lt_0_7170;
+	@%p3 bra 	$Lt_0_9730;
 	ld.param.s32 	%r50, [__cudaparm_PointInPolygon_PointCountPerSTL];
 	mul.lo.s32 	%r57, %r50, %r7;
 	mul.lo.s32 	%r58, %r55, %r18;
@@ -252,14 +253,14 @@ $Lt_0_6658:
 	mul.wide.s32 	%rd63, %r59, 12;
 	add.u64 	%rd64, %rd61, %rd63;
 	mov.s32 	%r64, %r60;
-$Lt_0_7682:
+$Lt_0_10242:
  //<loop> Loop body line 49, nesting depth: 1, estimated iterations: unknown
-	.loc	17	53	0
+	.loc	18	53	0
 	ld.global.f32 	%f14, [%rd64+0];
 	ld.global.f32 	%f15, [%rd64+4];
 	ld.global.f32 	%f16, [%rd64+8];
-	.loc	17	57	0
-	@!%p4 bra 	$Lt_0_10498;
+	.loc	18	57	0
+	@!%p4 bra 	$Lt_0_13058;
 	mov.s32 	%r65, %r11;
 	sub.f32 	%f17, %f15, %f15;
 	sub.f32 	%f18, %f14, %f1;
@@ -268,9 +269,9 @@ $Lt_0_7682:
 	mov.s32 	%r66, 0;
 	mov.s32 	%r67, 0;
 	mov.s32 	%r68, %r65;
-$Lt_0_8450:
+$Lt_0_11010:
  //<loop> Loop body line 57, nesting depth: 2, estimated iterations: unknown
-	.loc	17	61	0
+	.loc	18	61	0
 	ld.shared.f32 	%f20, [%rd65+12];
 	ld.shared.f32 	%f21, [%rd65+16];
 	ld.shared.f32 	%f22, [%rd65+20];
@@ -280,7 +281,7 @@ $Lt_0_8450:
 	ld.shared.f32 	%f26, [%rd65+36];
 	ld.shared.f32 	%f27, [%rd65+40];
 	ld.shared.f32 	%f28, [%rd65+44];
-	.loc	5	24	0
+	.loc	5	25	0
 	sub.f32 	%f29, %f20, %f23;
 	sub.f32 	%f30, %f25, %f28;
 	sub.f32 	%f31, %f23, %f26;
@@ -308,51 +309,123 @@ $Lt_0_8450:
 	add.f32 	%f51, %f47, %f50;
 	cvt.f64.f32 	%fd3, %f51;
 	neg.f64 	%fd4, %fd3;
-	.loc	17	62	0
 	cvt.rn.f32.f64 	%f52, %fd4;
 	mul.f32 	%f53, %f17, %f39;
 	mad.f32 	%f54, %f41, %f18, %f53;
 	mad.f32 	%f55, %f43, %f19, %f54;
 	div.full.f32 	%f56, %f52, %f55;
-	cvt.f64.f32 	%fd5, %f56;
+	mov.f32 	%f57, %f56;
+	.loc	5	34	0
+	sub.f32 	%f58, %f24, %f21;
+	sub.f32 	%f59, %f23, %f20;
+	sub.f32 	%f60, %f25, %f22;
+	mul.f32 	%f61, %f58, %f58;
+	mad.f32 	%f62, %f59, %f59, %f61;
+	mad.f32 	%f63, %f60, %f60, %f62;
+	sqrt.approx.f32 	%f64, %f63;
+	div.full.f32 	%f65, %f58, %f64;
+	div.full.f32 	%f66, %f59, %f64;
+	div.full.f32 	%f67, %f60, %f64;
+	mul.f32 	%f68, %f17, %f56;
+	mul.f32 	%f69, %f18, %f56;
+	mul.f32 	%f70, %f19, %f56;
+	add.f32 	%f71, %f68, %f15;
+	add.f32 	%f72, %f69, %f1;
+	add.f32 	%f73, %f70, %f16;
+	mul.f32 	%f74, %f65, %f71;
+	mad.f32 	%f75, %f72, %f66, %f74;
+	mad.f32 	%f76, %f73, %f67, %f75;
+	.loc	5	35	0
+	mul.f32 	%f77, %f39, %f39;
+	mad.f32 	%f78, %f41, %f41, %f77;
+	mad.f32 	%f79, %f43, %f43, %f78;
+	sqrt.approx.f32 	%f80, %f79;
+	div.full.f32 	%f81, %f41, %f80;
+	div.full.f32 	%f82, %f43, %f80;
+	div.full.f32 	%f83, %f39, %f80;
+	mul.f32 	%f84, %f67, %f81;
+	mul.f32 	%f85, %f66, %f82;
+	sub.f32 	%f86, %f85, %f84;
+	mul.f32 	%f87, %f71, %f86;
+	mul.f32 	%f88, %f65, %f82;
+	mul.f32 	%f89, %f67, %f83;
+	sub.f32 	%f90, %f89, %f88;
+	mad.f32 	%f91, %f90, %f72, %f87;
+	mul.f32 	%f92, %f66, %f83;
+	mul.f32 	%f93, %f65, %f81;
+	sub.f32 	%f94, %f93, %f92;
+	mad.f32 	%f95, %f94, %f73, %f91;
+	.loc	18	61	0
+	sub.f32 	%f96, %f26, %f20;
+	sub.f32 	%f97, %f27, %f21;
+	mul.f32 	%f98, %f58, %f96;
+	mul.f32 	%f99, %f59, %f97;
+	sub.f32 	%f100, %f99, %f98;
+	rcp.approx.f32 	%f101, %f100;
+	mul.f32 	%f102, %f96, %f101;
+	mul.f32 	%f103, %f97, %f101;
+	mul.f32 	%f104, %f102, %f76;
+	neg.f32 	%f105, %f104;
+	mad.f32 	%f106, %f103, %f76, %f105;
+	mov.f32 	%f107, 0f3f800000;   	// 1
+	setp.gt.f32 	%p5, %f106, %f107;
+	@%p5 bra 	$Lt_0_13570;
+	mov.f32 	%f108, 0f00000000;   	// 0
+	setp.lt.f32 	%p6, %f106, %f108;
+	@%p6 bra 	$Lt_0_13570;
+	mul.f32 	%f109, %f102, %f95;
+	neg.f32 	%f110, %f109;
+	mad.f32 	%f111, %f103, %f95, %f110;
+	mov.f32 	%f112, 0f3f800000;   	// 1
+	setp.gt.f32 	%p7, %f111, %f112;
+	@%p7 bra 	$Lt_0_13570;
+	mov.f32 	%f113, 0f00000000;   	// 0
+	setp.lt.f32 	%p8, %f111, %f113;
+	@!%p8 bra 	$L_0_7682;
+$Lt_0_13570:
+$L_0_7938:
+	mov.f32 	%f57, 0fbf800000;    	// -1
+$L_0_7682:
+	.loc	18	62	0
+	cvt.f64.f32 	%fd5, %f57;
 	mov.f64 	%fd6, 0d3ff0000000000000;	// 1
-	setp.gt.f64 	%p5, %fd5, %fd6;
-	@!%p5 bra 	$Lt_0_8962;
-	bra.uni 	$Lt_0_8706;
-$Lt_0_8962:
-	.loc	17	65	0
+	setp.gt.f64 	%p9, %fd5, %fd6;
+	@!%p9 bra 	$Lt_0_11522;
+	bra.uni 	$Lt_0_11266;
+$Lt_0_11522:
+	.loc	18	65	0
 	add.s32 	%r69, %r67, 1;
 	mov.f64 	%fd7, 0dbff0000000000000;	// -1
-	setp.ne.f64 	%p6, %fd5, %fd7;
-	selp.s32 	%r67, %r69, %r67, %p6;
-$Lt_0_8706:
+	setp.ne.f64 	%p10, %fd5, %fd7;
+	selp.s32 	%r67, %r69, %r67, %p10;
+$Lt_0_11266:
 	add.s32 	%r66, %r66, 1;
 	add.u64 	%rd65, %rd65, 52;
-	setp.ne.s32 	%p7, %r11, %r66;
-	@%p7 bra 	$Lt_0_8450;
-	bra.uni 	$Lt_0_7938;
-$Lt_0_10498:
+	setp.ne.s32 	%p11, %r11, %r66;
+	@%p11 bra 	$Lt_0_11010;
+	bra.uni 	$Lt_0_10498;
+$Lt_0_13058:
 	mov.s32 	%r67, 0;
-$Lt_0_7938:
+$Lt_0_10498:
 	and.b32 	%r70, %r67, 1;
 	mov.u32 	%r71, 0;
-	setp.ne.u32 	%p8, %r70, %r71;
-	@%p8 bra 	$Lt_0_9474;
-	.loc	17	73	0
-	mov.f32 	%f57, 0f00000000;    	// 0
-	st.global.f32 	[%rd64+0], %f57;
-	mov.f32 	%f58, 0f00000000;    	// 0
-	st.global.f32 	[%rd64+4], %f58;
-	mov.f32 	%f59, 0f00000000;    	// 0
-	st.global.f32 	[%rd64+8], %f59;
-$Lt_0_9474:
+	setp.ne.u32 	%p12, %r70, %r71;
+	@%p12 bra 	$Lt_0_12034;
+	.loc	18	73	0
+	mov.f32 	%f114, 0f00000000;   	// 0
+	st.global.f32 	[%rd64+0], %f114;
+	mov.f32 	%f115, 0f00000000;   	// 0
+	st.global.f32 	[%rd64+4], %f115;
+	mov.f32 	%f116, 0f00000000;   	// 0
+	st.global.f32 	[%rd64+8], %f116;
+$Lt_0_12034:
 	add.s32 	%r62, %r62, 1;
 	add.u64 	%rd64, %rd64, 12;
-	setp.ne.s32 	%p9, %r62, %r63;
-	@%p9 bra 	$Lt_0_7682;
-$Lt_0_7170:
-$Lt_0_6146:
-	.loc	17	81	0
+	setp.ne.s32 	%p13, %r62, %r63;
+	@%p13 bra 	$Lt_0_10242;
+$Lt_0_9730:
+$Lt_0_8706:
+	.loc	18	81	0
 	exit;
 $LDWend_PointInPolygon:
 	} // PointInPolygon

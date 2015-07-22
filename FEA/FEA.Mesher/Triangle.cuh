@@ -28,7 +28,7 @@ struct Triangle
 		Zprime.Normalize();
 		Vector<T> Xprime = B - A;
 		Xprime.Normalize();
-		Yprime = Zprime.Cross(Xprime);
+		Vector<T> Yprime = Zprime.Cross(Xprime);
 		
 		Vector<T> P = O + D*t;
 		T px = P.Dot(Xprime);
@@ -37,6 +37,24 @@ struct Triangle
 		Vector<T> CA = C - A;
 		Vector<T> BA = B - A;
 		
+		T Coeffs[2][2];
+		T Alpha;
+		T Beta;
+		Coeffs[0][0] = BA.x;
+		Coeffs[0][1] = CA.x;
+		Coeffs[1][0] = BA.y;
+		Coeffs[1][1] = CA.y;
+		Inverse2(Coeffs); // invert the 2 x 2 matrix
+		
+		Alpha = px * Coeffs[0][0] + px * Coeffs[0][1]; 
+		Beta  = py * Coeffs[0][0] + py * Coeffs[0][1];
+		
+		// for it to be a triangular intersection Alpha and Beta must be between 0 and 1
+		
+		if (Alpha > 1 || Alpha < 0 || Beta > 1 || Beta < 0)
+			t = -1.0; // return -1 to signify no intersection occurs
+			
+			
 	    return t;
     }
     

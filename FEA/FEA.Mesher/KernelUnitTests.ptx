@@ -4,7 +4,7 @@
 	// nvopencc 4.1 built on 2013-07-17
 
 	//-----------------------------------------------------------
-	// Compiling /tmp/tmpxft_000019bc_00000000-9_KernelUnitTests.cpp3.i (/tmp/ccBI#.Azzxbu)
+	// Compiling /tmp/tmpxft_00000d02_00000000-9_KernelUnitTests.cpp3.i (/tmp/ccBI#.ywmcNp)
 	//-----------------------------------------------------------
 
 	//-----------------------------------------------------------
@@ -18,7 +18,7 @@
 
 	.file	1	"<command-line>"
 	.file	2	"/usr/include/stdc-predef.h"
-	.file	3	"/tmp/tmpxft_000019bc_00000000-8_KernelUnitTests.cudafe2.gpu"
+	.file	3	"/tmp/tmpxft_00000d02_00000000-8_KernelUnitTests.cudafe2.gpu"
 	.file	4	"Vector.cuh"
 	.file	5	"Triangle.cuh"
 	.file	6	"Plane.cuh"
@@ -650,7 +650,7 @@ $LDWbegin_TestTriangleArea:
 	ld.param.s32 	%r19, [__cudaparm_TestTriangleArea_Count];
 	setp.le.s32 	%p1, %r19, %r18;
 	@%p1 bra 	$Lt_8_1026;
-	.loc	5	37	0
+	.loc	5	69	0
 	cvt.s64.s32 	%rd1, %r18;
 	ld.param.u64 	%rd2, [__cudaparm_TestTriangleArea_A];
 	mul.wide.s32 	%rd3, %r18, 52;
@@ -664,7 +664,7 @@ $LDWbegin_TestTriangleArea:
 	ld.global.f32 	%f7, [%rd4+20];
 	ld.global.f32 	%f8, [%rd4+32];
 	sub.f32 	%f9, %f8, %f7;
-	.loc	5	38	0
+	.loc	5	70	0
 	ld.global.f32 	%f10, [%rd4+36];
 	sub.f32 	%f11, %f10, %f1;
 	ld.global.f32 	%f12, [%rd4+40];
@@ -735,7 +735,7 @@ $LDWbegin_TestNormalVector:
 	ld.param.s32 	%r19, [__cudaparm_TestNormalVector_Count];
 	setp.le.s32 	%p1, %r19, %r18;
 	@%p1 bra 	$Lt_9_1026;
-	.loc	5	31	0
+	.loc	5	63	0
 	ld.param.u64 	%rd1, [__cudaparm_TestNormalVector_A];
 	cvt.s64.s32 	%rd2, %r18;
 	mul.wide.s32 	%rd3, %r18, 52;
@@ -749,14 +749,14 @@ $LDWbegin_TestNormalVector:
 	ld.global.f32 	%f7, [%rd4+32];
 	ld.global.f32 	%f8, [%rd4+20];
 	sub.f32 	%f9, %f8, %f7;
-	.loc	5	32	0
+	.loc	5	64	0
 	ld.global.f32 	%f10, [%rd4+36];
 	sub.f32 	%f11, %f1, %f10;
 	ld.global.f32 	%f12, [%rd4+40];
 	sub.f32 	%f13, %f4, %f12;
 	ld.global.f32 	%f14, [%rd4+44];
 	sub.f32 	%f15, %f7, %f14;
-	.loc	5	33	0
+	.loc	5	65	0
 	mul.f32 	%f16, %f9, %f13;
 	mul.f32 	%f17, %f6, %f15;
 	sub.f32 	%f18, %f17, %f16;
@@ -899,7 +899,7 @@ $LDWbegin_TestCentroidCalculations:
 	ld.param.s32 	%r19, [__cudaparm_TestCentroidCalculations_Count];
 	setp.le.s32 	%p1, %r19, %r18;
 	@%p1 bra 	$Lt_11_1026;
-	.loc	5	46	0
+	.loc	5	78	0
 	cvt.s64.s32 	%rd1, %r18;
 	ld.param.u64 	%rd2, [__cudaparm_TestCentroidCalculations_A];
 	mul.wide.s32 	%rd3, %r18, 52;
