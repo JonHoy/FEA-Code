@@ -262,7 +262,7 @@ namespace Unit_Tests
         }
 
         static private void TestSTLReader() {
-            var Part = new STLReader("T07_Propeler.stl");
+            var Part = new STLReader("Cable support hook.stl");
             int MaxCount = 512;
             var SubDivisions = Part.RecursiveSplit(MaxCount);
             foreach (var item in SubDivisions)

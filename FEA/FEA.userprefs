@@ -1,21 +1,17 @@
 ﻿<Properties StartupItem="Unit_Tests/Unit_Tests.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Utilities/CS2CPP.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FEA.Mesher/PointInserter.cs">
     <Files>
       <File FileName="Unit_Tests/KernelTests.cs" Line="1" Column="1" />
       <File FileName="FEA.Mesher/Triangle.cs" Line="1" Column="1" />
-      <File FileName="Utilities/CS2CPP.cs" Line="22" Column="13" />
+      <File FileName="Utilities/CS2CPP.cs" Line="21" Column="23" />
+      <File FileName="FEA.Mesher/PointInserter.cs" Line="103" Column="11" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/Program.cs" line="268" column="1" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/KernelTests.cs" line="16" column="1" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/KernelTests.cs" line="72" column="21" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/KernelTests.cs" line="117" column="1" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/KernelTests.cs" line="111" column="1" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/KernelTests.cs" line="98" column="1" />
-      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/Unit_Tests/KernelTests.cs" line="85" column="1" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/PointInserter.cs" line="91" column="13" />
+      <Breakpoint file="/home/jonathan/Desktop/FEA-Code/FEA/FEA.Mesher/PointInserter.cs" line="12" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

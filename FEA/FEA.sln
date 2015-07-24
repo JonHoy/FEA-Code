@@ -50,6 +50,7 @@ Global
 		{ABE895CA-C094-4108-871A-420BFC135381}.Release-Signed|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Unit_Tests\Unit_Tests.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1
 		$1.inheritsSet = VisualStudio

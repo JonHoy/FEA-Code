@@ -45,7 +45,9 @@ namespace FEA.Mesher
             //DeviceVariables.Add("Maxima", new CudaDeviceVariable<float3>(GridCount));
             //DeviceVariables.Add("Minima", new CudaDeviceVariable<float3>(GridCount));
 
-            var ctx = new CudaContext(0);
+
+            var ctx = new CudaContext(1);
+            var DeviceInfo = ctx.GetDeviceInfo();
 
             var d_Triangles = new CudaDeviceVariable<TriangleSTL>(Triangles.Length);
             var d_TriangleCounts = new CudaDeviceVariable<int>(GridCount);

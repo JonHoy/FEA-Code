@@ -55,6 +55,9 @@ Vector<float>* Points) // Test Points (values which equal nan are outside polygo
 			Origin.y = TestPoint.y;
 			Origin.z = TestPoint.z;
 			Direction = TestPoint - Origin;
+			
+			// TODO add in 6 test rays from {-X, +X, -Y, +Y, -Z, +Z} sides
+			
 			int AboveCount = 0; // number of ray triangle intersections above the test point
 			int BelowCount = 0; // number of ray triangle intersections below the test point
 			for (int j = 0; j < TriangleCount; j++) {
@@ -62,7 +65,7 @@ Vector<float>* Points) // Test Points (values which equal nan are outside polygo
 				float t = CurrentTriangle.Intersection(Origin, Direction); // find intersection point if it exists
 				if (t > 1.0)
 					AboveCount++;
-				else if (t != -1.0)
+				else if (t != -1.0 && t > 0.0)
 					BelowCount++;			
 			}
 			
