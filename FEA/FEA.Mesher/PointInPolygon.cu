@@ -69,7 +69,8 @@ Vector<float>* Points) // Test Points (values which equal nan are outside polygo
 					BelowCount++;			
 			}
 			
-			if (BelowCount % 2 == 0) {
+			if (BelowCount != AboveCount || AboveCount == 0 
+			|| AboveCount % 2 == 0) {
 				TestPoint.x = 0;
 				TestPoint.y = 0;
 				TestPoint.z = 0;

@@ -2,6 +2,8 @@
 using ManagedCuda;
 using ManagedCuda.VectorTypes;
 using ManagedCuda.BasicTypes;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Unit_Tests
 {
@@ -129,9 +131,42 @@ namespace Unit_Tests
             }
             return Ans;
         }
+        private Dictionary<Type, string> Typemap; // this is for type and argument checking of the kernel
+        private Dictionary<string, CudaKernel> Kernels;
+        private Dictionary<string, Type> VariableTypes;
+        private Dictionary<string, SyncVariable<Object>> CudaVariables; // pass either device pointers or integers
+
+        public void addKernel(string KernelName, CudaKernel Kernel) {
+            Kernels.Add(KernelName, Kernel);
+        }
+        public void addVariable(string VariableName, SyncVariable<Object> Value) {
+            CudaVariables.Add(VariableName, Value);
+            var VariableType = Value.GetType();
+            VariableTypes.Add(VariableName, VariableType);
+        } 
+        public void runKernel(string KernelName, List<string> Variables) {
+            var Arguments = new Object[Variables.Count];
+            for (int i = 0; i < Arguments.Length; i++)
+            {
+                Arguments[i] = CudaVariables[Variables[i]];
+            }
+            Kernels[KernelName].Run(Arguments);
+        }
+        public void addMapping(Type ManagedType, string NativeType) {
+            
+        } 
+        public void syncVariables() {
+            foreach (var item in CudaVariables)
+            {
+                var ObjectType = item.Value.GetType();
+                if (ObjectType.IsGenericType)
+                {
+                    
+                }
+            }
+        }
 
     }
-        
 
     public class SyncVariable<T>
     where T : struct
@@ -154,6 +189,14 @@ namespace Unit_Tests
         public CUdeviceptr GPUPtr() {
             return gpuArray.DevicePointer;
         }
+
+        public void Free() { // free memory allocated on gpu
+            gpuArray.Dispose();
+        }
+
     }
+
+
+
 }
 
