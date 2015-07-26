@@ -11,8 +11,6 @@
     <AssemblyName>Unit_Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -93,10 +91,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FEA.Assembler\FEA.Assembler.csproj">
-      <Project>{A6181323-129A-491B-8F9A-AA02E91BA7AC}</Project>
-      <Name>FEA.Assembler</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FEA.Mesher\FEA.Mesher.csproj">
       <Project>{6AD07651-FC9D-4CE1-999B-FC7A3FDCB9E3}</Project>
       <Name>FEA.Mesher</Name>
@@ -104,6 +98,10 @@
     <ProjectReference Include="..\FEA.Physics\FEA.Physics.csproj">
       <Project>{4474FAEF-FE32-4652-968A-32B59AD29549}</Project>
       <Name>FEA.Physics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FEA.Assembler\FEA.Assembler.csproj">
+      <Project>{A6181323-129A-491B-8F9A-AA02E91BA7AC}</Project>
+      <Name>FEA.Assembler</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

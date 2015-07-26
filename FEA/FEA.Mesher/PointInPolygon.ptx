@@ -4,7 +4,7 @@
 	// nvopencc 4.1 built on 2013-07-17
 
 	//-----------------------------------------------------------
-	// Compiling /tmp/tmpxft_00001ab5_00000000-9_PointInPolygon.cpp3.i (/tmp/ccBI#.sojdwn)
+	// Compiling /tmp/tmpxft_0000452c_00000000-9_PointInPolygon.cpp3.i (/tmp/ccBI#.k44cso)
 	//-----------------------------------------------------------
 
 	//-----------------------------------------------------------
@@ -18,7 +18,7 @@
 
 	.file	1	"<command-line>"
 	.file	2	"/usr/include/stdc-predef.h"
-	.file	3	"/tmp/tmpxft_00001ab5_00000000-8_PointInPolygon.cudafe2.gpu"
+	.file	3	"/tmp/tmpxft_0000452c_00000000-8_PointInPolygon.cudafe2.gpu"
 	.file	4	"Vector.cuh"
 	.file	5	"Triangle.cuh"
 	.file	6	"/usr/lib/gcc/x86_64-linux-gnu/4.8/include/stddef.h"
@@ -65,11 +65,11 @@
 		.param .u64 __cudaparm_PointInPolygon_Points)
 	{
 	.reg .u16 %rh<10>;
-	.reg .u32 %r<83>;
+	.reg .u32 %r<80>;
 	.reg .u64 %rd<67>;
 	.reg .f32 %f<118>;
-	.reg .f64 %fd<10>;
-	.reg .pred %p<16>;
+	.reg .f64 %fd<9>;
+	.reg .pred %p<15>;
 	.shared .align 4 .b8 __cuda___cuda_local_var_15188_42_non_const_SharedTriangles48[26624];
 	.loc	18	26	0
 $LDWbegin_PointInPolygon:
@@ -84,7 +84,7 @@ $LDWbegin_PointInPolygon:
 	add.u32 	%r7, %r6, %r5;
 	ld.param.s32 	%r8, [__cudaparm_PointInPolygon_Count];
 	setp.le.s32 	%p1, %r8, %r7;
-	@%p1 bra 	$Lt_0_11010;
+	@%p1 bra 	$Lt_0_9986;
 	.loc	18	37	0
 	cvt.s64.s32 	%rd1, %r7;
 	ld.param.u64 	%rd2, [__cudaparm_PointInPolygon_TriangleCounts];
@@ -108,7 +108,7 @@ $LDWbegin_PointInPolygon:
 	cvt.u32.u16 	%r17, %tid.z;
 	add.u32 	%r18, %r17, %r16;
 	setp.le.s32 	%p2, %r11, %r18;
-	@%p2 bra 	$Lt_0_10498;
+	@%p2 bra 	$Lt_0_9474;
 	.loc	18	47	0
 	mov.u64 	%rd8, __cuda___cuda_local_var_15188_42_non_const_SharedTriangles48;
 	cvt.s64.s32 	%rd9, %r18;
@@ -226,7 +226,7 @@ $LDWbegin_PointInPolygon:
 	add.u64 	%rd60, %rd12, %rd59;
 	ld.global.s8 	%rh8, [%rd60+51];
 	st.shared.s8 	[%rd11+51], %rh8;
-$Lt_0_10498:
+$Lt_0_9474:
 	mov.u64 	%rd8, __cuda___cuda_local_var_15188_42_non_const_SharedTriangles48;
 	.loc	18	49	0
 	bar.sync 	0;
@@ -238,7 +238,7 @@ $Lt_0_10498:
 	shr.s32 	%r55, %r54, 9;
 	mov.u32 	%r56, 0;
 	setp.le.s32 	%p3, %r55, %r56;
-	@%p3 bra 	$Lt_0_11010;
+	@%p3 bra 	$Lt_0_9986;
 	ld.param.s32 	%r50, [__cudaparm_PointInPolygon_PointCountPerSTL];
 	mul.lo.s32 	%r57, %r50, %r7;
 	mul.lo.s32 	%r58, %r55, %r18;
@@ -253,14 +253,14 @@ $Lt_0_10498:
 	mul.wide.s32 	%rd63, %r59, 12;
 	add.u64 	%rd64, %rd61, %rd63;
 	mov.s32 	%r64, %r60;
-$Lt_0_11522:
+$Lt_0_10498:
  //<loop> Loop body line 49, nesting depth: 1, estimated iterations: unknown
 	.loc	18	53	0
 	ld.global.f32 	%f14, [%rd64+0];
 	ld.global.f32 	%f15, [%rd64+4];
 	ld.global.f32 	%f16, [%rd64+8];
 	.loc	18	57	0
-	@!%p4 bra 	$Lt_0_14338;
+	@!%p4 bra 	$Lt_0_13314;
 	mov.s32 	%r65, %r11;
 	sub.f32 	%f17, %f15, %f15;
 	sub.f32 	%f18, %f14, %f1;
@@ -270,7 +270,7 @@ $Lt_0_11522:
 	mov.s32 	%r67, 0;
 	mov.s32 	%r68, 0;
 	mov.s32 	%r69, %r65;
-$Lt_0_12290:
+$Lt_0_11266:
  //<loop> Loop body line 57, nesting depth: 2, estimated iterations: unknown
 	.loc	18	64	0
 	ld.shared.f32 	%f20, [%rd65+12];
@@ -370,82 +370,72 @@ $Lt_0_12290:
 	mad.f32 	%f106, %f103, %f76, %f105;
 	mov.f32 	%f107, 0f3f800000;   	// 1
 	setp.gt.f32 	%p5, %f106, %f107;
-	@%p5 bra 	$Lt_0_14850;
+	@%p5 bra 	$Lt_0_13826;
 	mov.f32 	%f108, 0f00000000;   	// 0
 	setp.lt.f32 	%p6, %f106, %f108;
-	@%p6 bra 	$Lt_0_14850;
+	@%p6 bra 	$Lt_0_13826;
 	mul.f32 	%f109, %f102, %f95;
 	neg.f32 	%f110, %f109;
 	mad.f32 	%f111, %f103, %f95, %f110;
 	mov.f32 	%f112, 0f3f800000;   	// 1
 	setp.gt.f32 	%p7, %f111, %f112;
-	@%p7 bra 	$Lt_0_14850;
+	@%p7 bra 	$Lt_0_13826;
 	mov.f32 	%f113, 0f00000000;   	// 0
 	setp.lt.f32 	%p8, %f111, %f113;
-	@!%p8 bra 	$L_0_8450;
-$Lt_0_14850:
-$L_0_8706:
+	@!%p8 bra 	$L_0_7938;
+$Lt_0_13826:
+$L_0_8194:
 	mov.f32 	%f57, 0fbf800000;    	// -1
-$L_0_8450:
+$L_0_7938:
 	.loc	18	65	0
 	cvt.f64.f32 	%fd5, %f57;
 	mov.f64 	%fd6, 0d3ff0000000000000;	// 1
 	setp.gt.f64 	%p9, %fd5, %fd6;
-	@!%p9 bra 	$Lt_0_12802;
+	@!%p9 bra 	$Lt_0_11778;
 	.loc	18	67	0
 	add.s32 	%r68, %r68, 1;
-	bra.uni 	$Lt_0_15618;
-$Lt_0_12802:
+	bra.uni 	$Lt_0_11522;
+$Lt_0_11778:
 	.loc	18	68	0
-	mov.f64 	%fd7, 0dbff0000000000000;	// -1
-	setp.neu.f64 	%p10, %fd5, %fd7;
-	@!%p10 bra 	$Lt_0_15618;
-	mov.f64 	%fd8, 0d0000000000000000;	// 0
-	setp.gt.f64 	%p11, %fd5, %fd8;
-	@!%p11 bra 	$Lt_0_15618;
-	.loc	18	69	0
-	add.s32 	%r67, %r67, 1;
-$Lt_0_15618:
-$L_0_9474:
-$Lt_0_12546:
+	add.s32 	%r70, %r67, 1;
+	mov.f64 	%fd7, 0d0000000000000000;	// 0
+	setp.gt.f64 	%p10, %fd5, %fd7;
+	selp.s32 	%r67, %r70, %r67, %p10;
+$Lt_0_11522:
 	add.s32 	%r66, %r66, 1;
 	add.u64 	%rd65, %rd65, 52;
-	setp.ne.s32 	%p12, %r11, %r66;
-	@%p12 bra 	$Lt_0_12290;
-	bra.uni 	$Lt_0_11778;
-$Lt_0_14338:
+	setp.ne.s32 	%p11, %r11, %r66;
+	@%p11 bra 	$Lt_0_11266;
+	bra.uni 	$Lt_0_10754;
+$Lt_0_13314:
 	mov.s32 	%r67, 0;
 	mov.s32 	%r68, 0;
-$Lt_0_11778:
-	and.b32 	%r70, %r68, 1;
-	mov.u32 	%r71, 0;
-	set.eq.u32.u32 	%r72, %r70, %r71;
-	neg.s32 	%r73, %r72;
-	mov.s32 	%r74, 0;
-	set.eq.u32.s32 	%r75, %r68, %r74;
+$Lt_0_10754:
+	set.ne.u32.s32 	%r71, %r67, %r68;
+	neg.s32 	%r72, %r71;
+	and.b32 	%r73, %r68, 1;
+	mov.u32 	%r74, 0;
+	set.eq.u32.u32 	%r75, %r73, %r74;
 	neg.s32 	%r76, %r75;
-	set.ne.u32.s32 	%r77, %r67, %r68;
-	neg.s32 	%r78, %r77;
-	or.b32 	%r79, %r76, %r78;
-	or.b32 	%r80, %r73, %r79;
-	mov.u32 	%r81, 0;
-	setp.eq.s32 	%p13, %r80, %r81;
-	@%p13 bra 	$Lt_0_13314;
-	.loc	18	77	0
+	or.b32 	%r77, %r72, %r76;
+	mov.u32 	%r78, 0;
+	setp.eq.s32 	%p12, %r77, %r78;
+	@%p12 bra 	$Lt_0_12290;
+	.loc	18	76	0
 	mov.f32 	%f114, 0f00000000;   	// 0
 	st.global.f32 	[%rd64+0], %f114;
 	mov.f32 	%f115, 0f00000000;   	// 0
 	st.global.f32 	[%rd64+4], %f115;
 	mov.f32 	%f116, 0f00000000;   	// 0
 	st.global.f32 	[%rd64+8], %f116;
-$Lt_0_13314:
+$Lt_0_12290:
 	add.s32 	%r62, %r62, 1;
 	add.u64 	%rd64, %rd64, 12;
-	setp.ne.s32 	%p14, %r62, %r63;
-	@%p14 bra 	$Lt_0_11522;
-$Lt_0_11010:
+	setp.ne.s32 	%p13, %r62, %r63;
+	@%p13 bra 	$Lt_0_10498;
 $Lt_0_9986:
-	.loc	18	85	0
+$Lt_0_8962:
+	.loc	18	84	0
 	exit;
 $LDWend_PointInPolygon:
 	} // PointInPolygon

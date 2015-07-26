@@ -9,8 +9,6 @@
     <AssemblyName>FEA.Mesher</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseMSBuildEngine>False</UseMSBuildEngine>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -94,5 +92,11 @@
     <None Include="PointInPolygon.ptx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FEA.Assembler\FEA.Assembler.csproj">
+      <Project>{A6181323-129A-491B-8F9A-AA02E91BA7AC}</Project>
+      <Name>FEA.Assembler</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

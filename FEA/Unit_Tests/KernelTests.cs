@@ -134,12 +134,12 @@ namespace Unit_Tests
         private Dictionary<Type, string> Typemap; // this is for type and argument checking of the kernel
         private Dictionary<string, CudaKernel> Kernels;
         private Dictionary<string, Type> VariableTypes;
-        private Dictionary<string, SyncVariable<Object>> CudaVariables; // pass either device pointers or integers
+        private Dictionary<string, Object> CudaVariables; // pass either device pointers or integers
 
         public void addKernel(string KernelName, CudaKernel Kernel) {
             Kernels.Add(KernelName, Kernel);
         }
-        public void addVariable(string VariableName, SyncVariable<Object> Value) {
+        public void addVariable(string VariableName, Object Value) {
             CudaVariables.Add(VariableName, Value);
             var VariableType = Value.GetType();
             VariableTypes.Add(VariableName, VariableType);

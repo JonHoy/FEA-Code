@@ -395,28 +395,25 @@ namespace FEA.Mesher
         private bool InsideOutsideHelper(double3 Pt, double3 O) {
             var Intersections = new List<double>();
             var D = (Pt - O);
+            int AboveCount = 0;
+            int BelowCount = 0;
             for (int i = 0; i < Triangles.Length; i++)
             {
                 var t = Triangles[i].Intersection(O, D);
                 if (!double.IsNaN(t))
                 {
-                    Intersections.Add(t);
+                    if (t > 1)
+                        AboveCount++;
+                    else if (t > 0)
+                        BelowCount++;
                 }
             }
-            var results = Intersections.ToArray();
-            Array.Sort(results);
-            for (int i = 0; i < results.Length; i++)
-            {
-                if (results[i + 1] > 1)
-                {
-                    if (i % 2 == 0)
-                        return true; // point is inside
-                    else
-                        return false;
-                }
+            if (AboveCount == BelowCount && AboveCount % 2 != 0)
+                return true;
+            else
+                return false;
 
-            }
-            return false;
+
         }
 
         public void WriteToFile(string Filename) {

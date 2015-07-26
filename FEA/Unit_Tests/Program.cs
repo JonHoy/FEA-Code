@@ -18,7 +18,7 @@ namespace Unit_Tests
     {
         static void Main(string[] args)
 		{
-            var Tst = new KernelTests();
+            //var Tst = new KernelTests();
             TestMesher ();
 			TestAssembler ();
 		}
@@ -270,8 +270,9 @@ namespace Unit_Tests
                 if (item.TriangleCount > MaxCount)
                     throw new Exception("This must be less than " + MaxCount.ToString() + " Triangles");
             }
-            int NumPoints = 512 * 10000;
-            var Mesher = new PointInserter(SubDivisions.ToArray(), NumPoints);
+            int NumPoints = 512 * 100;
+            var Mesher = new PointInserter(SubDivisions.ToArray());
+            var Pts = Mesher.GetPointsCPU(NumPoints);
         }
 
         static private void TestBasisFunction() {

@@ -65,12 +65,11 @@ Vector<float>* Points) // Test Points (values which equal nan are outside polygo
 				float t = CurrentTriangle.Intersection(Origin, Direction); // find intersection point if it exists
 				if (t > 1.0)
 					AboveCount++;
-				else if (t != -1.0 && t > 0.0)
+				else if (t > 0.0)
 					BelowCount++;			
 			}
 			
-			if (BelowCount != AboveCount || AboveCount == 0 
-			|| AboveCount % 2 == 0) {
+			if (!(AboveCount == BelowCount && AboveCount % 2 != 0)) {
 				TestPoint.x = 0;
 				TestPoint.y = 0;
 				TestPoint.z = 0;

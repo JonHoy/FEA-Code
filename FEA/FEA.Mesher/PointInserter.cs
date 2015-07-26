@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ManagedCuda;
 using ManagedCuda.VectorTypes;
 
@@ -7,10 +8,17 @@ namespace FEA.Mesher
 {
     public class PointInserter
     {
-        public PointInserter(STLReader[] Files, int NumPoints)
+        public PointInserter(STLReader[] _Domains)
         {
-            Domains = Files;
+            Domains = _Domains;
             GridCount = Domains.Length;
+           
+        }
+        private void CheckInput(int NumPoints) {
+            
+        }
+
+        public float3[] GetPointsGPU(int NumPoints) {
             int BlockSize = 512;
             if (NumPoints % BlockSize != 0)
                 throw new Exception("NumPoints must be divisible by " + BlockSize.ToString());
@@ -20,35 +28,28 @@ namespace FEA.Mesher
             TriangleCounts[0] = 0;
             for (int i = 0; i < GridCount; i++)
             {
-                int LocalCount = TriangleCounts[i] + (int)Files[i].TriangleCount;
-                if (Files[i].TriangleCount > BlockSize)
+                int LocalCount = TriangleCounts[i] + (int)Domains[i].TriangleCount;
+                if (Domains[i].TriangleCount > BlockSize)
                 {
                     throw new Exception("STL File must have no more than " + BlockSize.ToString() + " Triangles");
                 }
                 TriangleCounts[i + 1] = LocalCount;
-                Minima[i] = STLReader.ToFloat3(Files[i].Extrema.Min);
-                Maxima[i] = STLReader.ToFloat3(Files[i].Extrema.Max);
+                Minima[i] = STLReader.ToFloat3(Domains[i].Extrema.Min);
+                Maxima[i] = STLReader.ToFloat3(Domains[i].Extrema.Max);
             }
             var Triangles = new TriangleSTL[TriangleCounts[GridCount]];
             int id = 0;
             for (int i = 0; i < GridCount; i++)
             {
                 for (int j = 0; j < TriangleCounts[i]; j++) {
-                    var LocalTri = Files[i].Triangles[j];
+                    var LocalTri = Domains[i].Triangles[j];
                     Triangles[id] = new TriangleSTL(LocalTri);
                     id++;
                 }
             }
-            //var DeviceVariables = new Dictionary<string, CudaDeviceVariable<struct>>();
-            //DeviceVariables.Add("Triangles",new CudaDeviceVariable<TriangleSTL>(h_Triangles.Length));
-            //DeviceVariables.Add("TriangleCounts",new CudaDeviceVariable<int>(GridCount));
-            //DeviceVariables.Add("Maxima", new CudaDeviceVariable<float3>(GridCount));
-            //DeviceVariables.Add("Minima", new CudaDeviceVariable<float3>(GridCount));
-
 
             var ctx = new CudaContext(1);
             var DeviceInfo = ctx.GetDeviceInfo();
-
             var d_Triangles = new CudaDeviceVariable<TriangleSTL>(Triangles.Length);
             var d_TriangleCounts = new CudaDeviceVariable<int>(GridCount);
             var d_Minima = new CudaDeviceVariable<float3>(GridCount);
@@ -96,12 +97,48 @@ namespace FEA.Mesher
                 d_Minima.DevicePointer,
                 d_Points.DevicePointer);
             h_Points = d_Points;
+
+            return h_Points; // TODO Fix this to remove bad points
+
         }
+
+        public double3[] GetPointsCPU(int NumPoints) {
+            var TestVals = GenerateRandomPoints(NumPoints * GridCount);
+            for (int iDomain = 0; iDomain < Domains.Length; iDomain++)
+            {
+                for (int jPt = 0; jPt < NumPoints; jPt++)
+                {
+                    int id = iDomain * NumPoints + jPt;
+                    TestVals[id] = (Domains[iDomain].Extrema.Max - Domains[iDomain].Extrema.Min) * TestVals[id] + Domains[iDomain].Extrema.Min;
+                    bool InsideStatus = Domains[iDomain].InsideOrOutside(TestVals[id]);
+                    if (InsideStatus == false)
+                    {
+                        TestVals[id] = new double3(double.NaN);
+                    }
+                }
+            }
+            TestVals = TestVals.Where(val => !double.IsNaN(val.x)).ToArray();
+            return TestVals;
+        }
+
+        private double3[] GenerateRandomPoints(int NumPoints) {
+            var Ans = new double3[NumPoints];
+            var Rng = new Random(0); // make the sequence repeatable between identical calls
+            for (int i = 0; i < Ans.Length; i++)
+            {
+                Ans[i] = new double3();
+                Ans[i].x = Rng.NextDouble();
+                Ans[i].y = Rng.NextDouble();
+                Ans[i].z = Rng.NextDouble();
+            }
+            return Ans;
+        }
+
         int GridCount;
         STLReader[] Domains;
         int TestPointsPerFile;
         /*
-        extern "C" __global__ void PointInPolygon(const int Count, // number of files
+        extern "C" __global__ void PointInPolygon(const int Count, // number of Domains
         const int PointCountPerSTL, // number of test points per stl file 
         int* TriangleCounts, // pointer to jagged array of triangle counts
         Triangle<float>* Triangles, // pointer to jagged array of triangles for each stl 
