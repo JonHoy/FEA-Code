@@ -11,6 +11,7 @@ namespace Unit_Tests
     {
         public KernelTests()
         {
+
             var ctx = new CudaContext(); // we must call this first
             int Len = 100000;
             var A = new SyncVariable<float3>(GenRandomVectors(Len));

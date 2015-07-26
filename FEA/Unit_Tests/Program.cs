@@ -18,7 +18,11 @@ namespace Unit_Tests
     {
         static void Main(string[] args)
 		{
-            //var Tst = new KernelTests();
+            int NumDevices = ManagedCuda.CudaContext.GetDeviceCount();
+            if (NumDevices > 0)
+            {
+                var Tst = new KernelTests();
+            }
             TestMesher ();
 			TestAssembler ();
 		}
@@ -262,7 +266,7 @@ namespace Unit_Tests
         }
 
         static private void TestSTLReader() {
-            var Part = new STLReader("Cable support hook.stl");
+            var Part = new STLReader("Sk20.stl");
             int MaxCount = 512;
             var SubDivisions = Part.RecursiveSplit(MaxCount);
             foreach (var item in SubDivisions)
@@ -272,7 +276,7 @@ namespace Unit_Tests
             }
             int NumPoints = 512 * 100;
             var Mesher = new PointInserter(SubDivisions.ToArray());
-            var Pts = Mesher.GetPointsCPU(NumPoints);
+            var Pts = Mesher.GetPointsGPU(NumPoints);
         }
 
         static private void TestBasisFunction() {

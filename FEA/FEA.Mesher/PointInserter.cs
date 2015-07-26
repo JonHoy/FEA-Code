@@ -110,6 +110,7 @@ namespace FEA.Mesher
                 {
                     int id = iDomain * NumPoints + jPt;
                     TestVals[id] = (Domains[iDomain].Extrema.Max - Domains[iDomain].Extrema.Min) * TestVals[id] + Domains[iDomain].Extrema.Min;
+                    TestVals[id] = (Domains[iDomain].Extrema.Max - Domains[iDomain].Extrema.Min) * TestVals[id] + Domains[iDomain].Extrema.Min;
                     bool InsideStatus = Domains[iDomain].InsideOrOutside(TestVals[id]);
                     if (InsideStatus == false)
                     {

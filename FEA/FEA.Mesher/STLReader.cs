@@ -456,7 +456,7 @@ namespace FEA.Mesher
 
                 Min = MinHelper(Min, Triangles[i].A);
                 Min = MinHelper(Min, Triangles[i].B);
-                Min = MinHelper(Max, Triangles[i].C);
+                Min = MinHelper(Min, Triangles[i].C);
             }
             return new BoundingBox(Min, Max);
         }
