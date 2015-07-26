@@ -120,6 +120,17 @@ float* t) {
 		t[i] = A[i].Intersection(O[i],D[i]);
 	}
 } 
+
+extern "C" __global__ void TestTriangleIntersection(int Count,
+Triangle<float>* A,
+Vector<float>* O,
+Vector<float>* D,
+float* t) {
+	int i = getId();
+	if (i < Count) {
+		t[i] = A[i].Intersection(O[i],D[i]);
+	}
+} 
  
 extern "C" __global__ void TestCentroidCalculations(int Count,
 Triangle<float>* A,

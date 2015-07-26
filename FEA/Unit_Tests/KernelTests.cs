@@ -135,54 +135,37 @@ namespace Unit_Tests
         private Dictionary<Type, string> Typemap; // this is for type and argument checking of the kernel
         private Dictionary<string, CudaKernel> Kernels;
         private Dictionary<string, Type> VariableTypes;
-        private Dictionary<string, Object> CudaVariables; // pass either device pointers or integers
+        private Dictionary<string, CudaDeviceVariable<Byte>> CudaVariables; // pass either device pointers or integers
 
         public void addKernel(string KernelName, CudaKernel Kernel) {
             Kernels.Add(KernelName, Kernel);
         }
-        public void addVariable(string VariableName, Object Value) {
+        public void addVariable(string VariableName, CudaDeviceVariable<Byte> Value, Type VariableType) {
             CudaVariables.Add(VariableName, Value);
-            var VariableType = Value.GetType();
             VariableTypes.Add(VariableName, VariableType);
         } 
-        public void runKernel(string KernelName, List<string> Variables) {
-            var Arguments = new Object[Variables.Count];
-            for (int i = 0; i < Arguments.Length; i++)
-            {
-                Arguments[i] = CudaVariables[Variables[i]];
-            }
-            Kernels[KernelName].Run(Arguments);
-        }
-        public void addMapping(Type ManagedType, string NativeType) {
-            
-        } 
-        public void syncVariables() {
-            foreach (var item in CudaVariables)
-            {
-                var ObjectType = item.Value.GetType();
-                if (ObjectType.IsGenericType)
-                {
-                    
-                }
-            }
-        }
 
     }
 
-    public class SyncVariable<T>
-    where T : struct
+    public class SyncVariable<T> : IDisposable
     {
-        public CudaDeviceVariable<T> gpuArray;
+        public CudaDeviceVariable<Byte> gpuArray;
         public T[] cpuArray;
 
         public SyncVariable(int Len) {
             cpuArray = new T[Len];
-            gpuArray = new CudaDeviceVariable<T>(Len);
+            gpuArray = new CudaDeviceVariable<Byte>(Len * sizeof(T));
         } 
         public SyncVariable(T[] Variable) {
             cpuArray = Variable;
-            gpuArray = new CudaDeviceVariable<T>(cpuArray.Length);
-            gpuArray = Variable;
+            gpuArray = new CudaDeviceVariable<Byte>(cpuArray.Length * sizeof(T));
+            unsafe {
+                fixed (T* p = Variable)
+                {
+                    IntPtr ptr = (IntPtr) p;
+                    gpuArray.CopyToDevice(ptr);
+                }   
+            }
         } 
         public void Sync() {
             cpuArray = gpuArray;
@@ -191,7 +174,7 @@ namespace Unit_Tests
             return gpuArray.DevicePointer;
         }
 
-        public void Free() { // free memory allocated on gpu
+        public void Dispose() { // free memory allocated on gpu
             gpuArray.Dispose();
         }
 
