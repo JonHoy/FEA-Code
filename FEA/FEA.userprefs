@@ -4,8 +4,8 @@
     <Files>
       <File FileName="Unit_Tests/Program.cs" Line="1" Column="1" />
       <File FileName="FEA.Mesher/PointInserter.cs" Line="1" Column="1" />
-      <File FileName="Unit_Tests/KernelTests.cs" Line="163" Column="17" />
-      <File FileName="FEA.Mesher/STLReader.cs" Line="3" Column="31" />
+      <File FileName="Unit_Tests/KernelTests.cs" Line="153" Column="64" />
+      <File FileName="FEA.Mesher/STLReader.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

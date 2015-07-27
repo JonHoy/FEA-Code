@@ -12,12 +12,13 @@ namespace Unit_Tests
         public KernelTests()
         {
 
-            var ctx = new CudaContext(); // we must call this first
+            ctx = new CudaContext(); // we must call this first
             int Len = 100000;
             var A = new SyncVariable<float3>(GenRandomVectors(Len));
             var B = new SyncVariable<float3>(GenRandomVectors(Len));
             var C = new SyncVariable<float3>(Len);
             var D = new SyncVariable<float>(Len);
+            var Length = new SyncVariable<int>(new int[]{Len}); // instead of an int use an int array of length 1
             var TrisCpu = new FEA.Mesher.TriangleSTL[Len];
             var rng = new Random();
             for (int i = 0; i < Len; i++)
@@ -36,12 +37,14 @@ namespace Unit_Tests
             }
             var Tris = new SyncVariable<FEA.Mesher.TriangleSTL>(TrisCpu);
 
-            var CrossProdKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestCrossProduct"); 
-            var AddKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestAdd"); 
-            var SubKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestSubtract");
-            var DotKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestDotProduct");
-            var AreaKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestTriangleArea");
-            var IntersectionKernel = ctx.LoadKernelPTX("KernelUnitTests.ptx", "TestPlaneIntersection");
+
+            var PtxFile = "KernelUnitTests.ptx";
+            var CrossProdKernel = ctx.LoadKernelPTX(PtxFile, "TestCrossProduct"); 
+            var AddKernel = ctx.LoadKernelPTX(PtxFile, "TestAdd"); 
+            var SubKernel = ctx.LoadKernelPTX(PtxFile, "TestSubtract");
+            var DotKernel = ctx.LoadKernelPTX(PtxFile, "TestDotProduct");
+            var AreaKernel = ctx.LoadKernelPTX(PtxFile, "TestTriangleArea");
+            var IntersectionKernel = ctx.LoadKernelPTX(PtxFile, "TestPlaneIntersection");
             var BlockDims = new dim3(512);
             var GridDims = new dim3(Len / 512 + 1);
 
@@ -136,6 +139,8 @@ namespace Unit_Tests
         private Dictionary<string, CudaKernel> Kernels;
         private Dictionary<string, Type> VariableTypes;
         private Dictionary<string, CudaDeviceVariable<Byte>> CudaVariables; // pass either device pointers or integers
+        private CudaContext ctx;
+        private string PtxFile;
 
         public void addKernel(string KernelName, CudaKernel Kernel) {
             Kernels.Add(KernelName, Kernel);
@@ -144,6 +149,16 @@ namespace Unit_Tests
             CudaVariables.Add(VariableName, Value);
             VariableTypes.Add(VariableName, VariableType);
         } 
+
+        public void TestOutput(Byte[] Ans, Byte[] ExpectedValue) {
+            for (int i = 0; i < Ans.Length; i++)
+            {
+                if (Ans[i] != ExpectedValue[i])
+                {
+                    throw new Exception("Value not Valid");
+                }
+            }
+        }
 
     }
 
